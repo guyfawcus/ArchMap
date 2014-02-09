@@ -3,7 +3,7 @@
 
 # <codecell>
 
-import geojson
+from geojson import Feature, Point, FeatureCollection, dumps
 
 wikitext = open('wiki-fork', 'r')
 output = open('output.geojson', 'w')
@@ -23,7 +23,7 @@ for line in wikitext:
     geo_output.append(feature)
 
 
-output.write(geojson.dumps(FeatureCollection(geo_output)))
+output.write(dumps(FeatureCollection(geo_output)))
 
 wikitext.close()
 output.close()
