@@ -3,12 +3,12 @@
 
 # <codecell>
 
-from geojson import Feature, Point
+import geojson
 
 wikitext = open('wiki-fork', 'r')
 output = open('output.geojson', 'w')
 
-geo_output = ('')
+geo_output = []
 
 for line in wikitext:
     split = line.split('"')
@@ -20,9 +20,10 @@ for line in wikitext:
     point = Point((float(coord[0]), float(coord[1])))
     feature = Feature(geometry=point, properties={"Name": name})
 
-    geo_output += str(feature)
+    geo_output.append(feature)
 
-output.write(geo_output)
+
+output.write(geojson.dumps(FeatureCollection(geo_output)))
 
 wikitext.close()
 output.close()
