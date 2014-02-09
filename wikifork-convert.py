@@ -17,7 +17,7 @@ for line in wikitext:
     coord = coord.split(',')
     name = split[1].strip()
 
-    point = Point((float(coord[0]), float(coord[1])))
+    point = Point((float(coord[1]), float(coord[0])))
     feature = Feature(geometry=point, properties={"Name": name})
 
     geo_output.append(feature)
