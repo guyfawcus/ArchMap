@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
-
-# <codecell>
+#!/usr/bin/env python3
 
 from geojson import Feature, Point, FeatureCollection, dumps
 
@@ -27,7 +24,5 @@ output.write(dumps(FeatureCollection(geo_output)))
 
 wikitext.close()
 output.close()
-
-# <codecell>
 
 
