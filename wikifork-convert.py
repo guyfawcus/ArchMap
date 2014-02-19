@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import urllib.request
+from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
 
-wiki = urllib.request.urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
+wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
 
 wiki_source = wiki.read().decode()
 
