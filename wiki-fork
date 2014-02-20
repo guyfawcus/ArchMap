@@ -660,7 +660,7 @@
 51.177651,4.432227 "Howitzer" # Berchem, Belgium
 47.342778,5.824722 "brazzmonkey" # Courcuire, France
 47.491519,19.277167 "SanskritFritz" # Budapest, Hungary
-65.73,24.6 "Huulivoide" # Kemi, Finland :D
+65.73,24.6 "Huulivoide" # Kemi, Finland&#160;:D
 42.5297241,-87.8824882 "xaer0knight" # Pleasant Prairie, Wisconsin, USA
 42.647222,23.343442 "Borislav Sabev aka Badganaka" # Sofia, Sofia, Bulgaria
 51.459297,-0.109267 "xenex" # Brixton, London, UK
@@ -897,3 +897,5 @@
 33.592031,-7.616361 "Othmane AIT EL CADI" # Casablanca, Morocco
 48.10383,11.35810 "greenway" # Munich, Germany
 36.835187,-76.807787 "celticmusicguy" # Zuni, VA, USA
+53.551476,9.993854 "momsen" # Hamburg, Germany
+59.446297,17.926927 "malondron" # Sollentuna, Sweden
