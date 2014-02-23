@@ -5,7 +5,7 @@ ArchMap
 
 User data is from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List).
 
-Map is at [mapbox.com](https://a.tiles.mapbox.com/v3/alux.h81a0lik/page.html?secure=1#3/55.13/21.80) - This is updated manually as is `markers.kml` so it's not as up-to-date as the geojson file `output.geojson`.
+One rendering of the data is on a map over at [mapbox.com](https://a.tiles.mapbox.com/v3/alux.h81a0lik/page.html?secure=1#3/55.13/21.80) - This is updated manually as is `markers.kml` so it's not as up-to-date as the geojson file `output.geojson`.
 
 
 Use
