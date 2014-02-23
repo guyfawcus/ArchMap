@@ -17,7 +17,7 @@ You can also `import archmap` in your own python3 code and then use `archmap.get
 
 Copyleft
 --------
-archmap.py is under the [MIT License](http://opensource.org/licenses/MIT).
+`archmap.py` is under the [MIT License](http://opensource.org/licenses/MIT).
 
 The user data from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List) is under the [GNU Free Documentation License 1.3 or later](http://www.gnu.org/copyleft/fdl.html).
 
