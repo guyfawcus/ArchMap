@@ -899,3 +899,4 @@
 36.835187,-76.807787 "celticmusicguy" # Zuni, VA, USA
 53.551476,9.993854 "momsen" # Hamburg, Germany
 59.446297,17.926927 "malondron" # Sollentuna, Sweden
+47.336118,-122.17055 "unsined" # Auburn, WA, USA
