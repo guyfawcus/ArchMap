@@ -8,6 +8,13 @@ User data is from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/Li
 Map is at [mapbox.com](https://a.tiles.mapbox.com/v3/alux.h81a0lik/page.html?secure=1#3/55.13/21.80) - This is updated manually as is `markers.kml` so it's not as up-to-date as the geojson file `output.geojson`.
 
 
+Use
+----
+To generate a new copy of both `users.txt` and `output.geojson` simply run `./archmap.py`.
+
+You can also `import archmap` in your own python3 code and then use `archmap.get_users()` and `archmap.make_geojson()` to make the files yourself.
+
+
 Copyleft
 --------
 archmap.py is under the [MIT License](http://opensource.org/licenses/MIT)
