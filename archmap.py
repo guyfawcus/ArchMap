@@ -44,3 +44,8 @@ def make_geojson():
 
     users.close()
     output.close()
+
+
+if __name__ == "__main__":
+    get_users()
+    make_geojson()
