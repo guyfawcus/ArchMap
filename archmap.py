@@ -5,6 +5,8 @@ from geojson import Feature, Point, FeatureCollection, dumps
 
 
 def get_users():
+    """This funtion parses users from the Arch wiki and writes it to users.txt"""
+
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
 
     wiki_source = wiki.read().decode()
@@ -19,6 +21,8 @@ def get_users():
 
 
 def make_geojson():
+    """This function reads users.txt and outputs output.geojson"""
+
     users = open('users.txt', 'r')
     output = open('output.geojson', 'w')
 
