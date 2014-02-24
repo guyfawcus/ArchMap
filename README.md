@@ -19,7 +19,7 @@ Copyleft
 --------
 `archmap.py` is under the [MIT License](http://opensource.org/licenses/MIT).
 
-The user data from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List) is under the [GNU Free Documentation License 1.3 or later](http://www.gnu.org/copyleft/fdl.html).
+`users.txt` contains text from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List) so it is under the [GNU Free Documentation License 1.3 or later](http://www.gnu.org/copyleft/fdl.html).
 
 
 Notes
