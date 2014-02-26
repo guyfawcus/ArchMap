@@ -52,7 +52,7 @@ def make_geojson():
 
     # Pass the feature collection to geo_output_str, then make it look pretty.
     geo_output_str = (dumps(FeatureCollection(geo_output)))
-    geo_output_str = geo_output_str.replace ('"features": [', '"features": [\n')
+    geo_output_str = geo_output_str.replace('"features": [', '"features": [\n')
     geo_output_str = geo_output_str.replace('}}, ', '}},\n')
     geo_output_str = geo_output_str.replace('}}]', '}}\n]')
 
