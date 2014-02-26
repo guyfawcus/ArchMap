@@ -1,11 +1,11 @@
 ArchMap
 =======
 
-`archmap.py` generates `output.geojson` which can be used to display a map of Arch Linux users.
-
-User data is from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List).
+`archmap.py` generates `output.geojson` which can be used to display a map of Arch Linux users by using data from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List).
 
 One rendering of the data is on a map over at [mapbox.com](https://a.tiles.mapbox.com/v3/alux.h81a0lik/page.html?secure=1#3/55.13/21.80) - This is updated manually as is `markers.kml` so it's not as up-to-date as the geojson file `output.geojson`.
+
+Have a look at the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap) page about this project for some more ideas.
 
 
 Use
