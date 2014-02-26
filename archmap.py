@@ -45,7 +45,7 @@ def make_geojson():
         comment = elements[2].strip()
         comment = comment[2:]
 
-        # Generate a geojson point feature for the entry.
+        # Generate a geojson point feature for the entry and add it to geo_output.
         point = Point((longitude, latitude))
         feature = Feature(geometry=point, properties={"Name": name})
 
