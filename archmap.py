@@ -32,7 +32,6 @@ def make_geojson():
 
     geo_output = []
 
-
     # Loop over the lines in users.txt and assign each element a variable.
     for line in users:
         elements = line.split('"')
