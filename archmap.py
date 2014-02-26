@@ -51,8 +51,14 @@ def make_geojson():
 
         geo_output.append(feature)
 
-    # Write the output of the feature collection to output.geojson.
-    output.write(dumps(FeatureCollection(geo_output)))
+    # Pass the feature collection to geo_output_str, then make it look pretty.
+    geo_output_str = (dumps(FeatureCollection(geo_output)))
+    geo_output_str = geo_output_str.replace ('"features": [', '"features": [\n')
+    geo_output_str = geo_output_str.replace('}}, ', '}},\n')
+    geo_output_str = geo_output_str.replace('}}]', '}}\n]')
+
+    # Write geo_output_str to output.geojson.
+    output.write(geo_output_str)
 
     # Close users.txt and output.geojson.
     users.close()
