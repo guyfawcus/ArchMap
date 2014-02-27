@@ -900,3 +900,4 @@
 53.551476,9.993854 "momsen" # Hamburg, Germany
 59.446297,17.926927 "malondron" # Sollentuna, Sweden
 47.336118,-122.17055 "unsined" # Auburn, WA, USA
+39.633613,-104.909490 "mistofvongola" # Denver, CO, USA
