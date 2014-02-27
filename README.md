@@ -24,4 +24,4 @@ Copyleft
 
 Notes
 -----
-This repo is where [maelstrom59](https://github.com/maelstrom59) started to learn git so please excuse the confusing early history!
+This repo is where [maelstrom59](https://github.com/maelstrom59) started to learn git so please excuse the confusing history!
