@@ -17,11 +17,11 @@ You can also `import archmap` in your own python3 code and then use `archmap.get
 
 Copyleft
 --------
-`archmap.py` and this `README.me` are under the [MIT License](http://opensource.org/licenses/MIT).
+`archmap.py` and this `README.me` are [unicensed](http://unlicense.org/).
 
 `users.txt`, `output.geojson` and `markers.kml` all contain text from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List) so they are under the [GNU Free Documentation License 1.3 or later](http://www.gnu.org/copyleft/fdl.html).
 
 
 Notes
 -----
-This repo is where [maelstrom59](https://github.com/maelstrom59) started to learn git so please excuse the confusing early history!
+This repo is where [maelstrom59](https://github.com/maelstrom59) started to learn git so please excuse the confusing history!
