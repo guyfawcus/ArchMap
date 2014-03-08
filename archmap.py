@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+import configparser
 from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
 
@@ -18,7 +20,7 @@ def get_users():
     wiki_text = wiki_source[wiki_text_start:wiki_text_end]
 
     # Write the user data (wiki_text) to users.txt and close the file.
-    wiki_output = open('users.txt', 'w')
+    wiki_output = open(output_file_users, 'w')
     wiki_output.write(wiki_text)
     wiki_output.close()
 
@@ -27,8 +29,8 @@ def make_geojson():
     """This function reads users.txt and outputs output.geojson"""
 
     # Open files and initialize a list for the geojson features.
-    users = open('users.txt', 'r')
-    output = open('output.geojson', 'w')
+    users = open(output_file_users, 'r')
+    output = open(output_file_geojson, 'w')
 
     geo_output = []
 
@@ -66,5 +68,15 @@ def make_geojson():
 
 # If the script is being run and not imported, get_users() and make_geojson().
 if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        config_file = sys.argv[1]
+    else:
+        config_file = '/etc/archmap.conf'
+
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    output_file_geojson = config['files']['geojson']
+    output_file_users   = config['files']['users']
+
     get_users()
     make_geojson()
