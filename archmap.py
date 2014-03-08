@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
-import configparser
+from sys import argv
+from configparser import ConfigParser
 from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
 
@@ -68,12 +68,12 @@ def make_geojson():
 
 # If the script is being run and not imported, get_users() and make_geojson().
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        config_file = sys.argv[1]
+    if len(argv) == 2:
+        config_file = argv[1]
     else:
         config_file = '/etc/archmap.conf'
 
-    config = configparser.ConfigParser()
+    config = ConfigParser()
     config.read(config_file)
     output_file_geojson = config['files']['geojson']
     output_file_users   = config['files']['users']
