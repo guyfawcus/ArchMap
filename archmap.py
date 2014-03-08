@@ -68,8 +68,10 @@ def make_geojson():
 
 # If the script is being run and not imported, get_users() and make_geojson().
 if __name__ == "__main__":
+    # Parse the config file that's given as the first argument to 'archmap.py'.
     if len(argv) == 2:
         config_file = argv[1]
+    # ... or read it from /etc
     else:
         config_file = '/etc/archmap.conf'
 
