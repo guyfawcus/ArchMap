@@ -2,6 +2,7 @@
 
 from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
+from geojsonio import to_geojsonio
 
 
 def get_users():
@@ -58,6 +59,9 @@ def make_geojson():
 
     # Write geo_output_str to output.geojson.
     output.write(geo_output_str)
+
+    # Send the geojson to geojson.io via a GitHub gist
+    to_geojsonio(geo_output_str)
 
     # Close users.txt and output.geojson.
     users.close()
