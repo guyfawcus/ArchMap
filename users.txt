@@ -794,16 +794,16 @@
 33.320523,-111.94225 "pithdillinja" # Chandler, AZ, USA
 30.047927,31.374298 "mustafajnr" # Cairo, Egypt
 28.67323,-106.13910 "TuXghOSt" # Chihuahua, Mexico
-42.655243, 23.333673 "xxcn" # Sofia, Bulgaria
-34.858327, -82.392712 "x200proofx" # Clemson, SC
+42.655243,23.333673 "xxcn" # Sofia, Bulgaria
+34.858327,-82.392712 "x200proofx" # Clemson, SC
 -21.919097,-50.525973 "m.maga" # Tupa, Sao Paulo, Brazil
 45.258848,-75.715971 "masterfuzz" # Ottawa, ON
--23.21217, -45.85181 "Igor1201" # Sao Jose dos Campos, Brazil
--22.41600, -45.45161 "Igor1201" # Itajuba, Brazil 
+-23.21217,-45.85181 "Igor1201" # Sao Jose dos Campos, Brazil
+-22.41600,-45.45161 "Igor1201" # Itajuba, Brazil 
 40.89483,0.842743 "ivoarch" # L' Ametlla de Mar, Spain
 53.213023,45.014992 "VlaoMao" # Penza, Russia
-38.537697, -89.702551 "fresham" # New Baden, IL
-41.797475, -80.05435 "czubek" # Alliance College, PA
+38.537697,-89.702551 "fresham" # New Baden, IL
+41.797475,-80.05435 "czubek" # Alliance College, PA
 -26.821974,-65.196242 "jorges" # Tucumán, Argentina
 9.951597,-84.075534 "Sebas" # San José, Costa Rica
 45.487937,-122.748213 "MicahElliott" # Portland, OR USA
@@ -831,10 +831,10 @@
 -38,-57.33 "msx" # Mar del Plata, Argentina
 45.402608,8.907098 "zero" # Abbiategrasso, MI, Italy
 62.9,27.683 "jukkan" # Kuopio, Finland
-52.661291, 19.057447 "Loper" # Wloclawek, Poland
+52.661291,19.057447 "Loper" # Wloclawek, Poland
 39.2833,-76.6167 "secondplanet" # Baltimore, MD, USA
 47.801827,13.776873 "evil-god" # Ebensee, Austria
-31.281375, 121.505876 "Yungtrizzle" # Studying in Shanghai, China
+31.281375,121.505876 "Yungtrizzle" # Studying in Shanghai, China
 45.51906,-73.599107 "jcook818" # Montréal, Québec, Canada
 45.505911,-73.565529 "draringi" # Montréal, QC, Canada
 49.462044,36.911831  "pavelchavyr" # Balakleya,Kharkov,Ukraine
@@ -855,8 +855,8 @@
 40.684537,-3.974878 "AMJ" # Moralzarzal, Madrid, Spain
 39.724805,-104.707044 "dcdc" # Aurora, CO, USA
 32.977699,-111.543417 "pyronide" # Coolidge, AZ, USA
-44.834619, 20.406294 "Antikythera" # Beograd, Serbia
-48.826393, 2.326449 "kamaradclimber" # Paris, France
+44.834619,20.406294 "Antikythera" # Beograd, Serbia
+48.826393,2.326449 "kamaradclimber" # Paris, France
 26.932477,-82.052765 "arielp" # Punta Gorda, FL, USA
 45.954223,14.23326 "Zaplanincan" Zaplana, Vrhnika, Slovenia
 21.155718,-86.821357 "Ericjxc" #Cancun, Q.Roo, Mexico
@@ -865,7 +865,7 @@
 29.510135,-95.095993 "whahn1983" # League City, Texas, USA
 29.510135,-95.095993 "moonsorrow" # League City, Texas, USA
 53.739330,-1.393140  "Ajt2" # Leeds, UK
-47.001739, 7.447184 "gnomeye" # Zollikofen, CH
+47.001739,7.447184 "gnomeye" # Zollikofen, CH
 46.792799,4.425386 "vardump" # Le Creusot, FR
 58.391726,15.086285 "Persilja" # Skänninge, Sweden
 37.361128,-121.961049 "Mridul" # Santa Clara, California, USA
@@ -884,16 +884,16 @@
 59.939069,30.315796 "buhaha" # Saint_Petersburg‎, Russia
 55.768704,37.634798 "willyborankin" # Moscow, Russia
 32.940574,-96.384698 "paul" # Fate, Texas, USA
-56.578361, 84.927307 "KonstantinM" # Seversk, Russia
+56.578361,84.927307 "KonstantinM" # Seversk, Russia
 41.450881,31.760078  "Şenol Alan" # Zonguldak, Turkey
 51.796726,55.096006  "wilful" # Orenburg, Russia
 46.637003,32.616936 "muffinmad" # Kherson, Ukraine
-48.228146, 8.3844681 "techaddicted" # Schramberg, Germany
+48.228146,8.3844681 "techaddicted" # Schramberg, Germany
 50.083763,8.232758 "jokke" # Wiesbaden, Germany
 44.411145,43.864008 "Probeerka" # Zelenokumsk, Russia
 37.9799167,59.1185049 "der_FeniX" # Cherepovets, Russia
 -11.97845,-77.082283 "Carlos Joel" # Lima, Peru
-49.0091, 8.397367 "Frank" # Karlsruhe, Germany
+49.0091,8.397367 "Frank" # Karlsruhe, Germany
 33.592031,-7.616361 "Othmane AIT EL CADI" # Casablanca, Morocco
 48.10383,11.35810 "greenway" # Munich, Germany
 36.835187,-76.807787 "celticmusicguy" # Zuni, VA, USA
@@ -901,3 +901,4 @@
 59.446297,17.926927 "malondron" # Sollentuna, Sweden
 47.336118,-122.17055 "unsined" # Auburn, WA, USA
 39.633613,-104.909490 "mistofvongola" # Denver, CO, USA
+60.607237,16.894958 "demize" # Forsbacka, Gävleborgs län, Sweden
