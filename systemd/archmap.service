@@ -1,5 +1,5 @@
 [Unit]
-Description=Generates a map of Arch Linux users
+Description=ArchMap geojson generator
 
 [Service]
 Type=simple
