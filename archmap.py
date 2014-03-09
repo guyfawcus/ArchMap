@@ -79,7 +79,7 @@ if __name__ == "__main__":
     config = ConfigParser()
     config.read(config_file)
     output_file_geojson = config['files']['geojson']
-    output_file_users   = config['files']['users']
+    output_file_users = config['files']['users']
 
     get_users()
     make_geojson()
