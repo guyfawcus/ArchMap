@@ -1,0 +1,6 @@
+[Unit]
+Description=Generates a map of Arch Linux users
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/archmap.py
