@@ -54,7 +54,7 @@ def make_geojson(geojsonio):
     # Pass the feature collection to geo_output_str.
     geo_output_str = (dumps(FeatureCollection(geo_output)))
 
-    if geojsonio == True:
+    if geojsonio is True:
         # Send the geojson to geojson.io via a GitHub gist.
         to_geojsonio(geo_output_str)
 
