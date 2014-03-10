@@ -24,7 +24,7 @@ def get_users():
     wiki_output.close()
 
 
-def make_geojson():
+def make_geojson(geojsonio):
     """This function reads users.txt and outputs output.geojson"""
 
     # Open files and initialize a list for the geojson features.
@@ -51,17 +51,21 @@ def make_geojson():
 
         geo_output.append(feature)
 
-    # Pass the feature collection to geo_output_str, then make it look pretty.
+    # Pass the feature collection to geo_output_str.
     geo_output_str = (dumps(FeatureCollection(geo_output)))
-    geo_output_str = geo_output_str.replace('"features": [', '"features": [\n')
-    geo_output_str = geo_output_str.replace('}}, ', '}},\n')
-    geo_output_str = geo_output_str.replace('}}]', '}}\n]')
+
+    if geojsonio == True:
+        # Send the geojson to geojson.io via a GitHub gist.
+        to_geojsonio(geo_output_str)
+
+    else:
+        # Make geo_output_str look pretty.
+        geo_output_str = geo_output_str.replace('"features": [', '"features": [\n')
+        geo_output_str = geo_output_str.replace('}}, ', '}},\n')
+        geo_output_str = geo_output_str.replace('}}]', '}}\n]')
 
     # Write geo_output_str to output.geojson.
     output.write(geo_output_str)
-
-    # Send the geojson to geojson.io via a GitHub gist
-    to_geojsonio(geo_output_str)
 
     # Close users.txt and output.geojson.
     users.close()
@@ -85,5 +89,8 @@ if __name__ == "__main__":
     output_file_geojson = config['files']['geojson']
     output_file_users = config['files']['users']
 
+    # Set to True if you want to send the geojson to http://geojson.io
+    geojsonio = False
+
     get_users()
-    make_geojson()
+    make_geojson(geojsonio)
