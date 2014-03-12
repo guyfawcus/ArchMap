@@ -78,9 +78,9 @@ if __name__ == "__main__":
     from configparser import ConfigParser
 
     # Define and parse arguments.
-    parser = ArgumentParser()
+    parser = ArgumentParser(description="ArchMap geojson generator")
     parser.add_argument("--config", metavar="FILE",
-                        help="Use an alternative configuration file instead of /etc/archmp.conf")
+                        help="Use an alternative configuration file instead of /etc/archmap.conf")
     parser.add_argument("--geojsonio", action="store_true",
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
