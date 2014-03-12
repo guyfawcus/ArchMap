@@ -10,7 +10,9 @@ Have a look at the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap) page
 
 Use
 ----
-To generate a new copy of both `users.txt` and `output.geojson` simply run `./archmap.py <path/to/archmap.config>`, for example, running `./archmap.py ./archmap.conf` will make the files in /tmp.
+`./archmp.py --help` will display a help message with all of the available command line options.
+
+To generate a new copy of both `users.txt` and `output.geojson` simply run `./archmap.py --config <path/to/archmap.config>`, for example, running `./archmap.py --config ./archmap.conf` will make the files in /tmp.
 
 You can also `import archmap` in your own python3 code and then use `archmap.get_users()` and `archmap.make_geojson()` to make the files yourself.
 
