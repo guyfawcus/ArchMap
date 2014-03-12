@@ -74,23 +74,32 @@ def make_geojson(geojsonio):
 
 # If the script is being run and not imported, get_users() and make_geojson().
 if __name__ == "__main__":
-    from sys import argv
+    from argparse import ArgumentParser
     from configparser import ConfigParser
 
-    # Parse the config file that's given as the first argument to 'archmap.py'.
-    if len(argv) == 2:
-        config_file = argv[1]
-    # ... or read it from /etc
+    # Define and parse arguments.
+    parser = ArgumentParser()
+    parser.add_argument("--config", metavar="FILE",
+                        help="Use an alternative configuration file instead of /etc/archmp.conf")
+    parser.add_argument("--geojsonio", action="store_true",
+                        help="Send the geojson to http://geojson.io for processing")
+    args = parser.parse_args()
+
+    # Test if arguments have been called, then conditionally set variables.
+    if args.config:
+        config_file = args.config
     else:
         config_file = '/etc/archmap.conf'
+
+    if args.geojsonio:
+        geojsonio = True
+    else:
+        geojsonio = False
 
     config = ConfigParser()
     config.read(config_file)
     output_file_geojson = config['files']['geojson']
     output_file_users = config['files']['users']
-
-    # Set to True if you want to send the geojson to http://geojson.io
-    geojsonio = False
 
     get_users()
     make_geojson(geojsonio)
