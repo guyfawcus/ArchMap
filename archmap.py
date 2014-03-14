@@ -2,7 +2,13 @@
 
 from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
-from geojsonio import to_geojsonio
+try:
+    from geojsonio import to_geojsonio
+except:
+    print("""==> Warning: You need 'pip install github3.py' and download 'geojsonio.py'
+    to this directory from https://github.com/jwass/geojsonio.py
+    before you can use --geojsonio\n""")
+    geojsonio = False
 
 
 def get_users():
