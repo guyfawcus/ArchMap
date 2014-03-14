@@ -79,27 +79,16 @@ if __name__ == "__main__":
 
     # Define and parse arguments.
     parser = ArgumentParser(description="ArchMap geojson generator")
-    parser.add_argument("--config", metavar="FILE",
+    parser.add_argument("--config", metavar="FILE", dest="config_file", default="/etc/archmap.conf",
                         help="Use an alternative configuration file instead of /etc/archmap.conf")
-    parser.add_argument("--geojsonio", action="store_true",
+    parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
 
-    # Test if arguments have been called, then conditionally set variables.
-    if args.config:
-        config_file = args.config
-    else:
-        config_file = '/etc/archmap.conf'
-
-    if args.geojsonio:
-        geojsonio = True
-    else:
-        geojsonio = False
-
     config = ConfigParser()
-    config.read(config_file)
+    config.read(args.config_file)
     output_file_geojson = config['files']['geojson']
     output_file_users = config['files']['users']
 
     get_users()
-    make_geojson(geojsonio)
+    make_geojson(args.geojsonio)
