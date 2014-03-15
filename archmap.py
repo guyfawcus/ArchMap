@@ -91,6 +91,8 @@ if __name__ == "__main__":
 
     # Define and parse arguments.
     parser = ArgumentParser(description="ArchMap geojson generator")
+    parser.add_argument('-v', '--verbose', action='count', default=0,
+                        help="Show info messages")
     parser.add_argument("--config", metavar="FILE", dest="config_file", default="/etc/archmap.conf",
                         help="Use an alternative configuration file instead of /etc/archmap.conf")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
