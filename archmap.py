@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from systemd import journal
 from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
 try:
@@ -10,12 +11,16 @@ except:
     before you can use --geojsonio\n""")
     geojsonio = False
 
+def message(message):
+    journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
+    if args.verbose >= 1:
+        print ("==> " + message)
 
 def get_users():
     """This funtion parses users from the ArchWiki and writes it to users.txt"""
 
     # Open and decode the ArchWiki page containing the list of users.
-    print("==> Getting users from the ArchWiki")
+    message("Getting users from the ArchWiki")
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
 
     wiki_source = wiki.read().decode()
@@ -26,7 +31,7 @@ def get_users():
     wiki_text = wiki_source[wiki_text_start:wiki_text_end]
 
     # Write the user data (wiki_text) to users.txt and close the file.
-    print("==> Writing users to " + output_file_users)
+    message("Writing users to " + output_file_users)
     wiki_output = open(output_file_users, 'w')
     wiki_output.write(wiki_text)
     wiki_output.close()
@@ -42,7 +47,7 @@ def make_geojson(geojsonio):
     geo_output = []
 
     # Loop over the lines in users.txt and assign each element a variable.
-    print("==> Making geosjon")
+    message("Making geosjon")
     for line in users:
         elements = line.split('"')
 
@@ -65,18 +70,18 @@ def make_geojson(geojsonio):
 
     if geojsonio is True:
         # Send the geojson to geojson.io via a GitHub gist.
-        print("==> Sending geojson to geojson.io")
+        message("Sending geojson to geojson.io")
         to_geojsonio(geo_output_str)
 
     else:
         # Make geo_output_str look pretty.
-        print("==> Tidying up geojson")
+        message("Tidying up geojson")
         geo_output_str = geo_output_str.replace('"features": [', '"features": [\n')
         geo_output_str = geo_output_str.replace('}}, ', '}},\n')
         geo_output_str = geo_output_str.replace('}}]', '}}\n]')
 
     # Write geo_output_str to output.geojson.
-    print("==> Writing geojson to " + output_file_geojson)
+    message("Writing geojson to " + output_file_geojson)
     output.write(geo_output_str)
 
     # Close users.txt and output.geojson.
