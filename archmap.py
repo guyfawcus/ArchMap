@@ -5,8 +5,8 @@ from geojson import Feature, Point, FeatureCollection, dumps
 try:
     from geojsonio import to_geojsonio
 except:
-    print("""==> Warning: You need 'pip install github3.py' and download 'geojsonio.py'
-    to this directory from https://github.com/jwass/geojsonio.py
+    print("""==> Warning: You need to 'pip install github3.py' and download 'geojsonio.py'
+    from https://github.com/jwass/geojsonio.py to this directory
     before you can use --geojsonio\n""")
     geojsonio = False
 
