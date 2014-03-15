@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-from systemd import journal
+try:
+    from systemd import journal
+    systemd = True
+except:
+    systemd = False
 from urllib.request import urlopen
 from geojson import Feature, Point, FeatureCollection, dumps
 try:
@@ -12,7 +16,8 @@ except:
     geojsonio = False
 
 def message(message):
-    journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
+    if systemd is not False:
+        journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
     if args.verbose >= 1:
         print ("==> " + message)
 
