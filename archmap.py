@@ -115,8 +115,8 @@ if __name__ == "__main__":
 
     config = ConfigParser()
     config.read(args.config_file)
-    output_file_geojson = config['files']['geojson']
     output_file_users = config['files']['users']
+    output_file_geojson = config['files']['geojson']
 
     if args.users is not None:
         message("Using '" + args.users + "' for user data")
@@ -126,4 +126,5 @@ if __name__ == "__main__":
 
     if args.output is not None:
         output_file_geojson = args.output
+
     make_geojson(args.geojsonio)
