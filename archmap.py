@@ -105,6 +105,10 @@ if __name__ == "__main__":
                         help="Show info messages")
     parser.add_argument("--config", metavar="FILE", dest="config_file", default="/etc/archmap.conf",
                         help="Use an alternative configuration file instead of /etc/archmap.conf")
+    parser.add_argument("--users", metavar="FILE", dest="users",
+                        help="Use FILE for a list of users instead of getting the list from the ArchWiki")
+    parser.add_argument("--output", metavar="FILE", dest="output",
+                        help="Output the geojson to FILE")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
@@ -114,5 +118,12 @@ if __name__ == "__main__":
     output_file_geojson = config['files']['geojson']
     output_file_users = config['files']['users']
 
-    get_users()
+    if args.users is not None:
+        message("Using '" + args.users + "' for user data")
+        output_file_users = args.users
+    else:
+        get_users()
+
+    if args.output is not None:
+        output_file_geojson = args.output
     make_geojson(args.geojsonio)
