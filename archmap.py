@@ -15,11 +15,13 @@ except:
     before you can use --geojsonio\n""")
     geojsonio = False
 
+
 def message(message):
     if systemd is not False:
         journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
     if args.verbose >= 1:
-        print ("==> " + message)
+        print("==> " + message)
+
 
 def get_users():
     """This funtion parses users from the ArchWiki and writes it to users.txt"""
