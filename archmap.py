@@ -121,7 +121,7 @@ if __name__ == "__main__":
                         help="Use an alternative configuration file instead of /etc/archmap.conf")
     parser.add_argument("--users", metavar="FILE", dest="users",
                         help="Use FILE for a list of users instead of getting the list from the ArchWiki")
-    parser.add_argument("--output", metavar="FILE", dest="output",
+    parser.add_argument("--geojson", metavar="FILE", dest="geojson",
                         help="Output the geojson to FILE")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
@@ -141,8 +141,8 @@ if __name__ == "__main__":
     else:
         get_users()
 
-    if args.output is not None:
-        output_file_geojson = args.output
+    if args.geojson is not None:
+        output_file_geojson = args.geojson
 
     if args.kml is not None:
         output_file_kml = args.kml
