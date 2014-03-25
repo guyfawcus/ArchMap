@@ -95,9 +95,9 @@ def make_geojson(geojsonio):
     message("Writing geojson to " + output_file_geojson)
     output.write(geo_output_str)
 
-    if args.kml is True:
-        message("Writing kml to " + "output.kml")
-        geo_output_kml.save("output.kml")
+    if output_file_kml is not None:
+        message("Writing kml to " + output_file_kml)
+        geo_output_kml.save(output_file_kml)
 
     # Close users.txt and output.geojson.
     users.close()
@@ -121,7 +121,7 @@ if __name__ == "__main__":
                         help="Output the geojson to FILE")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
-    parser.add_argument("--kml", action="store_true", dest="kml", default="False",
+    parser.add_argument("--kml", metavar='FILE', dest="kml",
                         help="Generate a .kml file")
     args = parser.parse_args()
 
@@ -129,6 +129,7 @@ if __name__ == "__main__":
     config.read(args.config_file)
     output_file_users = config['files']['users']
     output_file_geojson = config['files']['geojson']
+    output_file_kml = config['files']['kml']
 
     if args.users is not None:
         message("Using '" + args.users + "' for user data")
@@ -138,5 +139,8 @@ if __name__ == "__main__":
 
     if args.output is not None:
         output_file_geojson = args.output
+
+    if args.kml is not None:
+        output_file_kml = args.kml
 
     make_geojson(args.geojsonio)
