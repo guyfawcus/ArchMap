@@ -14,6 +14,7 @@ except:
     from https://github.com/jwass/geojsonio.py to this directory
     before you can use --geojsonio\n""")
     geojsonio = False
+from simplekml import Kml
 
 
 def message(message):
@@ -52,6 +53,7 @@ def make_geojson(geojsonio):
     output = open(output_file_geojson, 'w')
 
     geo_output = []
+    geo_output_kml = Kml()
 
     # Loop over the lines in users.txt and assign each element a variable.
     message("Making geosjon")
@@ -72,6 +74,8 @@ def make_geojson(geojsonio):
 
         geo_output.append(feature)
 
+        geo_output_kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
+
     # Pass the feature collection to geo_output_str.
     geo_output_str = (dumps(FeatureCollection(geo_output)))
 
@@ -90,6 +94,10 @@ def make_geojson(geojsonio):
     # Write geo_output_str to output.geojson.
     message("Writing geojson to " + output_file_geojson)
     output.write(geo_output_str)
+
+    if args.kml is True:
+        message("Writing kml to " + "output.kml")
+        geo_output_kml.save("output.kml")
 
     # Close users.txt and output.geojson.
     users.close()
@@ -113,6 +121,8 @@ if __name__ == "__main__":
                         help="Output the geojson to FILE")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
+    parser.add_argument("--kml", action="store_true", dest="kml", default="False",
+                        help="Generate a .kml file")
     args = parser.parse_args()
 
     config = ConfigParser()
