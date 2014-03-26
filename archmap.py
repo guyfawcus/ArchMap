@@ -108,13 +108,13 @@ def make_gis(geojsonio):
     output.close()
 
 
-# If the script is being run and not imported, get_users() and make_geojson().
+# If the script is being run and not imported, get_users() and make_gis().
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from configparser import ConfigParser
 
     # Define and parse arguments.
-    parser = ArgumentParser(description="ArchMap geojson generator")
+    parser = ArgumentParser(description="ArchMap geojson/kml generator")
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help="Show info messages")
     parser.add_argument("--config", metavar="FILE", dest="config_file", default="/etc/archmap.conf",
