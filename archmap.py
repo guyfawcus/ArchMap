@@ -17,6 +17,8 @@ except:
 from simplekml import Kml
 
 
+# If the system uses the systemd journal, log to it. If the -v or --verbose
+# flag is passed, print out info about what the script is doing.
 def message(message):
     if systemd is not False:
         journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
@@ -60,7 +62,7 @@ def make_gis(geojsonio):
     geo_output_kml = Kml()
 
     # Loop over the lines in users.txt and assign each element a variable.
-    message("Making geosjon")
+    message("Making geosjon and kml")
     for line in users:
         elements = line.split('"')
 
@@ -87,7 +89,6 @@ def make_gis(geojsonio):
         # Send the geojson to geojson.io via a GitHub gist.
         message("Sending geojson to geojson.io")
         to_geojsonio(geo_output_str)
-
     else:
         # Make geo_output_str look pretty.
         message("Tidying up geojson")
@@ -95,10 +96,11 @@ def make_gis(geojsonio):
         geo_output_str = geo_output_str.replace('}}, ', '}},\n')
         geo_output_str = geo_output_str.replace('}}]', '}}\n]')
 
-    # Write geo_output_str to output.geojson.
+    # Write geo_output_str to output_file_geojson.
     message("Writing geojson to " + output_file_geojson)
     output.write(geo_output_str)
 
+    # Write geo_output_kml to output_file_kml.
     if output_file_kml is not None:
         message("Writing kml to " + output_file_kml)
         geo_output_kml.save(output_file_kml)
@@ -108,7 +110,8 @@ def make_gis(geojsonio):
     output.close()
 
 
-# If the script is being run and not imported, get_users() and make_gis().
+# If the script is being run and not imported, get_users(), if it's needed,
+# then make_gis().
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from configparser import ConfigParser
@@ -136,7 +139,7 @@ if __name__ == "__main__":
     output_file_kml = config['files']['kml']
 
     if args.users is not None:
-        message("Using '" + args.users + "' for user data")
+        message("Using " + args.users + " for user data")
         output_file_users = args.users
     else:
         get_users()
