@@ -123,10 +123,10 @@ if __name__ == "__main__":
                         help="Use FILE for a list of users instead of getting the list from the ArchWiki")
     parser.add_argument("--geojson", metavar="FILE", dest="geojson",
                         help="Output the geojson to FILE")
+    parser.add_argument("--kml", metavar='FILE', dest="kml",
+                        help="Output the kml to FILE")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
-    parser.add_argument("--kml", metavar='FILE', dest="kml",
-                        help="Generate a .kml file")
     args = parser.parse_args()
 
     config = ConfigParser()
