@@ -22,7 +22,7 @@ Copyleft
 --------
 `archmap.py` and this `README.me` are [unicensed](http://unlicense.org/).
 
-`users.txt`, `output.geojson` and `markers.kml` all contain text from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List) so they are under the [GNU Free Documentation License 1.3 or later](http://www.gnu.org/copyleft/fdl.html).
+All of the files that this script will generate (`users.txt`, `output.geojson` and `markers.kml`) will contain text from the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap/List) which puts them under the [GNU Free Documentation License 1.3 or later](http://www.gnu.org/copyleft/fdl.html).
 
 
 Notes
