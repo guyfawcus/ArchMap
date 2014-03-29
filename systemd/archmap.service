@@ -1,5 +1,5 @@
 [Unit]
-Description=ArchMap geojson generator
+Description=ArchMap geojson/kml generator
 
 [Service]
 Type=simple

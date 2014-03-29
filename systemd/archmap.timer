@@ -1,5 +1,5 @@
 [Unit]
-Description=ArchMap geojson generator - daily timer
+Description=ArchMap geojson/kml generator - daily timer
 
 [Timer]
 # Time to wait after booting before we run first time
