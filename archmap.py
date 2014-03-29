@@ -132,21 +132,21 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="ArchMap geojson/kml generator")
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help="Show info messages")
-    parser.add_argument("--config", metavar="FILE", dest="config_file", default=default_config,
+    parser.add_argument("--config", metavar="FILE", default=default_config,
                         help="Use an alternative configuration file instead of /etc/archmap.conf")
-    parser.add_argument("--users", metavar="FILE", dest="users",
+    parser.add_argument("--users", metavar="FILE",
                         help="Use FILE for a list of users instead of getting the list from the ArchWiki")
-    parser.add_argument("--geojson", metavar="FILE", dest="geojson",
+    parser.add_argument("--geojson", metavar="FILE",
                         help="Output the geojson to FILE, use 'no' to disable output")
-    parser.add_argument("--kml", metavar='FILE', dest="kml",
+    parser.add_argument("--kml", metavar='FILE',
                         help="Output the kml to FILE, use 'no' to disable output")
-    parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
+    parser.add_argument("--geojsonio", action="store_true", default="False",
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
 
     try:
         config = ConfigParser()
-        config.read(args.config_file)
+        config.read(args.config)
         output_file_users = config['files']['users']
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
