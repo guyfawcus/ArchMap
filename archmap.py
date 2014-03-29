@@ -132,11 +132,16 @@ if __name__ == "__main__":
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
 
-    config = ConfigParser()
-    config.read(args.config_file)
-    output_file_users = config['files']['users']
-    output_file_geojson = config['files']['geojson']
-    output_file_kml = config['files']['kml']
+    try:
+        config = ConfigParser()
+        config.read(args.config_file)
+        output_file_users = config['files']['users']
+        output_file_geojson = config['files']['geojson']
+        output_file_kml = config['files']['kml']
+    except:
+        output_file_users = "/tmp/users.txt"
+        output_file_geojson = "/tmp/output.geojson"
+        output_file_kml = "/tmp/output.kml"
 
     if args.users is not None:
         message("Using " + args.users + " for user data")
