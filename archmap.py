@@ -57,8 +57,8 @@ def make_gis(geojsonio):
     # Open files and initialize a list for the geojson features.
     users = open(output_file_users, 'r')
 
-    geo_output = []
-    geo_output_kml = Kml()
+    geojson = []
+    kml = Kml()
 
     # Loop over the lines in users.txt and assign each element a variable.
     message("Making geosjon and kml")
@@ -73,41 +73,41 @@ def make_gis(geojsonio):
         comment = elements[2].strip()
         comment = comment[2:]
 
-        # Generate a geojson point feature for the entry and add it to geo_output.
+        # Generate a geojson point feature for the entry and add it to geojson.
         point = Point((longitude, latitude))
         feature = Feature(geometry=point, properties={"Comment": comment, "Name": name})
 
-        geo_output.append(feature)
+        geojson.append(feature)
 
-        geo_output_kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
+        kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
     users.close()
 
-    # Pass the feature collection to geo_output_str.
-    geo_output_str = (dumps(FeatureCollection(geo_output)))
+    # Pass the feature collection to geojson_str.
+    geojson_str = (dumps(FeatureCollection(geojson)))
 
     if geojsonio is True:
         # Send the geojson to geojson.io via a GitHub gist.
         message("Sending geojson to geojson.io")
-        to_geojsonio(geo_output_str)
+        to_geojsonio(geojson_str)
     else:
-        # Make geo_output_str look pretty.
+        # Make geojson_str look pretty.
         message("Tidying up geojson")
-        geo_output_str = geo_output_str.replace('"features": [', '"features": [\n')
-        geo_output_str = geo_output_str.replace('}}, ', '}},\n')
-        geo_output_str = geo_output_str.replace('}}]', '}}\n]')
+        geojson_str = geojson_str.replace('"features": [', '"features": [\n')
+        geojson_str = geojson_str.replace('}}, ', '}},\n')
+        geojson_str = geojson_str.replace('}}]', '}}\n]')
 
-    # Write geo_output_str to output_file_geojson.
+    # Write geojson_str to output_file_geojson.
     if output_file_geojson != "no":
         message("Writing geojson to " + output_file_geojson)
         output = open(output_file_geojson, 'w')
-        output.write(geo_output_str)
+        output.write(geojson_str)
         output.close()
 
-    # Write geo_output_kml to output_file_kml.
+    # Write kml to output_file_kml.
     if output_file_kml != "no":
         message("Writing kml to " + output_file_kml)
-        geo_output_kml.save(output_file_kml)
+        kml.save(output_file_kml)
 
 
 # If the script is being run and not imported, get_users(), if it's needed,
