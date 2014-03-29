@@ -56,7 +56,6 @@ def make_gis(geojsonio):
 
     # Open files and initialize a list for the geojson features.
     users = open(output_file_users, 'r')
-    output = open(output_file_geojson, 'w')
 
     geo_output = []
     geo_output_kml = Kml()
@@ -82,6 +81,8 @@ def make_gis(geojsonio):
 
         geo_output_kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
+    users.close()
+
     # Pass the feature collection to geo_output_str.
     geo_output_str = (dumps(FeatureCollection(geo_output)))
 
@@ -97,17 +98,16 @@ def make_gis(geojsonio):
         geo_output_str = geo_output_str.replace('}}]', '}}\n]')
 
     # Write geo_output_str to output_file_geojson.
-    message("Writing geojson to " + output_file_geojson)
-    output.write(geo_output_str)
+    if output_file_geojson != "no":
+        message("Writing geojson to " + output_file_geojson)
+        output = open(output_file_geojson, 'w')
+        output.write(geo_output_str)
+        output.close()
 
     # Write geo_output_kml to output_file_kml.
-    if output_file_kml is not None:
+    if output_file_kml != "no":
         message("Writing kml to " + output_file_kml)
         geo_output_kml.save(output_file_kml)
-
-    # Close users.txt and output.geojson.
-    users.close()
-    output.close()
 
 
 # If the script is being run and not imported, get_users(), if it's needed,
