@@ -97,14 +97,14 @@ def make_gis(geojsonio):
         geojson_str = geojson_str.replace('}}, ', '}},\n')
         geojson_str = geojson_str.replace('}}]', '}}\n]')
 
-    # Write geojson_str to output_file_geojson.
+    # Write geojson_str to output_file_geojson if wanted.
     if output_file_geojson != "no":
         message("Writing geojson to " + output_file_geojson)
         output = open(output_file_geojson, 'w')
         output.write(geojson_str)
         output.close()
 
-    # Write kml to output_file_kml.
+    # Write kml to output_file_kml if wanted.
     if output_file_kml != "no":
         message("Writing kml to " + output_file_kml)
         kml.save(output_file_kml)
@@ -125,9 +125,9 @@ if __name__ == "__main__":
     parser.add_argument("--users", metavar="FILE", dest="users",
                         help="Use FILE for a list of users instead of getting the list from the ArchWiki")
     parser.add_argument("--geojson", metavar="FILE", dest="geojson",
-                        help="Output the geojson to FILE")
+                        help="Output the geojson to FILE, use 'no' to disable output")
     parser.add_argument("--kml", metavar='FILE', dest="kml",
-                        help="Output the kml to FILE")
+                        help="Output the kml to FILE, use 'no' to disable output")
     parser.add_argument("--geojsonio", action="store_true", dest="geojsonio", default="False",
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
