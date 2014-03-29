@@ -1,7 +1,7 @@
 ArchMap under systemd
 =====================
 
-This directory contains two systemd units for running ArchMap under systemd to automatically generate a new map every day.
+This directory contains two systemd units for running ArchMap under systemd to automatically generate new geojson and kml files daily.
 
 
 Use
