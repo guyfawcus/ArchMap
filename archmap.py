@@ -17,6 +17,18 @@ except:
 from simplekml import Kml
 
 
+# Set the default config file location, this is overridden if the --config switch is used.
+# If the --geojson or --kml switches are used, they will override the settings in the config file.
+default_config = "/etc/archmap.conf"
+
+# Set the output locations for users, geojson and kml.
+# Setting default_geojson or default_kml to "no", will disable the output.
+# These settings are overridden by the config file, if it file exsits.
+default_users = "/tmp/users.txt"
+default_geojson = "/tmp/output.geojson"
+default_kml = "/tmp/output.kml"
+
+
 # If the system uses the systemd journal, log to it. If the -v or --verbose
 # flag is passed, print out info about what the script is doing.
 def message(message):
@@ -120,7 +132,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="ArchMap geojson/kml generator")
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help="Show info messages")
-    parser.add_argument("--config", metavar="FILE", dest="config_file", default="/etc/archmap.conf",
+    parser.add_argument("--config", metavar="FILE", dest="config_file", default=default_config,
                         help="Use an alternative configuration file instead of /etc/archmap.conf")
     parser.add_argument("--users", metavar="FILE", dest="users",
                         help="Use FILE for a list of users instead of getting the list from the ArchWiki")
@@ -139,9 +151,9 @@ if __name__ == "__main__":
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
     except:
-        output_file_users = "/tmp/users.txt"
-        output_file_geojson = "/tmp/output.geojson"
-        output_file_kml = "/tmp/output.kml"
+        output_file_users = default_users
+        output_file_geojson = default_geojson
+        output_file_kml = default_kml
 
     if args.users is not None:
         message("Using " + args.users + " for user data")
