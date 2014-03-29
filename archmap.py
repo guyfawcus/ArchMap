@@ -167,7 +167,7 @@ if __name__ == "__main__":
     if args.kml is not None:
         output_file_kml = args.kml
 
-    if output_file_geojson and output_file_kml == "no":
+    if output_file_geojson == "no" and output_file_kml == "no":
         message("There is nothing to do")
     else:
         make_gis(args.geojsonio)
