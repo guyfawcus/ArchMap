@@ -98,19 +98,19 @@ def make_gis(geojsonio):
     # Pass the feature collection to geojson_str.
     geojson_str = (dumps(FeatureCollection(geojson)))
 
+    # Send the geojson to geojson.io via a GitHub gist.
     if geojsonio is True:
-        # Send the geojson to geojson.io via a GitHub gist.
         message("Sending geojson to geojson.io")
         to_geojsonio(geojson_str)
-    else:
+
+    # Write geojson_str to output_file_geojson if wanted.
+    if output_file_geojson != "no":
         # Make geojson_str look pretty.
         message("Tidying up geojson")
         geojson_str = geojson_str.replace('"features": [', '"features": [\n')
         geojson_str = geojson_str.replace('}}, ', '}},\n')
         geojson_str = geojson_str.replace('}}]', '}}\n]')
 
-    # Write geojson_str to output_file_geojson if wanted.
-    if output_file_geojson != "no":
         message("Writing geojson to " + output_file_geojson)
         output = open(output_file_geojson, 'w')
         output.write(geojson_str)
