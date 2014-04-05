@@ -59,7 +59,7 @@ def get_users():
     wiki_output.close()
 
 
-def make_gis(geojsonio):
+def make_gis():
     """This function reads the user data supplied by get_users(), it then generates
     geojson and kml output and writes it to 'output_file_geojson' and 'output_file_kml'.
 
@@ -99,7 +99,7 @@ def make_gis(geojsonio):
     geojson_str = (dumps(FeatureCollection(geojson)))
 
     # Send the geojson to geojson.io via a GitHub gist.
-    if geojsonio is True:
+    if args.geojsonio is True:
         message("Sending geojson to geojson.io")
         to_geojsonio(geojson_str)
 
@@ -169,4 +169,4 @@ if __name__ == "__main__":
     if output_file_geojson == "no" and output_file_kml == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
-        make_gis(args.geojsonio)
+        make_gis()
