@@ -9,8 +9,8 @@ Have a look at the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap) page
 
 
 Synopsis
-----
-By default, running `./archmap.py` will output three files, `users.txt`, `output.geojson` and `output.kml`, this can be overridden by either using the config file or by the command line switches.
+--------
+By default, running `./archmap.py` will output three files to /tmp, `users.txt`, `output.geojson` and `output.kml`, this can be overridden by either using the config file or by the command line switches.
 
 The config file should be placed in `/etc/archmap.conf`, this can be overridden by using `--config <path-to-config-file>`
 
