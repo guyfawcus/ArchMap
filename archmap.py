@@ -140,7 +140,7 @@ if __name__ == "__main__":
                         help="Output the geojson to FILE, use 'no' to disable output")
     parser.add_argument("--kml", metavar='FILE',
                         help="Output the kml to FILE, use 'no' to disable output")
-    parser.add_argument("--geojsonio", action="store_true", default="False",
+    parser.add_argument("--geojsonio", action="store_true", default=False,
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
 
@@ -166,8 +166,7 @@ if __name__ == "__main__":
 
     if args.kml is not None:
         output_file_kml = args.kml
-
-    if output_file_geojson == "no" and output_file_kml == "no":
+    if output_file_geojson == "no" and output_file_kml == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
         make_gis(args.geojsonio)
