@@ -8,15 +8,26 @@ One rendering of the data is on a map over at [mapbox.com](https://a.tiles.mapbo
 Have a look at the [ArchWiki](https://wiki.archlinux.org/index.php/ArchMap) page about this project for some more ideas.
 
 
-Use
+Synopsis
 ----
-`./archmp.py --help` will display a help message with all of the available command line options.
+By default, running `./archmap.py` will output three files, `users.txt`, `output.geojson` and `output.kml`, this can be overridden by either using the config file or by the command line switches.
 
-To generate a new copy of both `users.txt`, `output.geojson` and `output.kml` simply run `./archmap.py --config <path/to/archmap.config>`, for example, running `./archmap.py --config ./archmap.conf` will make the files in /tmp.
-If you pass the `-v` flag, information about what the script is doing will be printed.
+The config file should be placed in `/etc/archmap.conf`, this can be overridden by using `--config <path-to-config-file>`
 
-You can also `import archmap` in your own python3 code and then use `archmap.get_users()` and `archmap.make_gis()` to make the files yourself.
 
+Use
+---
+archmap.py [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE]
+                  [--kml FILE] [--geojsonio]
+
+optional arguments:
+  -h, --help      show this help message and exit
+  -v, --verbose   Show info messages
+  --config FILE   Use an alternative configuration file instead of /etc/archmap.conf
+  --users FILE    Use FILE for a list of users instead of getting the list from the ArchWiki
+  --geojson FILE  Output the geojson to FILE, use 'no' to disable output
+  --kml FILE      Output the kml to FILE, use 'no' to disable output
+  --geojsonio     Send the geojson to http://geojson.io for processing
 
 Copyleft
 --------
