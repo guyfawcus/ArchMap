@@ -59,21 +59,14 @@ def get_users():
     wiki_output.close()
 
 
-def make_gis():
-    """This function reads the user data supplied by get_users(), it then generates
-    geojson and kml output and writes it to 'output_file_geojson' and 'output_file_kml'.
+def parse_users():
+    """This function parses the wiki text into it's components. It returns a
+    list of lists containing the: Latitude, Longitude, name and comment"""
 
-    If you set geojsonio to 'True' it will send the raw geojson to geojson.io
-    via a GitHub gist."""
-
-    # Open files and initialize a list for the geojson features.
     users = open(output_file_users, 'r')
 
-    geojson = []
-    kml = Kml()
+    parsed = []
 
-    # Loop over the lines in users.txt and assign each element a variable.
-    message("Making geosjon and kml")
     for line in users:
         elements = line.split('"')
 
@@ -85,18 +78,42 @@ def make_gis():
         comment = elements[2].strip()
         comment = comment[2:]
 
+        parsed.append([latitude, longitude, name, comment])
+    users.close()
+    return parsed
+
+
+def make_gis():
+    """This function reads the user data supplied by parse_users(), it then generates
+    geojson and kml output and writes it to 'output_file_geojson' and 'output_file_kml'.
+
+    If you set geojsonio to 'True' it will send the raw geojson to geojson.io
+    via a GitHub gist."""
+
+    # Open files and initialize a list for the geojson features.
+    geojson = []
+    kml = Kml()
+
+    # Loop over the lines in users.txt and assign each element a variable.
+    message("Making geosjon and kml")
+
+    parsed = parse_users()
+    for user in parsed:
+        latitude = user[0]
+        longitude = user[1]
+        name = user[2]
+        comment = user[3]
+
         # Generate a geojson point feature for the entry and add it to geojson.
         point = Point((longitude, latitude))
         feature = Feature(geometry=point, properties={"Comment": comment, "Name": name})
 
         geojson.append(feature)
 
+        # Pass the feature collection to geojson_str.
+        geojson_str = (dumps(FeatureCollection(geojson)))
+
         kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
-
-    users.close()
-
-    # Pass the feature collection to geojson_str.
-    geojson_str = (dumps(FeatureCollection(geojson)))
 
     # Send the geojson to geojson.io via a GitHub gist.
     if args.geojsonio is True:
@@ -169,4 +186,5 @@ if __name__ == "__main__":
     if output_file_geojson == "no" and output_file_kml == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
+        parse_users()
         make_gis()
