@@ -59,7 +59,7 @@ def get_users(output_file):
 
 
 def parse_users(users_file):
-    """This function parses the wiki text from 'users file' into it's components.
+    """This function parses the wiki text from 'users_file' into it's components.
     It returns a list of lists containing the Latitude, Longitude, name and comment"""
 
     users = open(users_file, 'r')
@@ -106,15 +106,15 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojson
         feature = Feature(geometry=point, properties={"Comment": comment, "Name": name})
         geojson.append(feature)
 
-        # Generate a kml point feature for the user.
+        # Generate a kml point for the user.
         kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson)))
 
-    # Write 'geojson_str' to 'output_file_geojson' if wanted.
+    # Make 'geojson_str' look pretty,
+    # then write 'geojson_str_pretty' to 'output_file_geojson' if wanted.
     if output_file_geojson != "no":
-        # Make 'geojson_str_pretty' look pretty.
         message("Tidying up geojson")
         geojson_str_pretty = geojson_str
         geojson_str_pretty = geojson_str_pretty.replace('"features": [', '"features": [\n')
@@ -159,6 +159,7 @@ if __name__ == "__main__":
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
 
+    # Try to use the config file. If it doesn't exist, use the defaults.
     try:
         config = ConfigParser()
         config.read(args.config)
