@@ -112,18 +112,14 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojson
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson)))
 
-    # Send the geojson to geojson.io via a GitHub gist if wanted.
-    if send_to_geojsonio is True:
-        message("Sending geojson to geojson.io")
-        to_geojsonio(geojson_str)
-
     # Write 'geojson_str' to 'output_file_geojson' if wanted.
     if output_file_geojson != "no":
-        # Make 'geojson_str' look pretty.
+        # Make 'geojson_str_pretty' look pretty.
         message("Tidying up geojson")
-        geojson_str = geojson_str.replace('"features": [', '"features": [\n')
-        geojson_str = geojson_str.replace('}}, ', '}},\n')
-        geojson_str = geojson_str.replace('}}]', '}}\n]')
+        geojson_str_pretty = geojson_str
+        geojson_str_pretty = geojson_str_pretty.replace('"features": [', '"features": [\n')
+        geojson_str_pretty = geojson_str_pretty.replace('}}, ', '}},\n')
+        geojson_str_pretty = geojson_str_pretty.replace('}}]', '}}\n]')
 
         message("Writing geojson to " + output_file_geojson)
         output = open(output_file_geojson, 'w')
@@ -134,6 +130,11 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojson
     if output_file_kml != "no":
         message("Writing kml to " + output_file_kml)
         kml.save(output_file_kml)
+
+    # Send the geojson to geojson.io via a GitHub gist if wanted.
+    if send_to_geojsonio is True:
+        message("Sending geojson to geojson.io")
+        to_geojsonio(geojson_str)
 
 
 # If the script is being run and not imported, 'get_users()', if it's needed,
