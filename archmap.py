@@ -29,9 +29,9 @@ default_geojson = "/tmp/output.geojson"
 default_kml = "/tmp/output.kml"
 
 
-# If the system uses the systemd journal, log to it. If the -v or --verbose
-# flag is passed, print out info about what the script is doing.
 def message(message):
+    """This function takes a string in 'message'. If the system uses the systemd journal,
+    log to it, using 'message'. If the -v or --verbose flag is passed, print out 'message'."""
     if systemd is not False:
         journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
     if args.verbose >= 1:
@@ -65,6 +65,7 @@ def parse_users(users_file):
     users = open(users_file, 'r')
     parsed = []
 
+    message("Parsing ArchWiki text")
     for line in users:
         elements = line.split('"')
 
