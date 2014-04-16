@@ -22,7 +22,7 @@ from simplekml import Kml
 default_config = "/etc/archmap.conf"
 
 # Set the output locations for users, geojson and kml.
-# Setting default_geojson or default_kml to "no", will disable the output.
+# Setting 'default_geojson' or 'default_kml' to "no", will disable the output.
 # These settings are overridden by the config file, if it file exsits.
 default_users = "/tmp/users.txt"
 default_geojson = "/tmp/output.geojson"
@@ -39,12 +39,11 @@ def message(message):
 
 
 def get_users():
-    """This funtion parses users from the ArchWiki and writes it to users.txt"""
+    """This funtion parses users from the ArchWiki and writes it to 'output_file_users'"""
 
     # Open and decode the ArchWiki page containing the list of users.
     message("Getting users from the ArchWiki")
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
-
     wiki_source = wiki.read().decode()
 
     # Grab the user data between the second set of <pre> tags.
@@ -52,7 +51,7 @@ def get_users():
     wiki_text_end = wiki_source.find('</pre>', wiki_source.find('</pre>') + 1) - 1
     wiki_text = wiki_source[wiki_text_start:wiki_text_end]
 
-    # Write the user data (wiki_text) to users.txt and close the file.
+    # Write the 'wiki_text' to 'output_file_users'.
     message("Writing users to " + output_file_users)
     wiki_output = open(output_file_users, 'w')
     wiki_output.write(wiki_text)
@@ -61,10 +60,9 @@ def get_users():
 
 def parse_users():
     """This function parses the wiki text into it's components. It returns a
-    list of lists containing the: Latitude, Longitude, name and comment"""
+    list of lists containing the Latitude, Longitude, name and comment"""
 
     users = open(output_file_users, 'r')
-
     parsed = []
 
     for line in users:
@@ -79,6 +77,7 @@ def parse_users():
         comment = comment[2:]
 
         parsed.append([latitude, longitude, name, comment])
+
     users.close()
     return parsed
 
@@ -87,14 +86,12 @@ def make_gis():
     """This function reads the user data supplied by parse_users(), it then generates
     geojson and kml output and writes it to 'output_file_geojson' and 'output_file_kml'.
 
-    If you set geojsonio to 'True' it will send the raw geojson to geojson.io
+    If you set 'geojsonio' to 'True' it will send the raw geojson to geojson.io
     via a GitHub gist."""
 
-    # Open files and initialize a list for the geojson features.
     geojson = []
     kml = Kml()
 
-    # Loop over the lines in users.txt and assign each element a variable.
     message("Making geosjon and kml")
 
     parsed = parse_users()
@@ -104,25 +101,24 @@ def make_gis():
         name = user[2]
         comment = user[3]
 
-        # Generate a geojson point feature for the entry and add it to geojson.
+        # Generate a geojson point feature for the entry and add it to geojson,
+        # then make 'geojson_str' for output to a file.
         point = Point((longitude, latitude))
         feature = Feature(geometry=point, properties={"Comment": comment, "Name": name})
-
         geojson.append(feature)
-
-        # Pass the feature collection to geojson_str.
         geojson_str = (dumps(FeatureCollection(geojson)))
 
+        # Generate a kml point feature for the entry.
         kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
-    # Send the geojson to geojson.io via a GitHub gist.
+    # Send the geojson to geojson.io via a GitHub gist if wanted.
     if args.geojsonio is True:
         message("Sending geojson to geojson.io")
         to_geojsonio(geojson_str)
 
-    # Write geojson_str to output_file_geojson if wanted.
+    # Write 'geojson_str' to 'output_file_geojson' if wanted.
     if output_file_geojson != "no":
-        # Make geojson_str look pretty.
+        # Make 'geojson_str' look pretty.
         message("Tidying up geojson")
         geojson_str = geojson_str.replace('"features": [', '"features": [\n')
         geojson_str = geojson_str.replace('}}, ', '}},\n')
@@ -133,14 +129,14 @@ def make_gis():
         output.write(geojson_str)
         output.close()
 
-    # Write kml to output_file_kml if wanted.
+    # Write 'kml' to 'output_file_kml' if wanted.
     if output_file_kml != "no":
         message("Writing kml to " + output_file_kml)
         kml.save(output_file_kml)
 
 
-# If the script is being run and not imported, get_users(), if it's needed,
-# then make_gis().
+# If the script is being run and not imported, 'get_users()', if it's needed,
+# then 'parse_users' and 'make_gis()'.
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from configparser import ConfigParser
@@ -172,6 +168,7 @@ if __name__ == "__main__":
         output_file_geojson = default_geojson
         output_file_kml = default_kml
 
+    # Do what's needed.
     if args.users is not None:
         message("Using " + args.users + " for user data")
         output_file_users = args.users
@@ -183,6 +180,7 @@ if __name__ == "__main__":
 
     if args.kml is not None:
         output_file_kml = args.kml
+
     if output_file_geojson == "no" and output_file_kml == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
