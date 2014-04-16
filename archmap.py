@@ -38,8 +38,8 @@ def message(message):
         print("==> " + message)
 
 
-def get_users():
-    """This funtion parses users from the ArchWiki and writes it to 'output_file_users'"""
+def get_users(output_file):
+    """This funtion parses users from the ArchWiki and writes it to 'output_file'"""
 
     # Open and decode the ArchWiki page containing the list of users.
     message("Getting users from the ArchWiki")
@@ -51,18 +51,18 @@ def get_users():
     wiki_text_end = wiki_source.find('</pre>', wiki_source.find('</pre>') + 1) - 1
     wiki_text = wiki_source[wiki_text_start:wiki_text_end]
 
-    # Write the 'wiki_text' to 'output_file_users'.
-    message("Writing users to " + output_file_users)
-    wiki_output = open(output_file_users, 'w')
+    # Write the 'wiki_text' to 'output_file'.
+    message("Writing users to " + output_file)
+    wiki_output = open(output_file, 'w')
     wiki_output.write(wiki_text)
     wiki_output.close()
 
 
-def parse_users():
-    """This function parses the wiki text into it's components. It returns a
-    list of lists containing the Latitude, Longitude, name and comment"""
+def parse_users(users_file):
+    """This function parses the wiki text from 'users file' into it's components.
+    It returns a list of lists containing the Latitude, Longitude, name and comment"""
 
-    users = open(output_file_users, 'r')
+    users = open(users_file, 'r')
     parsed = []
 
     for line in users:
@@ -82,11 +82,11 @@ def parse_users():
     return parsed
 
 
-def make_gis():
-    """This function reads the user data supplied by parse_users(), it then generates
+def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojsonio):
+    """This function reads the user data supplied by 'parsed_users', it then generates
     geojson and kml output and writes it to 'output_file_geojson' and 'output_file_kml'.
 
-    If you set 'geojsonio' to 'True' it will send the raw geojson to geojson.io
+    If you set 'send_to_geojsonio' to 'True' it will send the raw geojson to geojson.io
     via a GitHub gist."""
 
     geojson = []
@@ -94,8 +94,7 @@ def make_gis():
 
     message("Making geosjon and kml")
 
-    parsed = parse_users()
-    for user in parsed:
+    for user in parsed_users:
         latitude = user[0]
         longitude = user[1]
         name = user[2]
@@ -112,7 +111,7 @@ def make_gis():
         kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
     # Send the geojson to geojson.io via a GitHub gist if wanted.
-    if args.geojsonio is True:
+    if send_to_geojsonio is True:
         message("Sending geojson to geojson.io")
         to_geojsonio(geojson_str)
 
@@ -136,7 +135,7 @@ def make_gis():
 
 
 # If the script is being run and not imported, 'get_users()', if it's needed,
-# then 'parse_users' and 'make_gis()'.
+# then 'parse_users()' and 'make_gis()'.
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from configparser import ConfigParser
@@ -173,7 +172,7 @@ if __name__ == "__main__":
         message("Using " + args.users + " for user data")
         output_file_users = args.users
     else:
-        get_users()
+        get_users(output_file_users)
 
     if args.geojson is not None:
         output_file_geojson = args.geojson
@@ -184,5 +183,5 @@ if __name__ == "__main__":
     if output_file_geojson == "no" and output_file_kml == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
-        parse_users()
-        make_gis()
+        parsed_users = parse_users(output_file_users)
+        make_gis(parsed_users, output_file_geojson, output_file_kml, args.geojsonio)
