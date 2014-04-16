@@ -123,7 +123,7 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojson
 
         message("Writing geojson to " + output_file_geojson)
         output = open(output_file_geojson, 'w')
-        output.write(geojson_str)
+        output.write(geojson_str_pretty)
         output.close()
 
     # Write 'kml' to 'output_file_kml' if wanted.
