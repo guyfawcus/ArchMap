@@ -101,12 +101,12 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojson
         name = user[2]
         comment = user[3]
 
-        # Generate a geojson point feature for the entry and add it to 'geojson'.
+        # Generate a geojson point feature for the user and add it to 'geojson'.
         point = Point((longitude, latitude))
         feature = Feature(geometry=point, properties={"Comment": comment, "Name": name})
         geojson.append(feature)
 
-        # Generate a kml point feature for the entry.
+        # Generate a kml point feature for the user.
         kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
     # Make 'geojson_str' for output.
