@@ -17,7 +17,7 @@ The config file should be placed in `/etc/archmap.conf`, this can be overridden 
 
 Use
 ---
-    archmap.py [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--geojsonio]
+    archmap.py [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE] [--geojsonio]
 
     optional arguments:
     -h, --help      show this help message and exit
@@ -26,7 +26,9 @@ Use
     --users FILE    Use FILE for a list of users instead of getting the list from the ArchWiki
     --geojson FILE  Output the geojson to FILE, use 'no' to disable output
     --kml FILE      Output the kml to FILE, use 'no' to disable output
+    --csv FILE      Output the csv to FILE, use 'no' to disable output
     --geojsonio     Send the geojson to http://geojson.io for processing
+
 
 Copyleft
 --------

@@ -15,18 +15,20 @@ except:
     before you can use --geojsonio\n""")
     geojsonio = False
 from simplekml import Kml
+import csv
 
 
 # Set the default config file location, this is overridden if the --config switch is used.
-# If the --geojson or --kml switches are used, they will override the settings in the config file.
+# If the --geojson, --kml or --csv switches are used, they will override the settings in the config file.
 default_config = "/etc/archmap.conf"
 
-# Set the output locations for users, geojson and kml.
-# Setting 'default_geojson' or 'default_kml' to "no", will disable the output.
+# Set the output locations for users, geojson, kml and csv.
+# Setting 'default_geojson', 'default_kml' or 'default_csv' to "no", will disable the output.
 # These settings are overridden by the config file, if it file exsits.
 default_users = "/tmp/users.txt"
 default_geojson = "/tmp/output.geojson"
 default_kml = "/tmp/output.kml"
+default_csv = "no"
 
 
 def message(message):
@@ -83,9 +85,9 @@ def parse_users(users_file):
     return parsed
 
 
-def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojsonio):
+def make_gis(parsed_users, output_file_geojson, output_file_kml, output_file_csv, send_to_geojsonio):
     """This function reads the user data supplied by 'parsed_users', it then generates
-    geojson and kml output and writes it to 'output_file_geojson' and 'output_file_kml'.
+    geojson, kml and csv output and writes them to 'output_file_geojson', 'output_file_kml' and 'output_file_csv'.
 
     If you set 'send_to_geojsonio' to 'True' it will send the raw geojson to geojson.io
     via a GitHub gist."""
@@ -131,6 +133,15 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, send_to_geojson
         message("Writing kml to " + output_file_kml)
         kml.save(output_file_kml)
 
+    # Write 'csv' to 'output_file_csv' if wanted.
+    if output_file_csv != "no":
+        message("Making and writing csv to " + output_file_csv)
+        csvfile = open(output_file_csv, 'w', newline='')
+        csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
+        for user in parsed_users:
+            csvwriter.writerow(user)
+        csvfile.close
+
     # Send the geojson to geojson.io via a GitHub gist if wanted.
     if send_to_geojsonio is True:
         message("Sending geojson to geojson.io")
@@ -155,6 +166,8 @@ if __name__ == "__main__":
                         help="Output the geojson to FILE, use 'no' to disable output")
     parser.add_argument("--kml", metavar='FILE',
                         help="Output the kml to FILE, use 'no' to disable output")
+    parser.add_argument("--csv", metavar='FILE',
+                        help="Output the csv to FILE, use 'no' to disable output")
     parser.add_argument("--geojsonio", action="store_true", default=False,
                         help="Send the geojson to http://geojson.io for processing")
     args = parser.parse_args()
@@ -166,10 +179,12 @@ if __name__ == "__main__":
         output_file_users = config['files']['users']
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
+        output_file_csv = config['files']['csv']
     except:
         output_file_users = default_users
         output_file_geojson = default_geojson
         output_file_kml = default_kml
+        output_file_csv = default_csv
 
     # Do what's needed.
     if args.users is not None:
@@ -184,8 +199,11 @@ if __name__ == "__main__":
     if args.kml is not None:
         output_file_kml = args.kml
 
-    if output_file_geojson == "no" and output_file_kml == "no" and args.geojsonio is False:
+    if args.csv is not None:
+        output_file_csv = args.csv
+
+    if output_file_geojson == "no" and output_file_kml == "no" and output_file_csv == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
         parsed_users = parse_users(output_file_users)
-        make_gis(parsed_users, output_file_geojson, output_file_kml, args.geojsonio)
+        make_gis(parsed_users, output_file_geojson, output_file_kml, output_file_csv, args.geojsonio)
