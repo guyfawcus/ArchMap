@@ -85,31 +85,25 @@ def parse_users(users_file):
     return parsed
 
 
-def make_gis(parsed_users, output_file_geojson, output_file_kml, output_file_csv, send_to_geojsonio):
+def make_geojson(parsed_users, output_file_geojson, send_to_geojsonio):
     """This function reads the user data supplied by 'parsed_users', it then generates
-    geojson, kml and csv output and writes them to 'output_file_geojson', 'output_file_kml' and 'output_file_csv'.
+    geojson output and writes it to 'output_file_geojson'.
 
     If you set 'send_to_geojsonio' to 'True' it will send the raw geojson to geojson.io
-    via a GitHub gist."""
+    via a GitHub gist.
+
+    'parsed_users' should be a list of lists, each sub_list should have 4 elements:
+    [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
+
+    message("Making geosjon")
 
     geojson = []
-    kml = Kml()
-
-    message("Making geosjon and kml")
 
     for user in parsed_users:
-        latitude = user[0]
-        longitude = user[1]
-        name = user[2]
-        comment = user[3]
-
         # Generate a geojson point feature for the user and add it to 'geojson'.
-        point = Point((longitude, latitude))
-        feature = Feature(geometry=point, properties={"Comment": comment, "Name": name})
+        point = Point((user[1], user[0]))
+        feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]})
         geojson.append(feature)
-
-        # Generate a kml point for the user.
-        kml.newpoint(name=name, coords=[(longitude, latitude)], description=comment)
 
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson)))
@@ -128,28 +122,49 @@ def make_gis(parsed_users, output_file_geojson, output_file_kml, output_file_csv
         output.write(geojson_str_pretty)
         output.close()
 
-    # Write 'kml' to 'output_file_kml' if wanted.
-    if output_file_kml != "no":
-        message("Writing kml to " + output_file_kml)
-        kml.save(output_file_kml)
-
-    # Write 'csv' to 'output_file_csv' if wanted.
-    if output_file_csv != "no":
-        message("Making and writing csv to " + output_file_csv)
-        csvfile = open(output_file_csv, 'w', newline='')
-        csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
-        for user in parsed_users:
-            csvwriter.writerow(user)
-        csvfile.close
-
     # Send the geojson to geojson.io via a GitHub gist if wanted.
     if send_to_geojsonio is True:
         message("Sending geojson to geojson.io")
         to_geojsonio(geojson_str)
 
 
-# If the script is being run and not imported, 'get_users()', if it's needed,
-# then 'parse_users()' and 'make_gis()'.
+def make_kml(parsed_users, output_file_kml):
+    """This function reads the user data supplied by 'parsed_users', it then generates
+    kml output and writes it to 'output_file_kml'.
+
+    'parsed_users' should be a list of lists, each sub_list should have 4 elements:
+    [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
+
+    message("Making and writing kml to " + output_file_kml)
+
+    kml = Kml()
+
+    for user in parsed_users:
+        # Generate a kml point for the user.
+        kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
+
+    kml.save(output_file_kml)
+
+
+def make_csv(parsed_users, output_file_csv):
+    """This function reads the user data supplied by 'parsed_users', it then generates
+    csv output and writes it to 'output_file_csv'.
+
+    'parsed_users' should be a list of lists, each sub_list should have 4 elements:
+    [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
+
+    message("Making and writing csv to " + output_file_csv)
+
+    csvfile = open(output_file_csv, 'w', newline='')
+    csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
+
+    for user in parsed_users:
+        csvwriter.writerow(user)
+
+    csvfile.close
+
+
+# If the script is being run and not imported...
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from configparser import ConfigParser
@@ -186,7 +201,6 @@ if __name__ == "__main__":
         output_file_kml = default_kml
         output_file_csv = default_csv
 
-    # Do what's needed.
     if args.users is not None:
         message("Using " + args.users + " for user data")
         output_file_users = args.users
@@ -202,8 +216,14 @@ if __name__ == "__main__":
     if args.csv is not None:
         output_file_csv = args.csv
 
+    # Do what's needed.
     if output_file_geojson == "no" and output_file_kml == "no" and output_file_csv == "no" and args.geojsonio is False:
         message("There is nothing to do")
     else:
         parsed_users = parse_users(output_file_users)
-        make_gis(parsed_users, output_file_geojson, output_file_kml, output_file_csv, args.geojsonio)
+        if output_file_geojson != "no" or args.geojsonio is True:
+            make_geojson(parsed_users, output_file_geojson, args.geojsonio)
+        if output_file_kml != "no":
+            make_kml(parsed_users, output_file_kml)
+        if output_file_csv != "no":
+            make_csv(parsed_users, output_file_csv)
