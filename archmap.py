@@ -35,6 +35,10 @@ default_geojson = "/tmp/output.geojson"
 default_kml = "/tmp/output.kml"
 default_csv = "no"
 
+# Send the geojson to geojson.io via a GitHub gist, anything other than
+# 'no' will enable this feature.
+default_geojsonio = "no"
+
 
 def message(message):
     """This function takes a string in 'message'. If the system uses the systemd journal,
@@ -203,12 +207,16 @@ if __name__ == "__main__":
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
         output_file_csv = config['files']['csv']
+        send_to_geojsonio = config['extras']['geojsonio']
     except:
         output_file_users = default_users
         output_file_geojson = default_geojson
         output_file_kml = default_kml
         output_file_csv = default_csv
+        send_to_geojsonio = default_geojsonio
 
+    # Finally, parse the command line arguments, anything passed to them will
+    # override both the defaults in this script and anything in the config file.
     if args.users is not None:
         message("Using " + args.users + " for user data")
         output_file_users = args.users
@@ -224,16 +232,23 @@ if __name__ == "__main__":
     if args.csv is not None:
         output_file_csv = args.csv
 
+    if args.geojsonio is True:
+        send_to_geojsonio = True
+    elif send_to_geojsonio != "no":
+        send_to_geojsonio = True
+    else:
+        send_to_geojsonio = False
+
     # Do what's needed.
     if output_file_geojson == "no" and \
        output_file_kml == "no" and \
        output_file_csv == "no" and \
-       args.geojsonio is False:
+       send_to_geojsonio is False:
         message("There is nothing to do")
     else:
         parsed_users = parse_users(output_file_users)
-        if output_file_geojson != "no" or args.geojsonio is True:
-            make_geojson(parsed_users, output_file_geojson, args.geojsonio)
+        if output_file_geojson != "no" or send_to_geojsonio is True:
+            make_geojson(parsed_users, output_file_geojson, send_to_geojsonio)
         if output_file_kml != "no":
             make_kml(parsed_users, output_file_kml)
         if output_file_csv != "no":
