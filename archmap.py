@@ -85,9 +85,9 @@ def parse_users(users_file):
     return parsed
 
 
-def make_geojson(parsed_users, output_file_geojson, send_to_geojsonio):
+def make_geojson(parsed_users, output_file, send_to_geojsonio):
     """This function reads the user data supplied by 'parsed_users', it then generates
-    geojson output and writes it to 'output_file_geojson'.
+    geojson output and writes it to 'output_file'.
 
     If you set 'send_to_geojsonio' to 'True' it will send the raw geojson to geojson.io
     via a GitHub gist.
@@ -109,16 +109,16 @@ def make_geojson(parsed_users, output_file_geojson, send_to_geojsonio):
     geojson_str = (dumps(FeatureCollection(geojson)))
 
     # Make 'geojson_str' look pretty,
-    # then write 'geojson_str_pretty' to 'output_file_geojson' if wanted.
-    if output_file_geojson != "no":
+    # then write 'geojson_str_pretty' to 'output_file' if wanted.
+    if output_file != "no":
         message("Tidying up geojson")
         geojson_str_pretty = geojson_str
         geojson_str_pretty = geojson_str_pretty.replace('"features": [', '"features": [\n')
         geojson_str_pretty = geojson_str_pretty.replace('}}, ', '}},\n')
         geojson_str_pretty = geojson_str_pretty.replace('}}]', '}}\n]')
 
-        message("Writing geojson to " + output_file_geojson)
-        output = open(output_file_geojson, 'w')
+        message("Writing geojson to " + output_file)
+        output = open(output_file, 'w')
         output.write(geojson_str_pretty)
         output.close()
 
@@ -128,14 +128,14 @@ def make_geojson(parsed_users, output_file_geojson, send_to_geojsonio):
         to_geojsonio(geojson_str)
 
 
-def make_kml(parsed_users, output_file_kml):
+def make_kml(parsed_users, output_file):
     """This function reads the user data supplied by 'parsed_users', it then generates
-    kml output and writes it to 'output_file_kml'.
+    kml output and writes it to 'output_file'.
 
     'parsed_users' should be a list of lists, each sub_list should have 4 elements:
     [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
 
-    message("Making and writing kml to " + output_file_kml)
+    message("Making and writing kml to " + output_file)
 
     kml = Kml()
 
@@ -143,19 +143,19 @@ def make_kml(parsed_users, output_file_kml):
         # Generate a kml point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
 
-    kml.save(output_file_kml)
+    kml.save(output_file)
 
 
-def make_csv(parsed_users, output_file_csv):
+def make_csv(parsed_users, output_file):
     """This function reads the user data supplied by 'parsed_users', it then generates
-    csv output and writes it to 'output_file_csv'.
+    csv output and writes it to 'output_file'.
 
     'parsed_users' should be a list of lists, each sub_list should have 4 elements:
     [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
 
-    message("Making and writing csv to " + output_file_csv)
+    message("Making and writing csv to " + output_file)
 
-    csvfile = open(output_file_csv, 'w', newline='')
+    csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
 
     for user in parsed_users:
