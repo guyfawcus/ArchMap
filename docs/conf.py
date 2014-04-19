@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'ArchMap'
-copyright = '2014, James Fawcus-Robinson, Johannes Löthberg'
+copyright = '2014, James Fawcus-Robinson'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
