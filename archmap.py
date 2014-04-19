@@ -42,7 +42,7 @@ default_geojsonio = "no"
 
 def message(message):
     """This function takes a string in 'message'. If the system uses the systemd journal,
-    log to it, using 'message'. If the -v or --verbose flag is passed,
+    it will log to it using 'message'. If the -v or --verbose flag is passed, it will
     print out 'message'.
     """
     if systemd is not False:
@@ -72,7 +72,7 @@ def get_users(output_file):
 
 def parse_users(users_file):
     """This function parses the wiki text from 'users_file' into it's components.
-    It returns a list of lists containing the Latitude, Longitude, name and comment
+    It returns a list of lists containing the latitude, longitude, name and comment
     """
     users = open(users_file, 'r')
     parsed = []
