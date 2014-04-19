@@ -1,5 +1,3 @@
-urllib
-csv
-
 geojson
 simplekml
+github3.py
