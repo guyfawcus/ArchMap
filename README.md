@@ -7,6 +7,8 @@ One rendering of the data is on a map over at [mapbox.com](https://a.tiles.mapbo
 
 Have a look at the [ArchMap](https://wiki.archlinux.org/index.php/ArchMap) page on the ArchWiki for more information about this project.
 
+The documentation is hosted by [readthedocs.org](http://archmap.readthedocs.org) .
+
 
 Synopsis
 --------
