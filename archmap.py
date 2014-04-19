@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-try:
-    from systemd import journal
-    systemd = True
-except:
-    systemd = False
 from urllib.request import urlopen
+import csv
+
 from geojson import Feature, Point, FeatureCollection, dumps
+from simplekml import Kml
+
 try:
     from geojsonio import to_geojsonio
 except:
@@ -14,16 +13,22 @@ except:
     from https://github.com/jwass/geojsonio.py to this directory
     before you can use --geojsonio\n""")
     geojsonio = False
-from simplekml import Kml
-import csv
+
+try:
+    from systemd import journal
+    systemd = True
+except:
+    systemd = False
 
 
 # Set the default config file location, this is overridden if the --config switch is used.
-# If the --geojson, --kml or --csv switches are used, they will override the settings in the config file.
+# If the --geojson, --kml or --csv switches are used,
+# they will override the settings in the config file.
 default_config = "/etc/archmap.conf"
 
 # Set the output locations for users, geojson, kml and csv.
-# Setting 'default_geojson', 'default_kml' or 'default_csv' to "no", will disable the output.
+# Setting 'default_geojson', 'default_kml' or 'default_csv' to "no",
+# will disable the output.
 # These settings are overridden by the config file, if it file exsits.
 default_users = "/tmp/users.txt"
 default_geojson = "/tmp/output.geojson"
@@ -33,7 +38,9 @@ default_csv = "no"
 
 def message(message):
     """This function takes a string in 'message'. If the system uses the systemd journal,
-    log to it, using 'message'. If the -v or --verbose flag is passed, print out 'message'."""
+    log to it, using 'message'. If the -v or --verbose flag is passed,
+    print out 'message'.
+    """
     if systemd is not False:
         journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
     if args.verbose >= 1:
@@ -42,7 +49,6 @@ def message(message):
 
 def get_users(output_file):
     """This funtion parses users from the ArchWiki and writes it to 'output_file'"""
-
     # Open and decode the ArchWiki page containing the list of users.
     message("Getting users from the ArchWiki")
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
@@ -62,8 +68,8 @@ def get_users(output_file):
 
 def parse_users(users_file):
     """This function parses the wiki text from 'users_file' into it's components.
-    It returns a list of lists containing the Latitude, Longitude, name and comment"""
-
+    It returns a list of lists containing the Latitude, Longitude, name and comment
+    """
     users = open(users_file, 'r')
     parsed = []
 
@@ -93,8 +99,8 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio):
     via a GitHub gist.
 
     'parsed_users' should be a list of lists, each sub_list should have 4 elements:
-    [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
-
+    [0] = latitude, [1] = longitude, [2] = name, [3] = comment.
+    """
     message("Making geosjon")
 
     geojson = []
@@ -133,8 +139,8 @@ def make_kml(parsed_users, output_file):
     kml output and writes it to 'output_file'.
 
     'parsed_users' should be a list of lists, each sub_list should have 4 elements:
-    [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
-
+    [0] = latitude, [1] = longitude, [2] = name, [3] = comment.
+    """
     message("Making and writing kml to " + output_file)
 
     kml = Kml()
@@ -151,8 +157,8 @@ def make_csv(parsed_users, output_file):
     csv output and writes it to 'output_file'.
 
     'parsed_users' should be a list of lists, each sub_list should have 4 elements:
-    [0] = latitude, [1] = longitude, [2] = name, [3] = comment."""
-
+    [0] = latitude, [1] = longitude, [2] = name, [3] = comment.
+    """
     message("Making and writing csv to " + output_file)
 
     csvfile = open(output_file, 'w', newline='')
@@ -174,9 +180,11 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--verbose', action='count', default=0,
                         help="Show info messages")
     parser.add_argument("--config", metavar="FILE", default=default_config,
-                        help="Use an alternative configuration file instead of /etc/archmap.conf")
+                        help="Use an alternative configuration file \
+                             instead of /etc/archmap.conf")
     parser.add_argument("--users", metavar="FILE",
-                        help="Use FILE for a list of users instead of getting the list from the ArchWiki")
+                        help="Use FILE for a list of users \
+                             instead of getting the list from the ArchWiki")
     parser.add_argument("--geojson", metavar="FILE",
                         help="Output the geojson to FILE, use 'no' to disable output")
     parser.add_argument("--kml", metavar='FILE',
@@ -217,7 +225,10 @@ if __name__ == "__main__":
         output_file_csv = args.csv
 
     # Do what's needed.
-    if output_file_geojson == "no" and output_file_kml == "no" and output_file_csv == "no" and args.geojsonio is False:
+    if output_file_geojson == "no" and \
+       output_file_kml == "no" and \
+       output_file_csv == "no" and \
+       args.geojsonio is False:
         message("There is nothing to do")
     else:
         parsed_users = parse_users(output_file_users)
