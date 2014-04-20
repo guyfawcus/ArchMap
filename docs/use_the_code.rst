@@ -4,18 +4,19 @@ Use the code
 Logging
 -------
 
-.. automodule:: archmap
-   :members: message
+.. autofunction:: archmap.message
 
 
 Getting and parsing user data
 -----------------------------
 
-.. automodule:: archmap
-   :members: get_users, parse_users
+.. autofunction:: archmap.get_users
+.. autofunction:: archmap.parse_users
 
 
 Output generators
 -----------------
-.. automodule:: archmap
-   :members: make_geojson, make_kml, make_csv
+
+.. autofunction:: archmap.make_geojson
+.. autofunction:: archmap.make_kml
+.. autofunction:: archmap.make_csv
