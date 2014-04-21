@@ -26,7 +26,7 @@ The config file should be placed in ``/etc/archmap.conf``, this can be overridde
 Use
 ---
 
-Running ``./archmap.py --verbose`` wil display this help message::
+Running ``./archmap.py --help`` will display this help message::
 
   archmap.py [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE] [--geojsonio]
 
