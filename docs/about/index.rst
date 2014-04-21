@@ -1,6 +1,10 @@
 About
 =====
 
+.. contents:: In this section:
+   :depth: 1
+   :local:
+
 
 .. _external-links:
 
