@@ -24,7 +24,9 @@ License
 -------
 Everything in the `ArchMap repo <https://github.com/maelstrom59/ArchMap>`_ is `unicensed <http://unlicense.org/>`_.
 
-All of the files that this script will generate (`users.txt`, `output.geojson` and `markers.kml`) will contain text from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_ which puts them under the `GNU Free Documentation License 1.3 or later <http://www.gnu.org/copyleft/fdl.html>`_.
+All of the files that this script will generate (``users.txt``, ``output.geojson``, ``output.kml``, and ``output.csv``)
+will contain text from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_
+which puts them under the `GNU Free Documentation License 1.3 or later <http://www.gnu.org/copyleft/fdl.html>`_.
 
 Unlicense
 ^^^^^^^^^
