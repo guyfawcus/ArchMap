@@ -30,4 +30,5 @@ which puts them under the `GNU Free Documentation License 1.3 or later <http://w
 
 Unlicense
 ^^^^^^^^^
-.. include:: unlicense.rst
+
+.. include:: ../../UNLICENSE
