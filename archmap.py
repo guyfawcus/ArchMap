@@ -41,9 +41,9 @@ default_geojsonio = "no"
 
 
 def message(message):
-    """This function takes a string in 'message'. If the system uses the systemd journal,
-    it will log to it using 'message'. If the -v or --verbose flag is passed, it will
-    print out 'message'.
+    """This function takes a string in ``message``. If the system uses the systemd journal,
+    it will log to it using ``message``. If the ``--v`` or ``--verbose`` flag is passed, it will
+    print out ``message``.
     """
     if systemd is not False:
         journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
@@ -52,7 +52,7 @@ def message(message):
 
 
 def get_users(output_file):
-    """This funtion parses users from the ArchWiki and writes it to 'output_file'"""
+    """This funtion parses users from the ArchWiki and writes it to ``output_file``"""
     # Open and decode the ArchWiki page containing the list of users.
     message("Getting users from the ArchWiki")
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
@@ -71,8 +71,8 @@ def get_users(output_file):
 
 
 def parse_users(users_file):
-    """This function parses the wiki text from 'users_file' into it's components.
-    It returns a list of lists containing the latitude, longitude, name and comment
+    """This function parses the wiki text from ``users_file`` into it's components.
+    It returns a list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
     """
     users = open(users_file, 'r')
     parsed = []
@@ -96,14 +96,14 @@ def parse_users(users_file):
 
 
 def make_geojson(parsed_users, output_file, send_to_geojsonio):
-    """This function reads the user data supplied by 'parsed_users', it then generates
-    geojson output and writes it to 'output_file'.
+    """This function reads the user data supplied by ``parsed_users``, it then generates
+    geojson output and writes it to ``output_file``.
 
-    If you set 'send_to_geojsonio' to 'True' it will send the raw geojson to geojson.io
+    ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
+    ``[latitude, longitude, name, comment]``
+
+    If you set ``send_to_geojsonio`` to ``True`` it will send the raw geojson to geojson.io
     via a GitHub gist.
-
-    'parsed_users' should be a list of lists, each sub_list should have 4 elements:
-    [0] = latitude, [1] = longitude, [2] = name, [3] = comment.
     """
     message("Making geosjon")
 
@@ -139,11 +139,11 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio):
 
 
 def make_kml(parsed_users, output_file):
-    """This function reads the user data supplied by 'parsed_users', it then generates
-    kml output and writes it to 'output_file'.
+    """This function reads the user data supplied by ``parsed_users``, it then generates
+    kml output and writes it to ``output_file``.
 
-    'parsed_users' should be a list of lists, each sub_list should have 4 elements:
-    [0] = latitude, [1] = longitude, [2] = name, [3] = comment.
+    ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
+    ``[latitude, longitude, name, comment]``
     """
     message("Making and writing kml to " + output_file)
 
@@ -157,11 +157,11 @@ def make_kml(parsed_users, output_file):
 
 
 def make_csv(parsed_users, output_file):
-    """This function reads the user data supplied by 'parsed_users', it then generates
-    csv output and writes it to 'output_file'.
+    """This function reads the user data supplied by ``parsed_users``, it then generates
+    csv output and writes it to ``output_file``.
 
-    'parsed_users' should be a list of lists, each sub_list should have 4 elements:
-    [0] = latitude, [1] = longitude, [2] = name, [3] = comment.
+    ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
+    ``[latitude, longitude, name, comment]``
     """
     message("Making and writing csv to " + output_file)
 
