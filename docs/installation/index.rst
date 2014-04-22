@@ -11,7 +11,15 @@ Install
 System Requirements
 -------------------
 
-Requires python 3.4.
+Python 3.4 - If your running Arch, this shouldn't be a problem!
+
+- geojson
+- simplekml
+
+If you want to be able to send the geojson to geojson.io via a GitHub gist:
+
+- github3.py
+- `geojsonio.py <https://github.com/jwass/geojsonio.py>`_
 
 
 How-to
