@@ -27,6 +27,17 @@ How-to
 
 Packaging is currently being worked on...
 
+Manual git install
+^^^^^^^^^^^^^^^^^^
+
+This will make a directory ``ArchMap/`` with a link to ``archmap.py`` in it.
+It uses *git* and *pip* to resolve the dependencies.
+
+Download :download:`this script <basic-manual-git-install.sh>`:
+
+.. literalinclude:: basic-manual-git-install.sh
+   :language: bash
+
 
 Support
 -------
