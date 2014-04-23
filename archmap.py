@@ -35,8 +35,8 @@ default_geojson = "/tmp/output.geojson"
 default_kml = "/tmp/output.kml"
 default_csv = "no"
 
-# Send the geojson to geojson.io via a GitHub gist, anything other than
-# 'no' will enable this feature.
+# Send the geojson to geojson.io via a GitHub gist,
+# anything other than 'no' will enable this feature.
 default_geojsonio = "no"
 
 
