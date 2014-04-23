@@ -9,8 +9,8 @@ arch=('any')
 url="https://github.com/maelstrom59/ArchMap"
 license=('custom:UNLICENSE')
 
-depends=('python' 'python-geojson')
-makedepends=('git')
+depends=('python' 'python-geojson' 'python-simplekml')
+makedepends=('git' 'python-sphinx')
 
 install=archmap.install
 source=('archmap::git+https://github.com/maelstrom59/ArchMap.git')
@@ -21,6 +21,10 @@ pkgver() {
 	git describe --tags | sed 's/^v//; s/-/-r/; s/-/./g'
 }
 
+build() {
+	cd archmap/docs
+	make man
+}
 
 package() {
 	cd archmap
@@ -30,7 +34,9 @@ package() {
 	install -m644 systemd/archmap.{service,timer} "$pkgdir/usr/lib/systemd/system/"
 
 	install -d "$pkgdir/usr/share/doc/archmap"
-	install {README.md,archmap.conf,markers.kml} "$pkgdir/usr/share/doc/archmap"
+	install {README.rst,archmap.conf} "$pkgdir/usr/share/doc/archmap"
+
+	install -D docs/_build/man/archmap.1 "$pkgdir/usr/share/man/man1/archmap.1"
 
 	install -D -m644 UNLICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
