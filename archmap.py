@@ -9,9 +9,6 @@ from simplekml import Kml
 try:
     from geojsonio import to_geojsonio
 except:
-    print("""==> Warning: You need to 'pip install github3.py' and download 'geojsonio.py'
-    from https://github.com/jwass/geojsonio.py to this directory
-    before you can use --geojsonio\n""")
     geojsonio = False
 
 try:
@@ -237,6 +234,13 @@ if __name__ == "__main__":
     elif send_to_geojsonio != "no":
         send_to_geojsonio = True
     else:
+        send_to_geojsonio = False
+
+    # If the geojsonio module was not or could not be imported, print an error message.
+    if send_to_geojsonio == True and geojsonio == False:
+        message("""Warning: You need to 'pip install github3.py' and download 'geojsonio.py'
+                from https://github.com/jwass/geojsonio.py to this directory
+                before you can use --geojsonio""")
         send_to_geojsonio = False
 
     # Do what's needed.
