@@ -259,7 +259,7 @@ if __name__ == "__main__":
         send_to_geojsonio = False
 
     # If the geojsonio module was not or could not be imported, print an error message.
-    if send_to_geojsonio == True and geojsonio == False:
+    if send_to_geojsonio is True and geojsonio is False:
         message("""Warning: You need to 'pip install github3.py' and download 'geojsonio.py'
                 from https://github.com/jwass/geojsonio.py to this directory
                 before you can use --geojsonio""", verbosity=1)
