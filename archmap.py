@@ -18,6 +18,11 @@ except:
     systemd = False
 
 
+# Define the verbosity level:
+# '0' will disable the message printing,
+# '1' will enable it.
+default_verbosity = 0
+
 # Set the default config file location, this is overridden if the --config switch is used.
 # If the --geojson, --kml or --csv switches are used,
 # they will override the settings in the config file.
@@ -37,21 +42,24 @@ default_csv = "no"
 default_geojsonio = "no"
 
 
-def message(message):
-    """This function takes a string in ``message``. If the system uses the systemd journal,
-    it will log to it using ``message``. If the ``--v`` or ``--verbose`` flag is passed, it will
-    print out ``message``.
+def message(message, verbosity, systemd=systemd):
+    """This function takes a string in ``message``. If ``verbosity`` >= ``1`` it will print out
+    ``message``. If ``systemd`` is not ``False`` (the system uses the systemd journal),
+    it will log to it using ``message``.
     """
+    if verbosity >= 1:
+        print("==> " + message)
     if systemd is not False:
         journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
-    if args.verbose >= 1:
-        print("==> " + message)
 
 
-def get_users(output_file):
-    """This funtion parses users from the ArchWiki and writes it to ``output_file``"""
+def get_users(output_file, verbosity):
+    """This funtion parses users from the ArchWiki and writes it to ``output_file``
+
+    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
+    """
     # Open and decode the ArchWiki page containing the list of users.
-    message("Getting users from the ArchWiki")
+    message("Getting users from the ArchWiki", verbosity)
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
     wiki_source = wiki.read().decode()
 
@@ -61,20 +69,22 @@ def get_users(output_file):
     wiki_text = wiki_source[wiki_text_start:wiki_text_end]
 
     # Write the 'wiki_text' to 'output_file'.
-    message("Writing users to " + output_file)
+    message("Writing users to " + output_file, verbosity)
     wiki_output = open(output_file, 'w')
     wiki_output.write(wiki_text)
     wiki_output.close()
 
 
-def parse_users(users_file):
+def parse_users(users_file, verbosity):
     """This function parses the wiki text from ``users_file`` into it's components.
     It returns a list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
+
+    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
     users = open(users_file, 'r')
     parsed = []
 
-    message("Parsing ArchWiki text")
+    message("Parsing ArchWiki text", verbosity)
     for line in users:
         elements = line.split('"')
 
@@ -92,7 +102,7 @@ def parse_users(users_file):
     return parsed
 
 
-def make_geojson(parsed_users, output_file, send_to_geojsonio):
+def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     geojson output and writes it to ``output_file``.
 
@@ -101,8 +111,10 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio):
 
     If you set ``send_to_geojsonio`` to ``True`` it will send the raw geojson to geojson.io
     via a GitHub gist.
+
+    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
-    message("Making geosjon")
+    message("Making geosjon", verbosity)
 
     geojson = []
 
@@ -118,31 +130,33 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio):
     # Make 'geojson_str' look pretty,
     # then write 'geojson_str_pretty' to 'output_file' if wanted.
     if output_file != "no":
-        message("Tidying up geojson")
+        message("Tidying up geojson", verbosity)
         geojson_str_pretty = geojson_str
         geojson_str_pretty = geojson_str_pretty.replace('"features": [', '"features": [\n')
         geojson_str_pretty = geojson_str_pretty.replace('}}, ', '}},\n')
         geojson_str_pretty = geojson_str_pretty.replace('}}]', '}}\n]')
 
-        message("Writing geojson to " + output_file)
+        message("Writing geojson to " + output_file, verbosity)
         output = open(output_file, 'w')
         output.write(geojson_str_pretty)
         output.close()
 
     # Send the geojson to geojson.io via a GitHub gist if wanted.
     if send_to_geojsonio is True:
-        message("Sending geojson to geojson.io")
+        message("Sending geojson to geojson.io", verbosity)
         to_geojsonio(geojson_str)
 
 
-def make_kml(parsed_users, output_file):
+def make_kml(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     kml output and writes it to ``output_file``.
 
     ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
     ``[latitude, longitude, name, comment]``
+
+    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
-    message("Making and writing kml to " + output_file)
+    message("Making and writing kml to " + output_file, verbosity)
 
     kml = Kml()
 
@@ -153,14 +167,16 @@ def make_kml(parsed_users, output_file):
     kml.save(output_file)
 
 
-def make_csv(parsed_users, output_file):
+def make_csv(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     csv output and writes it to ``output_file``.
 
     ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
     ``[latitude, longitude, name, comment]``
+
+    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
-    message("Making and writing csv to " + output_file)
+    message("Making and writing csv to " + output_file, verbosity)
 
     csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
@@ -178,7 +194,7 @@ if __name__ == "__main__":
 
     # Define and parse arguments.
     parser = ArgumentParser(description="ArchMap geojson/kml generator")
-    parser.add_argument('-v', '--verbose', action='count', default=0,
+    parser.add_argument('-v', '--verbose', action='count',
                         help="Show info messages")
     parser.add_argument("--config", metavar="FILE", default=default_config,
                         help="Use an alternative configuration file \
@@ -200,12 +216,14 @@ if __name__ == "__main__":
     try:
         config = ConfigParser()
         config.read(args.config)
+        verbosity = int(config['extras']['verbosity'])
         output_file_users = config['files']['users']
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
         output_file_csv = config['files']['csv']
         send_to_geojsonio = config['extras']['geojsonio']
     except:
+        verbosity = default_verbosity
         output_file_users = default_users
         output_file_geojson = default_geojson
         output_file_kml = default_kml
@@ -214,11 +232,14 @@ if __name__ == "__main__":
 
     # Finally, parse the command line arguments, anything passed to them will
     # override both the defaults in this script and anything in the config file.
+    if args.verbose is not None:
+        verbosity = args.verbose
+
     if args.users is not None:
-        message("Using " + args.users + " for user data")
+        message("Using " + args.users + " for user data", verbosity)
         output_file_users = args.users
     else:
-        get_users(output_file_users)
+        get_users(output_file_users, verbosity)
 
     if args.geojson is not None:
         output_file_geojson = args.geojson
@@ -240,7 +261,7 @@ if __name__ == "__main__":
     if send_to_geojsonio == True and geojsonio == False:
         message("""Warning: You need to 'pip install github3.py' and download 'geojsonio.py'
                 from https://github.com/jwass/geojsonio.py to this directory
-                before you can use --geojsonio""")
+                before you can use --geojsonio""", verbosity=1)
         send_to_geojsonio = False
 
     # Do what's needed.
@@ -248,12 +269,12 @@ if __name__ == "__main__":
        output_file_kml == "no" and \
        output_file_csv == "no" and \
        send_to_geojsonio is False:
-        message("There is nothing to do")
+        message("There is nothing to do", verbosity)
     else:
-        parsed_users = parse_users(output_file_users)
+        parsed_users = parse_users(output_file_users, verbosity)
         if output_file_geojson != "no" or send_to_geojsonio is True:
-            make_geojson(parsed_users, output_file_geojson, send_to_geojsonio)
+            make_geojson(parsed_users, output_file_geojson, send_to_geojsonio, verbosity)
         if output_file_kml != "no":
-            make_kml(parsed_users, output_file_kml)
+            make_kml(parsed_users, output_file_kml, verbosity)
         if output_file_csv != "no":
-            make_csv(parsed_users, output_file_csv)
+            make_csv(parsed_users, output_file_csv, verbosity)
