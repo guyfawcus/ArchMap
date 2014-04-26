@@ -223,6 +223,7 @@ if __name__ == "__main__":
         output_file_csv = config['files']['csv']
         send_to_geojsonio = config['extras']['geojsonio']
     except:
+        message("Warning: Configuation file error, using defaults", verbosity=1)
         verbosity = default_verbosity
         output_file_users = default_users
         output_file_geojson = default_geojson
