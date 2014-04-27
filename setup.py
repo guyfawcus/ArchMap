@@ -6,6 +6,6 @@ setup(
     description="ArchMap geojson/kml generator",
     url="https://github.com/maelstrom59/ArchMap",
     license="Unlicense",
-    packages=["archmap"],
-    install_requires=["geojson", "simplekml", "github3.py"]
+    py_modules=["archmap"],
+    install_requires=["geojson", "simplekml"]
 )
