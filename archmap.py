@@ -114,10 +114,9 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
 
     If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
-    message("Making geosjon", verbosity)
-
     geojson = []
 
+    message("Making geosjon", verbosity)
     for user in parsed_users:
         # Generate a geojson point feature for the user and add it to 'geojson'.
         point = Point((user[1], user[0]))
@@ -156,10 +155,9 @@ def make_kml(parsed_users, output_file, verbosity):
 
     If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
-    message("Making and writing kml to " + output_file, verbosity)
-
     kml = Kml()
 
+    message("Making and writing kml to " + output_file, verbosity)
     for user in parsed_users:
         # Generate a kml point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
@@ -176,11 +174,10 @@ def make_csv(parsed_users, output_file, verbosity):
 
     If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
-    message("Making and writing csv to " + output_file, verbosity)
-
     csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
 
+    message("Making and writing csv to " + output_file, verbosity)
     for user in parsed_users:
         csvwriter.writerow(user)
 
