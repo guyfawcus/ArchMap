@@ -7,7 +7,8 @@ from geojson import Feature, Point, FeatureCollection, dumps
 from simplekml import Kml
 
 try:
-    from geojsonio import to_geojsonio
+    from geojsonio import display
+    geojsonio = True
 except:
     geojsonio = False
 
@@ -144,7 +145,7 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     # Send the GeoJSON to geojson.io via a GitHub gist if wanted.
     if send_to_geojsonio is True:
         message("Sending GeoJSON to geojson.io", verbosity)
-        to_geojsonio(geojson_str)
+        display(geojson_str)
 
 
 def make_kml(parsed_users, output_file, verbosity):
