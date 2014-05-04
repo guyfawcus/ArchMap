@@ -17,7 +17,7 @@ The documentation is hosted by `readthedocs.org <http://archmap.readthedocs.org>
 Synopsis
 --------
 
-By default, running ``./archmap.py`` will output three files to /tmp, ``users.txt``, ``output.geojson`` and ``output.kml``,
+By default, running ``./archmap.py`` will output three files to /tmp, ``archmap_users.txt``, ``archmap.geojson`` and ``archmap.kml``,
 this can be overridden by either using the config file or by the command line switches.
 
 The config file should be placed in ``/etc/archmap.conf``, this can be overridden by using ``--config <path-to-config-file>``
@@ -46,6 +46,6 @@ License
 
 Everything in the `ArchMap repo <https://github.com/maelstrom59/ArchMap>`_ is `unicensed <http://unlicense.org/>`_.
 
-All of the files that this script can generate (``users.txt``, ``output.geojson``, ``output.kml``, and ``output.csv``)
+All of the files that this script can generate (``archmap_users.txt``, ``archmap.geojson``, ``archmap.kml``, and ``archmap.csv``)
 will contain text from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_
 which puts them under the `GNU Free Documentation License 1.3 or later <http://www.gnu.org/copyleft/fdl.html>`_.

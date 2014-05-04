@@ -32,9 +32,9 @@ default_config = "/etc/archmap.conf"
 # Setting 'default_geojson', 'default_kml' or 'default_csv' to "no",
 # will disable the output.
 # These settings are overridden by the config file, if it file exsits.
-default_users = "/tmp/users.txt"
-default_geojson = "/tmp/output.geojson"
-default_kml = "/tmp/output.kml"
+default_users = "/tmp/archmap_users.txt"
+default_geojson = "/tmp/archmap.geojson"
+default_kml = "/tmp/archmap.kml"
 default_csv = "no"
 
 # Send the GeoJSON to geojson.io via a GitHub gist,

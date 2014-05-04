@@ -12,7 +12,7 @@ The **--help** flag will output a help message with all of the available options
 
 Basic use
 ---------
-By default, running **./archmap.py** will output three files to /tmp, **users.txt**, **output.geojson** and **output.kml**,
+By default, running **./archmap.py** will output three files to /tmp, **archmap_users.txt**, **archmap.geojson** and **archmap.kml**,
 this can be overridden by either using the config file or by the following command line switches.
 
 Using the **--verbose** flag will print information on what the script is doing:
