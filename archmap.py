@@ -77,7 +77,8 @@ def get_users(output_file, verbosity):
 
 def parse_users(users_file, verbosity):
     """This function parses the wiki text from ``users_file`` into it's components.
-    It returns a list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
+    It returns a list of lists, each sub_list has 4 elements:
+    ``[latitude, longitude, name, comment]``
 
     If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
