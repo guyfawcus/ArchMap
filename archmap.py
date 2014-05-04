@@ -28,7 +28,7 @@ default_verbosity = 0
 # they will override the settings in the config file.
 default_config = "/etc/archmap.conf"
 
-# Set the output locations for users, geojson, kml and csv.
+# Set the output locations for users, GeoJSON, KML and CSV.
 # Setting 'default_geojson', 'default_kml' or 'default_csv' to "no",
 # will disable the output.
 # These settings are overridden by the config file, if it file exsits.
@@ -37,7 +37,7 @@ default_geojson = "/tmp/output.geojson"
 default_kml = "/tmp/output.kml"
 default_csv = "no"
 
-# Send the geojson to geojson.io via a GitHub gist,
+# Send the GeoJSON to geojson.io via a GitHub gist,
 # anything other than 'no' will enable this feature.
 default_geojsonio = "no"
 
@@ -104,21 +104,21 @@ def parse_users(users_file, verbosity):
 
 def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
-    geojson output and writes it to ``output_file``.
+    GeoJSON output and writes it to ``output_file``.
 
     ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
     ``[latitude, longitude, name, comment]``
 
-    If you set ``send_to_geojsonio`` to ``True`` it will send the raw geojson to geojson.io
+    If you set ``send_to_geojsonio`` to ``True`` it will send the raw GeoJSON to geojson.io
     via a GitHub gist.
 
     If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
     geojson = []
 
-    message("Making geosjon", verbosity)
+    message("Making GeoJSON", verbosity)
     for user in parsed_users:
-        # Generate a geojson point feature for the user and add it to 'geojson'.
+        # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((user[1], user[0]))
         feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]})
         geojson.append(feature)
@@ -129,26 +129,26 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     # Make 'geojson_str' look pretty,
     # then write 'geojson_str_pretty' to 'output_file' if wanted.
     if output_file != "no":
-        message("Tidying up geojson", verbosity)
+        message("Tidying up GeoJSON", verbosity)
         geojson_str_pretty = geojson_str
         geojson_str_pretty = geojson_str_pretty.replace('"features": [', '"features": [\n')
         geojson_str_pretty = geojson_str_pretty.replace('}}, ', '}},\n')
         geojson_str_pretty = geojson_str_pretty.replace('}}]', '}}\n]')
 
-        message("Writing geojson to " + output_file, verbosity)
+        message("Writing GeoJSON to " + output_file, verbosity)
         output = open(output_file, 'w')
         output.write(geojson_str_pretty)
         output.close()
 
-    # Send the geojson to geojson.io via a GitHub gist if wanted.
+    # Send the GeoJSON to geojson.io via a GitHub gist if wanted.
     if send_to_geojsonio is True:
-        message("Sending geojson to geojson.io", verbosity)
+        message("Sending GeoJSON to geojson.io", verbosity)
         to_geojsonio(geojson_str)
 
 
 def make_kml(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
-    kml output and writes it to ``output_file``.
+    KML output and writes it to ``output_file``.
 
     ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
     ``[latitude, longitude, name, comment]``
@@ -157,9 +157,9 @@ def make_kml(parsed_users, output_file, verbosity):
     """
     kml = Kml()
 
-    message("Making and writing kml to " + output_file, verbosity)
+    message("Making and writing KML to " + output_file, verbosity)
     for user in parsed_users:
-        # Generate a kml point for the user.
+        # Generate a KML point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
 
     kml.save(output_file)
@@ -167,7 +167,7 @@ def make_kml(parsed_users, output_file, verbosity):
 
 def make_csv(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
-    csv output and writes it to ``output_file``.
+    CSV output and writes it to ``output_file``.
 
     ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
     ``[latitude, longitude, name, comment]``
@@ -177,7 +177,7 @@ def make_csv(parsed_users, output_file, verbosity):
     csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
 
-    message("Making and writing csv to " + output_file, verbosity)
+    message("Making and writing CSV to " + output_file, verbosity)
     for user in parsed_users:
         csvwriter.writerow(user)
 
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     from configparser import ConfigParser
 
     # Define and parse arguments.
-    parser = ArgumentParser(description="ArchMap geojson/kml generator")
+    parser = ArgumentParser(description="ArchMap GeoJSON/KML generator")
     parser.add_argument('-v', '--verbose', action='count',
                         help="Show info messages")
     parser.add_argument("--config", metavar="FILE", default=default_config,
@@ -200,13 +200,13 @@ if __name__ == "__main__":
                         help="Use FILE for a list of users \
                              instead of getting the list from the ArchWiki")
     parser.add_argument("--geojson", metavar="FILE",
-                        help="Output the geojson to FILE, use 'no' to disable output")
+                        help="Output the GeoJSON to FILE, use 'no' to disable output")
     parser.add_argument("--kml", metavar='FILE',
-                        help="Output the kml to FILE, use 'no' to disable output")
+                        help="Output the KML to FILE, use 'no' to disable output")
     parser.add_argument("--csv", metavar='FILE',
-                        help="Output the csv to FILE, use 'no' to disable output")
+                        help="Output the CSV to FILE, use 'no' to disable output")
     parser.add_argument("--geojsonio", action="store_true", default=False,
-                        help="Send the geojson to http://geojson.io for processing")
+                        help="Send the GeoJSON to http://geojson.io for processing")
     args = parser.parse_args()
 
     # Try to use the config file. If it doesn't exist, use the defaults.

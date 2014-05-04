@@ -1,7 +1,7 @@
 ArchMap
 -------
 
-**archmap.py** generates *geojson* and *kml* files which can be used to display a map of Arch Linux users,
+**archmap.py** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
 it does this by parsing data from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_.
 
 One rendering of the data is on a map over at
@@ -35,10 +35,10 @@ Running ``./archmap.py --help`` will display this help message::
   -v, --verbose   Show info messages
   --config FILE   Use an alternative configuration file instead of /etc/archmap.conf
   --users FILE    Use FILE for a list of users instead of getting the list from the ArchWiki
-  --geojson FILE  Output the geojson to FILE, use 'no' to disable output
-  --kml FILE      Output the kml to FILE, use 'no' to disable output
-  --csv FILE      Output the csv to FILE, use 'no' to disable output
-  --geojsonio     Send the geojson to http://geojson.io for processing
+  --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output
+  --kml FILE      Output the KML to FILE, use 'no' to disable output
+  --csv FILE      Output the CSV to FILE, use 'no' to disable output
+  --geojsonio     Send the GeoJSON to http://geojson.io for processing
 
 
 License

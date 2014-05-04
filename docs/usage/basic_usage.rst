@@ -21,7 +21,7 @@ Using the **--verbose** flag will print information on what the script is doing:
 
    ./archmap.py --verbose
 
-You can specify the output location for the geojson, kml and csv:
+You can specify the output location for the GeoJSON, KML and CSV:
 
 .. code-block:: bash
 
@@ -30,10 +30,10 @@ You can specify the output location for the geojson, kml and csv:
 
 geojson.io
 ----------
-http://geojson.io is a website that allows you to visualise geojson on an OpenStreetMap map,
-it also has options for converting the geojson to a range of other formats.
+http://geojson.io is a website that allows you to visualise GeoJSON on an OpenStreetMap map,
+it also has options for converting the GeoJSON to a range of other formats.
 
-Using the **--geojsonio** flag will send the geojson to the site via a GitHub gist.
+Using the **--geojsonio** flag will send the GeoJSON to the site via a GitHub gist.
 
 .. code-block:: bash
 

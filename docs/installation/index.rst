@@ -16,7 +16,7 @@ Python 3.4 - If your running Arch, this shouldn't be a problem!
 - geojson
 - simplekml
 
-If you want to be able to send the geojson to geojson.io via a GitHub gist:
+If you want to be able to send the GeoJSON to geojson.io via a GitHub gist:
 
 - github3.py
 - `geojsonio.py <https://github.com/jwass/geojsonio.py>`_
