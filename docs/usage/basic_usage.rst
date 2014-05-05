@@ -1,6 +1,10 @@
 Examples
 ========
 
+All of these example assume you have installed **archmap** via pacman or pip,
+if you would like to use the script directly, just use ``./archmap.py``.
+
+
 Help
 ----
 The **--help** flag will output a help message with all of the available options:
