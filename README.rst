@@ -21,7 +21,7 @@ This is updated manually so it may be out of date.
 Have a look at the `ArchMap <https://wiki.archlinux.org/index.php/ArchMap>`_
 page on the ArchWiki for more information about this project.
 
-The documentation is hosted by `readthedocs.org <http://archmap.readthedocs.org>`_ .
+The documentation is hosted by `readthedocs.org <http://archmap.readthedocs.org>`_.
 
 
 Synopsis
