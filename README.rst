@@ -1,6 +1,16 @@
 ArchMap
 -------
 
+.. image:: https://readthedocs.org/projects/archmap/badge/?version=latest
+    :alt: build-status
+    :scale: 100%
+    :target: https://readthedocs.org/builds/archmap/
+
+.. image:: http://img.shields.io/badge/License-Unlicense-green.svg
+    :alt: license
+    :scale: 100%
+    :target: http://unlicense.org/
+
 **archmap.py** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
 it does this by parsing data from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_.
 
