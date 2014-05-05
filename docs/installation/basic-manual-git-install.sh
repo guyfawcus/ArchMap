@@ -14,7 +14,7 @@ echo -e "\n\n==> Link the geojsonio module into the ArchMap-git directory\n"
 cd ArchMap-git && ln -s ../geojsonio.py-git/geojsonio/geojsonio.py
 
 echo -e "\n\n==> Make an easy link to archmap.py\n"
-cd ../ && ln -s ArchMap-git/archmap.py
+cd ../ && ln -s ArchMap-git/archmap.py ./archmap
 
 echo -e "\n\n==> Test by printing the help message\n"
-./archmap.py --help
+./archmap --help

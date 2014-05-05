@@ -28,7 +28,7 @@ build() {
 
 package() {
 	cd archmap
-	install -D archmap.py "$pkgdir/usr/bin/archmap.py"
+	install -D archmap.py "$pkgdir/usr/bin/archmap"
 
 	install -d "$pkgdir/usr/lib/systemd/system"
 	install -m644 systemd/archmap.{service,timer} "$pkgdir/usr/lib/systemd/system/"

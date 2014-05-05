@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name="ArchMap",
+    name="archmap",
     version="0.2",
     description="ArchMap GeoJSON/KML generator",
     url="https://github.com/maelstrom59/ArchMap",

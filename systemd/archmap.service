@@ -3,4 +3,4 @@ Description=ArchMap GeoJSON/KML generator
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/archmap.py
+ExecStart=/usr/bin/archmap

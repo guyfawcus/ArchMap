@@ -52,7 +52,7 @@ def message(message, verbosity, systemd=systemd):
     if verbosity >= 1:
         print("==> " + message)
     if systemd is not False:
-        journal.send(message + ".", SYSLOG_IDENTIFIER="ArchMap")
+        journal.send(message + ".", SYSLOG_IDENTIFIER="archmap")
 
 
 def get_users(output_file, verbosity):

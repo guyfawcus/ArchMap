@@ -11,7 +11,7 @@ ArchMap
     :scale: 100%
     :target: http://unlicense.org/
 
-**archmap.py** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
+**archmap** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
 it does this by parsing data from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_.
 
 One rendering of the data is on a map over at
@@ -27,7 +27,7 @@ The documentation is hosted by `readthedocs.org <http://archmap.readthedocs.org>
 Synopsis
 --------
 
-By default, running ``./archmap.py`` will output three files to /tmp, ``archmap_users.txt``, ``archmap.geojson`` and ``archmap.kml``,
+By default, running ``archmap`` will output three files to /tmp, ``archmap_users.txt``, ``archmap.geojson`` and ``archmap.kml``,
 this can be overridden by either using the config file or by the command line switches.
 
 The config file should be placed in ``/etc/archmap.conf``, this can be overridden by using ``--config <path-to-config-file>``
@@ -36,9 +36,9 @@ The config file should be placed in ``/etc/archmap.conf``, this can be overridde
 Use
 ---
 
-Running ``./archmap.py --help`` will display this help message::
+Running ``archmap --help`` will display this help message::
 
-  archmap.py [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE] [--geojsonio]
+  archmap [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE] [--geojsonio]
 
   optional arguments:
   -h, --help      show this help message and exit
