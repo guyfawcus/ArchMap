@@ -68,7 +68,7 @@ def get_users(output_file, verbosity):
     # Grab the user data between the second set of <pre> tags.
     wiki_text_start = wiki_source.find('<pre>', wiki_source.find('<pre>') + 1) + 6
     wiki_text_end = wiki_source.find('</pre>', wiki_source.find('</pre>') + 1) - 1
-    wiki_text = wiki_source[wiki_text_start:wiki_text_end]
+    wiki_text = wiki_source[wiki_text_start:wiki_text_end] + "\n"
 
     # Write the 'wiki_text' to 'output_file'.
     message("Writing users to " + output_file, verbosity)
@@ -134,7 +134,7 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     if output_file != "no":
         message("Tidying up GeoJSON", verbosity)
         geojson_str_pretty = json.loads(geojson_str)
-        geojson_str_pretty = json.dumps(geojson_str_pretty, sort_keys=True, indent=4)
+        geojson_str_pretty = json.dumps(geojson_str_pretty, sort_keys=True, indent=4) + "\n"
 
         message("Writing GeoJSON to " + output_file, verbosity)
         output = open(output_file, 'w')
