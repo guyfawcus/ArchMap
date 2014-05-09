@@ -31,7 +31,8 @@ Manual git install
 ^^^^^^^^^^^^^^^^^^
 
 This will make a directory ``ArchMap/`` with a link to ``archmap`` in it.
-It uses *git* and *pip* to resolve the dependencies.
+It uses *git* and *pip* to resolve the dependencies, *2to3* is used to
+convert the geojsonio.py script to python3.
 
 Download :download:`this script <basic-manual-git-install.sh>`:
 
