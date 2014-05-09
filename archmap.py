@@ -182,7 +182,7 @@ def make_csv(parsed_users, output_file, verbosity):
     for user in parsed_users:
         csvwriter.writerow(user)
 
-    csvfile.close
+    csvfile.close()
 
 
 # If the script is being run and not imported...
