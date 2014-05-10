@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document id="feat_1">
+        <Placemark id="feat_2">
+            <name>User 0</name>
+            <description>London, UK</description>
+            <Point id="geom_0">
+                <coordinates>-0.1276474,51.5073219,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_3">
+            <name>User 1</name>
+            <description>Cape Town, South Africa</description>
+            <Point id="geom_1">
+                <coordinates>18.4172485,-33.9289049,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_4">
+            <name>User 2</name>
+            <description>Moscow, Russia</description>
+            <Point id="geom_2">
+                <coordinates>37.6187042,55.7516335,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_5">
+            <name>User 3</name>
+            <description>Tokyo, Japan</description>
+            <Point id="geom_3">
+                <coordinates>139.7530053,35.6823815,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_6">
+            <name>User 4</name>
+            <description>Ottawa, Canada</description>
+            <Point id="geom_4">
+                <coordinates>-75.6900219,45.4210328,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_7">
+            <name>User 5</name>
+            <description>Brasília, Brazil</description>
+            <Point id="geom_5">
+                <coordinates>-47.8822933,-15.7934003,0.0</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>

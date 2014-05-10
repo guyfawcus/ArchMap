@@ -1,0 +1,95 @@
+{
+    "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    -0.1276474,
+                    51.5073219
+                ],
+                "type": "Point"
+            },
+            "id": null,
+            "properties": {
+                "Comment": "London, UK",
+                "Name": "User 0"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    18.4172485,
+                    -33.9289049
+                ],
+                "type": "Point"
+            },
+            "id": null,
+            "properties": {
+                "Comment": "Cape Town, South Africa",
+                "Name": "User 1"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    37.6187042,
+                    55.7516335
+                ],
+                "type": "Point"
+            },
+            "id": null,
+            "properties": {
+                "Comment": "Moscow, Russia",
+                "Name": "User 2"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    139.7530053,
+                    35.6823815
+                ],
+                "type": "Point"
+            },
+            "id": null,
+            "properties": {
+                "Comment": "Tokyo, Japan",
+                "Name": "User 3"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -75.6900219,
+                    45.4210328
+                ],
+                "type": "Point"
+            },
+            "id": null,
+            "properties": {
+                "Comment": "Ottawa, Canada",
+                "Name": "User 4"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -47.8822933,
+                    -15.7934003
+                ],
+                "type": "Point"
+            },
+            "id": null,
+            "properties": {
+                "Comment": "Bras\u00edlia, Brazil",
+                "Name": "User 5"
+            },
+            "type": "Feature"
+        }
+    ],
+    "type": "FeatureCollection"
+}

@@ -1,5 +1,11 @@
 from setuptools import setup
 
+# Find all of the tests in the 'tests' directory and return them.
+def test_suite():
+    import unittest
+    suite = unittest.TestLoader().discover("tests")
+    return suite
+
 setup(
     name="archmap",
     version="0.2",
@@ -7,5 +13,6 @@ setup(
     url="https://github.com/maelstrom59/ArchMap",
     license="Unlicense",
     py_modules=["archmap"],
-    install_requires=["geojson", "simplekml"]
+    install_requires=["geojson", "simplekml"],
+    test_suite="setup.test_suite"
 )
