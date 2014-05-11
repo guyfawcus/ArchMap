@@ -25,7 +25,7 @@ If you want to be able to send the GeoJSON to geojson.io via a GitHub gist:
 How-to
 ------
 
-Packaging is currently being worked on...
+See also: :ref:`packaging`
 
 Manual git install
 ^^^^^^^^^^^^^^^^^^
@@ -48,3 +48,5 @@ Support
 
 Release Notes
 -------------
+
+See also: `Releases <https://github.com/maelstrom59/ArchMap/releases>`_ on GitHub

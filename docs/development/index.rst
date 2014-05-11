@@ -2,12 +2,14 @@ Contribute
 ==========
 
 .. contents:: In this section:
-   :depth: 1
+   :depth: 2
    :local:
 
 
 Roadmap
 -------
+
+- Add more tests
 
 - Work on packaging
 
@@ -23,6 +25,7 @@ Contributing
 Contributions are always welcome! Here are a few ways you could contribute:
 
 - Bug fixes
+- New tests
 - New features
 - Testing on different platforms
 - Documentation
@@ -47,26 +50,83 @@ In addition to the :ref:`install-reqs` for the install, the following packages a
 - For packaging:
 
   - setuptools
-  - wheel
+  - wheel (optional) - for building :ref:`wheels <build-wheel>`
 
 Documentation
 ^^^^^^^^^^^^^
 
-.. code-block:: bash
+`Sphinx <http://sphinx-doc.org/>`_ can be used to build a variety of
+`formats <http://sphinx-doc.org/invocation.html#invocation>`_.
 
-   cd docs/
-   make html
+First, make sure you're in the docs directory::
+
+    cd docs/
+
+Make the preferred output::
+
+    make html
+
+Open the the index page in your browser::
+
+    firefox _build/html/index.html
+
+Testing
+^^^^^^^
+
+``unittest`` is used for testing::
+
+    python setup.py test
+
+This will search the ``tests`` directory for tests.
+
+See also:
+
+* `unittest - Python docs <https://docs.python.org/3.4/library/unittest.html>`_
+
+.. _packaging:
 
 Packaging
 ^^^^^^^^^
 
-`kyrias <https://github.com/kyrias>`_ has worked on the
-`Arch Linux packaging <https://github.com/maelstrom59/ArchMap/tree/master/pkgbuild>`_.
+ArchMap is currently packaged in two forms.
 
-Python packaging is currently in the works, have a look at this
-`issue <https://github.com/maelstrom59/ArchMap/issues/8>`_
-if you can help in any way.
+Arch Linux package
+""""""""""""""""""
+Packages are built using the ``PKGBUILD`` and ``archmap.install`` for settings.
 
-.. code-block:: bash
+To build package using the `PKGBUILD <https://wiki.archlinux.org/index.php/PKGBUILD>`_::
+
+    cd pkgbuild
+    makepkg PKGBUILD
+
+Related issues:
+
+* `#3 <https://github.com/maelstrom59/ArchMap/pull/3>`_ PKGBUILD - **Closed**
+* `#9 <https://github.com/maelstrom59/ArchMap/pull/9>`_ PKGBUILD: Update pkgbuild with new deps and manpage - **Closed**
+
+See also:
+
+* `Creating packages <https://wiki.archlinux.org/index.php/Creating_packages>`_
+* `Python Package Guidelines <https://wiki.archlinux.org/index.php/Python_Package_Guidelines>`_
+
+Python package
+""""""""""""""
+Packages are built using ``setup.py`` and ``setup.cfg`` for settings.
+
+To build a `source distribution <http://packaging.python.org/en/latest/glossary.html#term-source-distribution-or-sdist>`_::
+
+   python setup.py sdist
+
+.. _build-wheel:
+
+To build a `wheel <http://packaging.python.org/en/latest/glossary.html#term-wheel>`_::
 
    python setup.py bdist_wheel
+
+Related issues:
+
+* `#8 <https://github.com/maelstrom59/ArchMap/issues/8>`_ Build a python package - **Open**
+
+See also:
+
+* `Installation & Packaging Tutorial <http://packaging.python.org/en/latest/tutorial.html>`_
