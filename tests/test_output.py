@@ -27,15 +27,15 @@ class OutputTestCase(unittest.TestCase):
         # Set 'maxDiff' to 'None' to be able to see long diffs when something goes wrong.
         self.maxDiff = None
 
-##    def test_geojson(self):
-##        archmap.make_geojson(self.parsed_users, self.output_geojson, False, 0)
-##
-##        with open(self.sample_geojson, "r") as file:
-##            sample_geojson = file.read()
-##        with open(self.output_geojson, "r") as file:
-##           output_geojson = file.read()
-##
-##        self.assertEqual(sample_geojson, output_geojson)
+    def test_geojson(self):
+        archmap.make_geojson(self.parsed_users, self.output_geojson, False, 0)
+
+        with open(self.sample_geojson, "r") as file:
+            sample_geojson = file.read()
+        with open(self.output_geojson, "r") as file:
+           output_geojson = file.read()
+
+        self.assertEqual(sample_geojson, output_geojson)
 
     def test_kml(self):
         archmap.make_kml(self.parsed_users, self.output_kml, 0)
