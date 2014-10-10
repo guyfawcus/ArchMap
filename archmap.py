@@ -2,7 +2,6 @@
 
 from urllib.request import urlopen
 import csv
-import json
 
 from geojson import Feature, Point, FeatureCollection, dumps
 from simplekml import Kml
@@ -127,18 +126,13 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
         geojson.append(feature)
 
     # Make 'geojson_str' for output.
-    geojson_str = (dumps(FeatureCollection(geojson)))
+    geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + "\n"
 
-    # Make 'geojson_str' look pretty,
-    # then write 'geojson_str_pretty' to 'output_file' if wanted.
+    # Write 'geojson_str' to 'output_file' if wanted.
     if output_file != "no":
-        message("Tidying up GeoJSON", verbosity)
-        geojson_str_pretty = json.loads(geojson_str)
-        geojson_str_pretty = json.dumps(geojson_str_pretty, sort_keys=True, indent=4) + "\n"
-
         message("Writing GeoJSON to " + output_file, verbosity)
         output = open(output_file, 'w')
-        output.write(geojson_str_pretty)
+        output.write(geojson_str)
         output.close()
 
     # Send the GeoJSON to geojson.io via a GitHub gist if wanted.
