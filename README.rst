@@ -64,7 +64,7 @@ Running ``archmap --help`` will display this help message::
 License
 -------
 
-Everything in the `ArchMap repo <https://github.com/maelstrom59/ArchMap>`_ is `unicensed <http://unlicense.org/>`_.
+Everything in the `ArchMap repo <https://github.com/maelstrom59/ArchMap>`_ is `unlicensed <http://unlicense.org/>`_.
 
 All of the files that this script can generate (``archmap_users.txt``, ``archmap.geojson``, ``archmap.kml``, and ``archmap.csv``)
 will contain text from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_
