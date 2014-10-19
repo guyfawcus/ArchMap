@@ -44,9 +44,12 @@ default_geojsonio = "no"
 
 
 def message(message, verbosity, systemd=systemd):
-    """This function takes a string in ``message``. If ``verbosity`` >= ``1`` it will print out
-    ``message``. If ``systemd`` is not ``False`` (the system uses the systemd journal),
-    it will log to it using ``message``.
+    """This function is used by others for message printing.
+
+    Args:
+        message (string): The text used for logging messages.
+        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
+        systemd (bool): If not ``False`` (the system uses the systemd journal), it will log to it using ``message``.
     """
     if verbosity >= 1:
         print("==> " + message)
@@ -57,7 +60,9 @@ def message(message, verbosity, systemd=systemd):
 def get_users(output_file, verbosity):
     """This funtion parses users from the ArchWiki and writes it to ``output_file``
 
-    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
+    Args:
+        output_file (ifile): Location to save the raw user data from the ArchWiki
+        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     # Open and decode the ArchWiki page containing the list of users.
     message("Getting users from the ArchWiki", verbosity)
@@ -78,10 +83,13 @@ def get_users(output_file, verbosity):
 
 def parse_users(users_file, verbosity):
     """This function parses the wiki text from ``users_file`` into it's components.
-    It returns a list of lists, each sub_list has 4 elements:
-    ``[latitude, longitude, name, comment]``
 
-    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
+    Args:
+        users_file (file): Raw user data from the ArchWiki
+        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
+
+    Returns:
+        list: A list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
     """
     users = open(users_file, 'r')
     parsed = []
@@ -108,13 +116,11 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     GeoJSON output and writes it to ``output_file``.
 
-    ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
-    ``[latitude, longitude, name, comment]``
-
-    If you set ``send_to_geojsonio`` to ``True`` it will send the raw GeoJSON to geojson.io
-    via a GitHub gist.
-
-    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
+    Args:
+        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (file): Location to save the GeoJSON output
+        send_to_geojsonio (bool): If set to ``True`` it will send the GeoJSON to geojson.io via a GitHub gist.
+        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     geojson = []
     id = 0
@@ -149,10 +155,10 @@ def make_kml(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     KML output and writes it to ``output_file``.
 
-    ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
-    ``[latitude, longitude, name, comment]``
-
-    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
+    Args:
+        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (file): Location to save the KML output
+        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     kml = Kml()
 
@@ -168,10 +174,10 @@ def make_csv(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     CSV output and writes it to ``output_file``.
 
-    ``parsed_users`` should be a list of lists, each sub_list should have 4 elements:
-    ``[latitude, longitude, name, comment]``
-
-    If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
+    Args:
+        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (file): Location to save the CSV output
+        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
