@@ -117,13 +117,17 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     If ``verbosity`` >= ``1`` it will print out the string passed to ``message()``.
     """
     geojson = []
+    id = 0
 
     message("Making GeoJSON", verbosity)
     for user in parsed_users:
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((user[1], user[0]))
-        feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]})
+        feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]}, id=id)
         geojson.append(feature)
+
+        # Increment the points 'id'.
+        id += 1
 
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + "\n"
