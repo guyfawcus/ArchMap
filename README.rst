@@ -11,12 +11,12 @@ ArchMap
     :scale: 100%
     :target: https://coveralls.io/r/maelstrom59/ArchMap
 
-.. image:: https://readthedocs.org/projects/archmap/badge/?version=latest
+.. image:: https://readthedocs.org/projects/archmap/badge/?version=latest&style=round
     :alt: docs-status
     :scale: 100%
     :target: https://readthedocs.org/builds/archmap/
 
-.. image:: http://img.shields.io/badge/License-Unlicense-green.svg
+.. image:: http://img.shields.io/badge/License-Unlicense-brightgreen.svg
     :alt: license
     :scale: 100%
     :target: http://unlicense.org/
