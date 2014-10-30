@@ -1,3 +1,4 @@
 geojson
 simplekml
 github3.py
+sphinxcontrib-napoleon
