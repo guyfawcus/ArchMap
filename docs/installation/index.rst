@@ -16,11 +16,6 @@ Python 3.4 - If your running Arch, this shouldn't be a problem!
 - geojson
 - simplekml
 
-If you want to be able to send the GeoJSON to geojson.io via a GitHub gist:
-
-- github3.py
-- `geojsonio.py <https://github.com/jwass/geojsonio.py>`_
-
 
 How-to
 ------
@@ -31,8 +26,7 @@ Manual git install
 ^^^^^^^^^^^^^^^^^^
 
 This will make a directory ``ArchMap/`` with a link to ``archmap`` in it.
-It uses *git* and *pip* to resolve the dependencies, *2to3* is used to
-convert the geojsonio.py script to python3.
+It uses *git* and *pip* to resolve the dependencies.
 
 Download :download:`this script <basic-manual-git-install.sh>`:
 

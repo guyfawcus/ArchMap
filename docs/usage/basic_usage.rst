@@ -32,18 +32,6 @@ You can specify the output location for the GeoJSON, KML and CSV:
    archmap --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
 
 
-geojson.io
-----------
-http://geojson.io is a website that allows you to visualise GeoJSON on an OpenStreetMap map,
-it also has options for converting the GeoJSON to a range of other formats.
-
-Using the **--geojsonio** flag will send the GeoJSON to the site via a GitHub gist.
-
-.. code-block:: bash
-
-   archmap --geojsonio
-
-
 Logging
 -------
 If the script is run on a system that uses systemd, it will log to it using the syslog identifier - "archmap".

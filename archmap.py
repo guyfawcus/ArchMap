@@ -7,12 +7,6 @@ from geojson import Feature, Point, FeatureCollection, dumps
 from simplekml import Kml
 
 try:
-    from geojsonio import display
-    geojsonio = True
-except:
-    geojsonio = False
-
-try:
     from systemd import journal
     systemd = True
 except:
@@ -37,10 +31,6 @@ default_users = "/tmp/archmap_users.txt"
 default_geojson = "/tmp/archmap.geojson"
 default_kml = "/tmp/archmap.kml"
 default_csv = "no"
-
-# Send the GeoJSON to geojson.io via a GitHub gist,
-# anything other than 'no' will enable this feature.
-default_geojsonio = "no"
 
 
 def message(message, verbosity, systemd=systemd):
@@ -112,20 +102,19 @@ def parse_users(users_file, verbosity):
     return parsed
 
 
-def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
+def make_geojson(parsed_users, output_file, verbosity):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     GeoJSON output and writes it to ``output_file``.
 
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the GeoJSON output
-        send_to_geojsonio (bool): If set to ``True`` it will send the GeoJSON to geojson.io via a GitHub gist.
         verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     geojson = []
     id = 0
 
-    message("Making GeoJSON", verbosity)
+    message("Making and writing GeoJSON to " + output_file, verbosity)
     for user in parsed_users:
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((user[1], user[0]))
@@ -138,17 +127,9 @@ def make_geojson(parsed_users, output_file, send_to_geojsonio, verbosity):
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + "\n"
 
-    # Write 'geojson_str' to 'output_file' if wanted.
-    if output_file != "no":
-        message("Writing GeoJSON to " + output_file, verbosity)
-        output = open(output_file, 'w')
-        output.write(geojson_str)
-        output.close()
-
-    # Send the GeoJSON to geojson.io via a GitHub gist if wanted.
-    if send_to_geojsonio is True:
-        message("Sending GeoJSON to geojson.io", verbosity)
-        display(geojson_str)
+    output = open(output_file, 'w')
+    output.write(geojson_str)
+    output.close()
 
 
 def make_kml(parsed_users, output_file, verbosity):
@@ -210,8 +191,6 @@ if __name__ == "__main__":
                         help="Output the KML to FILE, use 'no' to disable output")
     parser.add_argument("--csv", metavar='FILE',
                         help="Output the CSV to FILE, use 'no' to disable output")
-    parser.add_argument("--geojsonio", action="store_true", default=False,
-                        help="Send the GeoJSON to http://geojson.io for processing")
     args = parser.parse_args()
 
     # Try to use the config file. If it doesn't exist, use the defaults.
@@ -223,7 +202,6 @@ if __name__ == "__main__":
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
         output_file_csv = config['files']['csv']
-        send_to_geojsonio = config['extras']['geojsonio']
     except:
         message("Warning: Configuation file error, using defaults", verbosity=1)
         verbosity = default_verbosity
@@ -231,7 +209,6 @@ if __name__ == "__main__":
         output_file_geojson = default_geojson
         output_file_kml = default_kml
         output_file_csv = default_csv
-        send_to_geojsonio = default_geojsonio
 
     # Finally, parse the command line arguments, anything passed to them will
     # override both the defaults in this script and anything in the config file.
@@ -253,30 +230,15 @@ if __name__ == "__main__":
     if args.csv is not None:
         output_file_csv = args.csv
 
-    if args.geojsonio is True:
-        send_to_geojsonio = True
-    elif send_to_geojsonio != "no":
-        send_to_geojsonio = True
-    else:
-        send_to_geojsonio = False
-
-    # If the geojsonio module was not or could not be imported, print an error message.
-    if send_to_geojsonio is True and geojsonio is False:
-        message("""Warning: You need to 'pip install github3.py' and download 'geojsonio.py'
-                from https://github.com/jwass/geojsonio.py to this directory
-                before you can use --geojsonio""", verbosity=1)
-        send_to_geojsonio = False
-
     # Do what's needed.
     if output_file_geojson == "no" and \
        output_file_kml == "no" and \
-       output_file_csv == "no" and \
-       send_to_geojsonio is False:
+       output_file_csv == "no":
         message("There is nothing to do", verbosity)
     else:
         parsed_users = parse_users(output_file_users, verbosity)
-        if output_file_geojson != "no" or send_to_geojsonio is True:
-            make_geojson(parsed_users, output_file_geojson, send_to_geojsonio, verbosity)
+        if output_file_geojson != "no":
+            make_geojson(parsed_users, output_file_geojson, verbosity)
         if output_file_kml != "no":
             make_kml(parsed_users, output_file_kml, verbosity)
         if output_file_csv != "no":

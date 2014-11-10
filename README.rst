@@ -48,7 +48,7 @@ Use
 
 Running ``archmap --help`` will display this help message::
 
-  archmap [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE] [--geojsonio]
+  archmap [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
 
   optional arguments:
   -h, --help      show this help message and exit
@@ -58,7 +58,6 @@ Running ``archmap --help`` will display this help message::
   --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output
   --kml FILE      Output the KML to FILE, use 'no' to disable output
   --csv FILE      Output the CSV to FILE, use 'no' to disable output
-  --geojsonio     Send the GeoJSON to http://geojson.io for processing
 
 
 License

@@ -11,7 +11,6 @@ class OutputTestCase(unittest.TestCase):
 
     def setUp(self):
         systemd = False
-        geojsonio = False
 
         self.sample_users = "tests/sample-archmap_users.txt"
 
@@ -28,7 +27,7 @@ class OutputTestCase(unittest.TestCase):
         self.maxDiff = None
 
     def test_geojson(self):
-        archmap.make_geojson(self.parsed_users, self.output_geojson, False, 0)
+        archmap.make_geojson(self.parsed_users, self.output_geojson, 0)
 
         with open(self.sample_geojson, "r") as file:
             sample_geojson = file.read()
