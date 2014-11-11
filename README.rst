@@ -16,7 +16,7 @@ ArchMap
     :scale: 100%
     :target: https://readthedocs.org/builds/archmap/
 
-.. image:: http://img.shields.io/badge/License-Unlicense-brightgreen.svg
+.. image:: http://img.shields.io/badge/license-Unlicense-brightgreen.svg
     :alt: license
     :scale: 100%
     :target: http://unlicense.org/
