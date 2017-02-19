@@ -1,12 +1,6 @@
 Use the code
 ============
 
-Logging
--------
-
-.. autofunction:: archmap.message
-
-
 Getting and parsing user data
 -----------------------------
 

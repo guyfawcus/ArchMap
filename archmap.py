@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 from urllib.request import urlopen
 import csv
 
@@ -33,29 +34,22 @@ default_kml = "/tmp/archmap.kml"
 default_csv = "no"
 
 
-def message(message, verbosity, systemd=systemd):
-    """This function is used by others for message printing.
+logging.basicConfig(format="==> %(message)s")
+log = logging.getLogger("archmap")
 
-    Args:
-        message (string): The text used for logging messages.
-        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
-        systemd (bool): If not ``False`` (the system uses the systemd journal), it will log to it using ``message``.
-    """
-    if verbosity >= 1:
-        print("==> " + message)
-    if systemd is not False:
-        journal.send(message + ".", SYSLOG_IDENTIFIER="archmap")
+if systemd is not False:
+    log.addHandler(journal.JournalHandler(SYSLOG_IDENTIFIER="archmap"))
+    log.handlers[0].setFormatter(logging.Formatter("%(message)s."))
 
 
-def get_users(output_file, verbosity):
+def get_users(output_file):
     """This funtion parses users from the ArchWiki and writes it to ``output_file``
 
     Args:
         output_file (open): Location to save the raw user data from the ArchWiki
-        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     # Open and decode the ArchWiki page containing the list of users.
-    message("Getting users from the ArchWiki", verbosity)
+    log.info("Getting users from the ArchWiki")
     wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
     wiki_source = wiki.read().decode()
 
@@ -65,18 +59,17 @@ def get_users(output_file, verbosity):
     wiki_text = wiki_source[wiki_text_start:wiki_text_end] + "\n"
 
     # Write the 'wiki_text' to 'output_file'.
-    message("Writing users to " + output_file, verbosity)
+    log.info("Writing users to " + output_file)
     wiki_output = open(output_file, 'w')
     wiki_output.write(wiki_text)
     wiki_output.close()
 
 
-def parse_users(users_file, verbosity):
+def parse_users(users_file):
     """This function parses the wiki text from ``users_file`` into it's components.
 
     Args:
         users_file (open): Raw user data from the ArchWiki
-        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
 
     Returns:
         list: A list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
@@ -84,7 +77,7 @@ def parse_users(users_file, verbosity):
     users = open(users_file, 'r')
     parsed = []
 
-    message("Parsing ArchWiki text", verbosity)
+    log.info("Parsing ArchWiki text")
     for line in users:
         elements = line.split('"')
 
@@ -102,19 +95,18 @@ def parse_users(users_file, verbosity):
     return parsed
 
 
-def make_geojson(parsed_users, output_file, verbosity):
+def make_geojson(parsed_users, output_file):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     GeoJSON output and writes it to ``output_file``.
 
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the GeoJSON output
-        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     geojson = []
     id = 0
 
-    message("Making and writing GeoJSON to " + output_file, verbosity)
+    log.info("Making and writing GeoJSON to " + output_file)
     for user in parsed_users:
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((user[1], user[0]))
@@ -132,18 +124,17 @@ def make_geojson(parsed_users, output_file, verbosity):
     output.close()
 
 
-def make_kml(parsed_users, output_file, verbosity):
+def make_kml(parsed_users, output_file):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     KML output and writes it to ``output_file``.
 
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the KML output
-        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     kml = Kml()
 
-    message("Making and writing KML to " + output_file, verbosity)
+    log.info("Making and writing KML to " + output_file)
     for user in parsed_users:
         # Generate a KML point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
@@ -151,19 +142,18 @@ def make_kml(parsed_users, output_file, verbosity):
     kml.save(output_file)
 
 
-def make_csv(parsed_users, output_file, verbosity):
+def make_csv(parsed_users, output_file):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     CSV output and writes it to ``output_file``.
 
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the CSV output
-        verbosity (int): If set to be >= ``1`` it will print out the string passed to ``message()``
     """
     csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
 
-    message("Making and writing CSV to " + output_file, verbosity)
+    log.info("Making and writing CSV to " + output_file)
     for user in parsed_users:
         csvwriter.writerow(user)
 
@@ -174,6 +164,8 @@ def make_csv(parsed_users, output_file, verbosity):
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from configparser import ConfigParser
+
+    log.setLevel(logging.WARNING)
 
     # Define and parse arguments.
     parser = ArgumentParser(description="ArchMap GeoJSON/KML generator")
@@ -203,7 +195,7 @@ if __name__ == "__main__":
         output_file_kml = config['files']['kml']
         output_file_csv = config['files']['csv']
     except:
-        message("Warning: Configuation file error, using defaults", verbosity=1)
+        log.warning("Warning: Configuation file error, using defaults")
         verbosity = default_verbosity
         output_file_users = default_users
         output_file_geojson = default_geojson
@@ -215,11 +207,14 @@ if __name__ == "__main__":
     if args.verbose is not None:
         verbosity = args.verbose
 
+    if verbosity >= 1:
+        log.setLevel(logging.INFO)
+
     if args.users is not None:
-        message("Using " + args.users + " for user data", verbosity)
+        log.info("Using {} for user data".format(args.users))
         output_file_users = args.users
     else:
-        get_users(output_file_users, verbosity)
+        get_users(output_file_users)
 
     if args.geojson is not None:
         output_file_geojson = args.geojson
@@ -234,12 +229,12 @@ if __name__ == "__main__":
     if output_file_geojson == "no" and \
        output_file_kml == "no" and \
        output_file_csv == "no":
-        message("There is nothing to do", verbosity)
+        log.warning("There is nothing to do")
     else:
-        parsed_users = parse_users(output_file_users, verbosity)
+        parsed_users = parse_users(output_file_users)
         if output_file_geojson != "no":
-            make_geojson(parsed_users, output_file_geojson, verbosity)
+            make_geojson(parsed_users, output_file_geojson)
         if output_file_kml != "no":
-            make_kml(parsed_users, output_file_kml, verbosity)
+            make_kml(parsed_users, output_file_kml)
         if output_file_csv != "no":
-            make_csv(parsed_users, output_file_csv, verbosity)
+            make_csv(parsed_users, output_file_csv)
