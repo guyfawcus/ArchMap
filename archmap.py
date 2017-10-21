@@ -89,13 +89,25 @@ def parse_users(users):
     return parsed
 
 
-def make_users(users, output_file):
+def make_users(parsed_users, output_file):
     """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
 
     Args:
-        users (string): The raw text containing the list of users
+        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the text output
     """
+
+    users = ''
+
+    for user in parsed_users:
+        latitude = user[0]
+        longitude = user[1]
+        name = user[2]
+        comment = user[3]
+
+        # This follows the formatting defined here:
+        #     https://wiki.archlinux.org/index.php/ArchMap/List#Adding_yourself_to_the_list
+        users += '{},{} "{}" # {}\n'.format(latitude, longitude, name, comment)
 
     log.info("Writing raw user list to " + output_file)
     # Write the text to 'output_file'.
@@ -240,7 +252,7 @@ if __name__ == "__main__":
         parsed_users = parse_users(users)
 
         if output_file_users != "no":
-            make_users(users, output_file_users)
+            make_users(parsed_users, output_file_users)
         if output_file_geojson != "no":
             make_geojson(parsed_users, output_file_geojson)
         if output_file_kml != "no":
