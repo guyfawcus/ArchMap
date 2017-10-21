@@ -25,11 +25,11 @@ Using the **--verbose** flag will print information on what the script is doing:
 
    archmap --verbose
 
-You can specify the output location for the GeoJSON, KML and CSV:
+You can specify the output location for the user list text, GeoJSON, KML and CSV:
 
 .. code-block:: bash
 
-   archmap --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
+   archmap --users /tmp/archmap_users.txt --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
 
 
 Logging

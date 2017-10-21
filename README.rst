@@ -54,7 +54,7 @@ Running ``archmap --help`` will display this help message::
   -h, --help      show this help message and exit
   -v, --verbose   Show info messages
   --config FILE   Use an alternative configuration file instead of /etc/archmap.conf
-  --users FILE    Use FILE for a list of users instead of getting the list from the ArchWiki
+  --users FILE    Output the list of users to FILE, use 'no' to disable output
   --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output
   --kml FILE      Output the KML to FILE, use 'no' to disable output
   --csv FILE      Output the CSV to FILE, use 'no' to disable output

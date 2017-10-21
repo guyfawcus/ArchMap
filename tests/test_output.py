@@ -21,7 +21,8 @@ class OutputTestCase(unittest.TestCase):
         self.sample_csv = "tests/sample-archmap.csv"
         self.output_csv = "tests/output-archmap.csv"
 
-        self.parsed_users = archmap.parse_users(self.sample_users)
+        with open(self.sample_users, 'r') as sample_users:
+            self.parsed_users = archmap.parse_users(sample_users.read())
 
         # Set 'maxDiff' to 'None' to be able to see long diffs when something goes wrong.
         self.maxDiff = None

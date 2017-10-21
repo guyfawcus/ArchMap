@@ -25,8 +25,7 @@ default_verbosity = 0
 default_config = "/etc/archmap.conf"
 
 # Set the output locations for users, GeoJSON, KML and CSV.
-# Setting 'default_geojson', 'default_kml' or 'default_csv' to "no",
-# will disable the output.
+# Setting any of the following to 'no' will disable the output.
 # These settings are overridden by the config file, if it exists.
 default_users = "/tmp/archmap_users.txt"
 default_geojson = "/tmp/archmap.geojson"
@@ -42,11 +41,11 @@ if systemd is not False:
     log.handlers[0].setFormatter(logging.Formatter("%(message)s."))
 
 
-def get_users(output_file):
-    """This funtion parses users from the ArchWiki and writes it to ``output_file``
+def get_users():
+    """This funtion parses the list of users from the ArchWiki and returns it as a string.
 
-    Args:
-        output_file (open): Location to save the raw user data from the ArchWiki
+    Returns:
+        string: The raw text list of users
     """
     # Open and decode the ArchWiki page containing the list of users.
     log.info("Getting users from the ArchWiki")
@@ -58,23 +57,19 @@ def get_users(output_file):
     wiki_text_end = wiki_source.find('</pre>', wiki_source.find('</pre>') + 1) - 1
     wiki_text = wiki_source[wiki_text_start:wiki_text_end] + "\n"
 
-    # Write the 'wiki_text' to 'output_file'.
-    log.info("Writing users to " + output_file)
-    wiki_output = open(output_file, 'w')
-    wiki_output.write(wiki_text)
-    wiki_output.close()
+    return wiki_text
 
 
-def parse_users(users_file):
-    """This function parses the wiki text from ``users_file`` into it's components.
+def parse_users(users):
+    """This function parses the wiki text from ``users`` into it's components.
 
     Args:
-        users_file (open): Raw user data from the ArchWiki
+        users (string): Raw user data from the ArchWiki
 
     Returns:
         list: A list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
     """
-    users = open(users_file, 'r')
+    users = users.splitlines()
     parsed = []
 
     log.info("Parsing ArchWiki text")
@@ -91,8 +86,21 @@ def parse_users(users_file):
 
         parsed.append([latitude, longitude, name, comment])
 
-    users.close()
     return parsed
+
+
+def make_users(users, output_file):
+    """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
+
+    Args:
+        users (string): The raw text containing the list of users
+        output_file (open): Location to save the text output
+    """
+
+    log.info("Writing raw user list to " + output_file)
+    # Write the text to 'output_file'.
+    with open(output_file, 'w') as output:
+        output.write(users)
 
 
 def make_geojson(parsed_users, output_file):
@@ -175,8 +183,7 @@ if __name__ == "__main__":
                         help="Use an alternative configuration file \
                              instead of /etc/archmap.conf")
     parser.add_argument("--users", metavar="FILE",
-                        help="Use FILE for a list of users \
-                             instead of getting the list from the ArchWiki")
+                        help="Output the user list to FILE, use 'no' to disable output")
     parser.add_argument("--geojson", metavar="FILE",
                         help="Output the GeoJSON to FILE, use 'no' to disable output")
     parser.add_argument("--kml", metavar='FILE',
@@ -211,10 +218,7 @@ if __name__ == "__main__":
         log.setLevel(logging.INFO)
 
     if args.users is not None:
-        log.info("Using {} for user data".format(args.users))
         output_file_users = args.users
-    else:
-        get_users(output_file_users)
 
     if args.geojson is not None:
         output_file_geojson = args.geojson
@@ -226,12 +230,17 @@ if __name__ == "__main__":
         output_file_csv = args.csv
 
     # Do what's needed.
-    if output_file_geojson == "no" and \
+    if output_file_users == "no" and \
+       output_file_geojson == "no" and \
        output_file_kml == "no" and \
        output_file_csv == "no":
         log.warning("There is nothing to do")
     else:
-        parsed_users = parse_users(output_file_users)
+        users = get_users()
+        parsed_users = parse_users(users)
+
+        if output_file_users != "no":
+            make_users(users, output_file_users)
         if output_file_geojson != "no":
             make_geojson(parsed_users, output_file_geojson)
         if output_file_kml != "no":
