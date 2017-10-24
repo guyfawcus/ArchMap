@@ -3,6 +3,8 @@
 import logging
 from urllib.request import urlopen
 import csv
+import re
+from decimal import Decimal
 
 from geojson import Feature, Point, FeatureCollection, dumps
 from simplekml import Kml
@@ -72,19 +74,41 @@ def parse_users(users):
     users = users.splitlines()
     parsed = []
 
+    # Expression that matches one-half of a coordinate pair. Results in 3 groups: Full, before decimal and after decimal
+    re_coord = r'((\-?\d+)\.*(\d+)?)'
+
+    # Expression that matches the name inside the quote marks and puts that into a group
+    re_name = r'"(.*)"'
+
+    # Expression that puts the comment in a group
+    re_comment = r'(.*)'
+
+    # Compiled expression that combines all of the groups with the stuff inbetween. Results in 8 groups:
+    #     1. Full latitude
+    #     2. Latitude before decimal
+    #     3. Latitude after decimal
+    #     4. Full longitude
+    #     5. Longitude before decimal
+    #     6. Longitude after decimal
+    #     7. Name
+    #     8. Comment
+    re_whole = re.compile(str(re_coord + r'\s*,\s*' + re_coord + r'[^a-zA-Z]*' + re_name + r'\s*#*\s*' + re_comment))
+
     log.info("Parsing ArchWiki text")
     for line in users:
-        elements = line.split('"')
+        # Retun None unless the line fully matches the RE
+        re_whole_result = re_whole.fullmatch(line)
 
-        coords = elements[0].strip(' ')
-        coords = coords.split(',')
-        latitude = float(coords[0])
-        longitude = float(coords[1])
-        name = elements[1].strip()
-        comment = elements[2].strip()
-        comment = comment[2:]
+        if re_whole_result:
+            latitude = Decimal(re_whole_result.group(1))
+            longitude = Decimal(re_whole_result.group(4))
+            name = re_whole_result.group(7).strip()
+            comment = re_whole_result.group(8).strip()
 
-        parsed.append([latitude, longitude, name, comment])
+            parsed.append([latitude, longitude, name, comment])
+
+        else:
+            log.error('Bad line: {}'.format(line))
 
     return parsed
 
@@ -129,7 +153,7 @@ def make_geojson(parsed_users, output_file):
     log.info("Making and writing GeoJSON to " + output_file)
     for user in parsed_users:
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
-        point = Point((user[1], user[0]))
+        point = Point((float(user[1]), float(user[0])))
         feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]}, id=id)
         geojson.append(feature)
 

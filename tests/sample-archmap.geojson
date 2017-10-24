@@ -89,6 +89,36 @@
                 "Name": "User 5"
             },
             "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    10.0,
+                    10.0
+                ],
+                "type": "Point"
+            },
+            "id": 6,
+            "properties": {
+                "Comment": "Somewhere",
+                "Name": "User 6"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    20.0,
+                    20.0
+                ],
+                "type": "Point"
+            },
+            "id": 7,
+            "properties": {
+                "Comment": "",
+                "Name": "User 7"
+            },
+            "type": "Feature"
         }
     ],
     "type": "FeatureCollection"

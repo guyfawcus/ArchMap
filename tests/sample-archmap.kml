@@ -43,5 +43,19 @@
                 <coordinates>-47.8822933,-15.7934003,0.0</coordinates>
             </Point>
         </Placemark>
+        <Placemark id="feat_8">
+            <name>User 6</name>
+            <description>Somewhere</description>
+            <Point id="geom_6">
+                <coordinates>10,10,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_9">
+            <name>User 7</name>
+            <description/>
+            <Point id="geom_7">
+                <coordinates>20,20,0.0</coordinates>
+            </Point>
+        </Placemark>
     </Document>
 </kml>

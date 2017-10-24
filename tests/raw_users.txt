@@ -1,6 +1,11 @@
 51.5073219 ,-0.1276474 "User 0" # London, UK
 -33.9289049, 18.4172485 "User 1" # Cape Town, South Africa
-55.7516335,37.6187042 "User 2" # Moscow, Russia
-35.6823815,139.7530053 "User 3" # Tokyo, Japan
-45.4210328,-75.6900219 "User 4" # Ottawa, Canada
--15.7934003,-47.8822933 "User 5" # Brasília, Brazil
+55.7516335,37.6187042 " User 2" # Moscow, Russia
+35.6823815,139.7530053 "User 3 " # Tokyo, Japan
+45.4210328,-75.6900219 "User 4" #  Ottawa, Canada
+-15.7934003,-47.8822933 "User 5"  Brasília, Brazil
+10,10 "User 6" # Somewhere
+20,20 "User 7" #
+10.5,  "User 8" # Unknown
+,20.5 "User 9" # Unknown
+"User 10" # Unknown
