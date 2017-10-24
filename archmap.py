@@ -6,6 +6,7 @@ import csv
 import re
 from decimal import Decimal
 
+from bs4 import BeautifulSoup
 from geojson import Feature, Point, FeatureCollection, dumps
 from simplekml import Kml
 
@@ -43,21 +44,31 @@ if systemd is not False:
     log.handlers[0].setFormatter(logging.Formatter("%(message)s."))
 
 
-def get_users():
+def get_users(url="https://wiki.archlinux.org/index.php/ArchMap/List", local=""):
     """This funtion parses the list of users from the ArchWiki and returns it as a string.
+
+    Args:
+        url (string): Link to a URL that points to a ArchWiki ArchMap list (default)
+        local (string): Path to a local copy of the ArchWiki ArchMap source
 
     Returns:
         string: The raw text list of users
     """
-    # Open and decode the ArchWiki page containing the list of users.
-    log.info("Getting users from the ArchWiki")
-    wiki = urlopen("https://wiki.archlinux.org/index.php/ArchMap/List")
-    wiki_source = wiki.read().decode()
+
+    if local == "":
+        # Open and decode the page from the URL containing the list of users.
+        log.info("Getting users from the ArchWiki: {}".format(url))
+        wiki = urlopen(url)
+        wiki_source = wiki.read().decode()
+    else:
+        # Open and decode the local page containing the list of users.
+        with open(local, 'r') as wiki:
+            log.info("Getting users from a local file: {}".format(local))
+            wiki_source = wiki.read()
 
     # Grab the user data between the second set of <pre> tags.
-    wiki_text_start = wiki_source.find('<pre>', wiki_source.find('<pre>') + 1) + 6
-    wiki_text_end = wiki_source.find('</pre>', wiki_source.find('</pre>') + 1) - 1
-    wiki_text = wiki_source[wiki_text_start:wiki_text_end] + "\n"
+    soup = BeautifulSoup(wiki_source, 'html.parser')
+    wiki_text = soup.find_all('pre')[1].text.strip()
 
     return wiki_text
 

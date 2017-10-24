@@ -9,7 +9,7 @@ arch=('any')
 url="https://github.com/maelstrom59/ArchMap"
 license=('custom:UNLICENSE')
 
-depends=('python' 'python-geojson' 'python-simplekml')
+depends=('python' 'python-geojson' 'python-simplekml' 'python-beautifulsoup4')
 makedepends=('git' 'python-sphinx')
 
 install=archmap.install
