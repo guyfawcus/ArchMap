@@ -148,17 +148,13 @@ def make_geojson(parsed_users, output_file):
         output_file (open): Location to save the GeoJSON output
     """
     geojson = []
-    id = 0
 
     log.info("Making and writing GeoJSON to " + output_file)
-    for user in parsed_users:
+    for id, user in enumerate(parsed_users):
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((float(user[1]), float(user[0])))
         feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]}, id=id)
         geojson.append(feature)
-
-        # Increment the points 'id'.
-        id += 1
 
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + "\n"
