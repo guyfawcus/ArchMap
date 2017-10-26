@@ -1,10 +1,12 @@
 from setuptools import setup
 
+
 # Find all of the tests in the 'tests' directory and return them.
 def test_suite():
     import unittest
     suite = unittest.TestLoader().discover('tests')
     return suite
+
 
 setup(
     name='archmap',

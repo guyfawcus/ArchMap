@@ -44,4 +44,3 @@ Code
 * Stats on Ohloh - https://www.ohloh.net/p/ArchMap
 
 * Code search on sourcegraph.com https://sourcegraph.com/github.com/maelstrom59/ArchMap
-

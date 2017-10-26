@@ -35,7 +35,7 @@ class OutputTestCase(unittest.TestCase):
         with open(self.sample_users, 'r') as file:
             sample_users = file.read()
         with open(self.output_users, 'r') as file:
-           output_users = file.read()
+            output_users = file.read()
 
         self.assertEqual(sample_users, output_users)
 
@@ -45,7 +45,7 @@ class OutputTestCase(unittest.TestCase):
         with open(self.sample_geojson, 'r') as file:
             sample_geojson = file.read()
         with open(self.output_geojson, 'r') as file:
-           output_geojson = file.read()
+            output_geojson = file.read()
 
         self.assertEqual(sample_geojson, output_geojson)
 
