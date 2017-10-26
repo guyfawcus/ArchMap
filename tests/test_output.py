@@ -15,8 +15,6 @@ class OutputTestCase(unittest.TestCase):
     parsed_users = archmap.parse_users(users)
 
     def setUp(self):
-        systemd = False
-
         self.sample_users = 'tests/sample-archmap_users.txt'
         self.output_users = 'tests/output-archmap_users.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
