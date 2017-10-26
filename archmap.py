@@ -15,7 +15,7 @@ from simplekml import Kml
 try:
     from systemd import journal
     systemd = True
-except:
+except ImportError:
     systemd = False
 
 
@@ -250,8 +250,8 @@ if __name__ == '__main__':
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
         output_file_csv = config['files']['csv']
-    except:
-        log.warning('Warning: Configuation file error, using defaults')
+    except Exception as e:
+        log.warning('Warning: Configuation file error: {}. Using defaults'.format(e))
         verbosity = default_verbosity
         output_file_users = default_users
         output_file_geojson = default_geojson
