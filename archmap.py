@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-
-import logging
-from urllib.request import urlopen
 import csv
+import logging
 import re
 from decimal import Decimal
+from urllib.request import urlopen
 
 from bs4 import BeautifulSoup
-from geojson import Feature, Point, FeatureCollection, dumps
+from geojson import dumps
+from geojson import Feature
+from geojson import FeatureCollection
+from geojson import Point
 from simplekml import Kml
 
 try:
