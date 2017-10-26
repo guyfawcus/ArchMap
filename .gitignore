@@ -1,0 +1,11 @@
+*.pyc
+*.swp
+*/__pycache__/
+.eggs/
+archmap.egg-info/
+
+docs/_build/
+tests/output-archmap_users.txt
+tests/output-archmap.csv
+tests/output-archmap.geojson
+tests/output-archmap.kml
