@@ -25,26 +25,26 @@ default_verbosity = 0
 # Set the default config file location, this is overridden if the --config switch is used.
 # If the --geojson, --kml or --csv switches are used,
 # they will override the settings in the config file.
-default_config = "/etc/archmap.conf"
+default_config = '/etc/archmap.conf'
 
 # Set the output locations for users, GeoJSON, KML and CSV.
 # Setting any of the following to 'no' will disable the output.
 # These settings are overridden by the config file, if it exists.
-default_users = "/tmp/archmap_users.txt"
-default_geojson = "/tmp/archmap.geojson"
-default_kml = "/tmp/archmap.kml"
-default_csv = "no"
+default_users = '/tmp/archmap_users.txt'
+default_geojson = '/tmp/archmap.geojson'
+default_kml = '/tmp/archmap.kml'
+default_csv = 'no'
 
 
-logging.basicConfig(format="==> %(message)s")
-log = logging.getLogger("archmap")
+logging.basicConfig(format='==> %(message)s')
+log = logging.getLogger('archmap')
 
 if systemd is not False:
-    log.addHandler(journal.JournalHandler(SYSLOG_IDENTIFIER="archmap"))
-    log.handlers[0].setFormatter(logging.Formatter("%(message)s."))
+    log.addHandler(journal.JournalHandler(SYSLOG_IDENTIFIER='archmap'))
+    log.handlers[0].setFormatter(logging.Formatter('%(message)s.'))
 
 
-def get_users(url="https://wiki.archlinux.org/index.php/ArchMap/List", local=""):
+def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local=''):
     """This funtion parses the list of users from the ArchWiki and returns it as a string.
 
     Args:
@@ -55,15 +55,15 @@ def get_users(url="https://wiki.archlinux.org/index.php/ArchMap/List", local="")
         string: The raw text list of users
     """
 
-    if local == "":
+    if local == '':
         # Open and decode the page from the URL containing the list of users.
-        log.info("Getting users from the ArchWiki: {}".format(url))
+        log.info('Getting users from the ArchWiki: {}'.format(url))
         wiki = urlopen(url)
         wiki_source = wiki.read().decode()
     else:
         # Open and decode the local page containing the list of users.
         with open(local, 'r') as wiki:
-            log.info("Getting users from a local file: {}".format(local))
+            log.info('Getting users from a local file: {}'.format(local))
             wiki_source = wiki.read()
 
     # Grab the user data between the second set of <pre> tags.
@@ -105,7 +105,7 @@ def parse_users(users):
     #     8. Comment
     re_whole = re.compile(str(re_coord + r'\s*,\s*' + re_coord + r'[^a-zA-Z]*' + re_name + r'\s*#*\s*' + re_comment))
 
-    log.info("Parsing ArchWiki text")
+    log.info('Parsing ArchWiki text')
     for line in users:
         # Retun None unless the line fully matches the RE
         re_whole_result = re_whole.fullmatch(line)
@@ -144,7 +144,7 @@ def make_users(parsed_users, output_file):
         #     https://wiki.archlinux.org/index.php/ArchMap/List#Adding_yourself_to_the_list
         users += '{},{} "{}" # {}\n'.format(latitude, longitude, name, comment)
 
-    log.info("Writing raw user list to " + output_file)
+    log.info('Writing raw user list to ' + output_file)
     # Write the text to 'output_file'.
     with open(output_file, 'w') as output:
         output.write(users)
@@ -160,15 +160,15 @@ def make_geojson(parsed_users, output_file):
     """
     geojson = []
 
-    log.info("Making and writing GeoJSON to " + output_file)
+    log.info('Making and writing GeoJSON to ' + output_file)
     for id, user in enumerate(parsed_users):
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((float(user[1]), float(user[0])))
-        feature = Feature(geometry=point, properties={"Comment": user[3], "Name": user[2]}, id=id)
+        feature = Feature(geometry=point, properties={'Comment': user[3], 'Name': user[2]}, id=id)
         geojson.append(feature)
 
     # Make 'geojson_str' for output.
-    geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + "\n"
+    geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + '\n'
 
     output = open(output_file, 'w')
     output.write(geojson_str)
@@ -185,7 +185,7 @@ def make_kml(parsed_users, output_file):
     """
     kml = Kml()
 
-    log.info("Making and writing KML to " + output_file)
+    log.info('Making and writing KML to ' + output_file)
     for user in parsed_users:
         # Generate a KML point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
@@ -204,7 +204,7 @@ def make_csv(parsed_users, output_file):
     csvfile = open(output_file, 'w', newline='')
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
 
-    log.info("Making and writing CSV to " + output_file)
+    log.info('Making and writing CSV to ' + output_file)
     for user in parsed_users:
         csvwriter.writerow(user)
 
@@ -212,26 +212,26 @@ def make_csv(parsed_users, output_file):
 
 
 # If the script is being run and not imported...
-if __name__ == "__main__":
+if __name__ == '__main__':
     from argparse import ArgumentParser
     from configparser import ConfigParser
 
     log.setLevel(logging.WARNING)
 
     # Define and parse arguments.
-    parser = ArgumentParser(description="ArchMap GeoJSON/KML generator")
+    parser = ArgumentParser(description='ArchMap GeoJSON/KML generator')
     parser.add_argument('-v', '--verbose', action='count',
-                        help="Show info messages")
-    parser.add_argument("--config", metavar="FILE", default=default_config,
-                        help="Use an alternative configuration file \
-                             instead of /etc/archmap.conf")
-    parser.add_argument("--users", metavar="FILE",
+                        help='Show info messages')
+    parser.add_argument('--config', metavar='FILE', default=default_config,
+                        help='Use an alternative configuration file \
+                             instead of /etc/archmap.conf')
+    parser.add_argument('--users', metavar='FILE',
                         help="Output the user list to FILE, use 'no' to disable output")
-    parser.add_argument("--geojson", metavar="FILE",
+    parser.add_argument('--geojson', metavar='FILE',
                         help="Output the GeoJSON to FILE, use 'no' to disable output")
-    parser.add_argument("--kml", metavar='FILE',
+    parser.add_argument('--kml', metavar='FILE',
                         help="Output the KML to FILE, use 'no' to disable output")
-    parser.add_argument("--csv", metavar='FILE',
+    parser.add_argument('--csv', metavar='FILE',
                         help="Output the CSV to FILE, use 'no' to disable output")
     args = parser.parse_args()
 
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         output_file_kml = config['files']['kml']
         output_file_csv = config['files']['csv']
     except:
-        log.warning("Warning: Configuation file error, using defaults")
+        log.warning('Warning: Configuation file error, using defaults')
         verbosity = default_verbosity
         output_file_users = default_users
         output_file_geojson = default_geojson
@@ -273,20 +273,20 @@ if __name__ == "__main__":
         output_file_csv = args.csv
 
     # Do what's needed.
-    if output_file_users == "no" and \
-       output_file_geojson == "no" and \
-       output_file_kml == "no" and \
-       output_file_csv == "no":
-        log.warning("There is nothing to do")
+    if output_file_users == 'no' and \
+       output_file_geojson == 'no' and \
+       output_file_kml == 'no' and \
+       output_file_csv == 'no':
+        log.warning('There is nothing to do')
     else:
         users = get_users()
         parsed_users = parse_users(users)
 
-        if output_file_users != "no":
+        if output_file_users != 'no':
             make_users(parsed_users, output_file_users)
-        if output_file_geojson != "no":
+        if output_file_geojson != 'no':
             make_geojson(parsed_users, output_file_geojson)
-        if output_file_kml != "no":
+        if output_file_kml != 'no':
             make_kml(parsed_users, output_file_kml)
-        if output_file_csv != "no":
+        if output_file_csv != 'no':
             make_csv(parsed_users, output_file_csv)

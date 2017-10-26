@@ -11,20 +11,20 @@ class OutputTestCase(unittest.TestCase):
     # with open('tests/raw_users.txt', 'r') as raw_users:
     #     parsed_users = archmap.parse_users(raw_users.read())
 
-    users = archmap.get_users(local="tests/ArchMap_List-stripped.html")
+    users = archmap.get_users(local='tests/ArchMap_List-stripped.html')
     parsed_users = archmap.parse_users(users)
 
     def setUp(self):
         systemd = False
 
-        self.sample_users = "tests/sample-archmap_users.txt"
-        self.output_users = "tests/output-archmap_users.txt"
-        self.sample_geojson = "tests/sample-archmap.geojson"
-        self.output_geojson = "tests/output-archmap.geojson"
-        self.sample_kml = "tests/sample-archmap.kml"
-        self.output_kml = "tests/output-archmap.kml"
-        self.sample_csv = "tests/sample-archmap.csv"
-        self.output_csv = "tests/output-archmap.csv"
+        self.sample_users = 'tests/sample-archmap_users.txt'
+        self.output_users = 'tests/output-archmap_users.txt'
+        self.sample_geojson = 'tests/sample-archmap.geojson'
+        self.output_geojson = 'tests/output-archmap.geojson'
+        self.sample_kml = 'tests/sample-archmap.kml'
+        self.output_kml = 'tests/output-archmap.kml'
+        self.sample_csv = 'tests/sample-archmap.csv'
+        self.output_csv = 'tests/output-archmap.csv'
 
         # Set 'maxDiff' to 'None' to be able to see long diffs when something goes wrong.
         self.maxDiff = None
@@ -32,9 +32,9 @@ class OutputTestCase(unittest.TestCase):
     def test_users(self):
         archmap.make_users(self.parsed_users, self.output_users)
 
-        with open(self.sample_users, "r") as file:
+        with open(self.sample_users, 'r') as file:
             sample_users = file.read()
-        with open(self.output_users, "r") as file:
+        with open(self.output_users, 'r') as file:
            output_users = file.read()
 
         self.assertEqual(sample_users, output_users)
@@ -42,9 +42,9 @@ class OutputTestCase(unittest.TestCase):
     def test_geojson(self):
         archmap.make_geojson(self.parsed_users, self.output_geojson)
 
-        with open(self.sample_geojson, "r") as file:
+        with open(self.sample_geojson, 'r') as file:
             sample_geojson = file.read()
-        with open(self.output_geojson, "r") as file:
+        with open(self.output_geojson, 'r') as file:
            output_geojson = file.read()
 
         self.assertEqual(sample_geojson, output_geojson)
@@ -52,9 +52,9 @@ class OutputTestCase(unittest.TestCase):
     def test_kml(self):
         archmap.make_kml(self.parsed_users, self.output_kml)
 
-        with open(self.sample_kml, "r") as file:
+        with open(self.sample_kml, 'r') as file:
             sample_kml = file.read()
-        with open(self.output_kml, "r") as file:
+        with open(self.output_kml, 'r') as file:
             output_kml = file.read()
 
         self.assertEqual(sample_kml, output_kml)
@@ -62,9 +62,9 @@ class OutputTestCase(unittest.TestCase):
     def test_csv(self):
         archmap.make_csv(self.parsed_users, self.output_csv)
 
-        with open(self.sample_csv, "r") as file:
+        with open(self.sample_csv, 'r') as file:
             sample_csv = file.read()
-        with open(self.output_csv, "r") as file:
+        with open(self.output_csv, 'r') as file:
             output_csv = file.read()
 
         self.assertEqual(sample_csv, output_csv)
