@@ -5,4 +5,4 @@
 45.4210328,-75.6900219 "User 4" # Ottawa, Canada
 -15.7934003,-47.8822933 "User 5" # Brasília, Brazil
 10,10 "User 6" # Somewhere
-20,20 "User 7" # 
+20,20 "User 7" #

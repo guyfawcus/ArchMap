@@ -146,6 +146,10 @@ def make_users(parsed_users, output_file):
         #     https://wiki.archlinux.org/index.php/ArchMap/List#Adding_yourself_to_the_list
         users += '{},{} "{}" # {}\n'.format(latitude, longitude, name, comment)
 
+    # If the last user didnt have a comment, go back to that line
+    # and strip the trailing whitespace then replace the newline (prevents editor errors)
+    users = users.strip('\n').strip() + '\n'
+
     log.info('Writing raw user list to ' + output_file)
     # Write the text to 'output_file'.
     with open(output_file, 'w') as output:
