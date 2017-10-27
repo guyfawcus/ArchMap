@@ -32,6 +32,14 @@ You can specify the output location for the user list text, GeoJSON, KML and CSV
    archmap --users /tmp/archmap_users.txt --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
 
 
+If you would like to parse an alternate copy of the wiki list, simply pass either the --url or --file flags::
+
+    archmap --url https://wiki.archlinux.org/index.php?title=ArchMap/List&oldid=131196
+
+or ::
+
+    archmap --file "$HOME/Downloads/ArchMap_List - ArchWiki.html"
+
 Logging
 -------
 If the script is run on a system that uses systemd, it will log to it using the syslog identifier - "archmap".

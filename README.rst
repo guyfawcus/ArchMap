@@ -42,14 +42,18 @@ The config file should be placed in ``/etc/archmap.conf``, this can be overridde
 Use
 ---
 
-Running ``archmap --help`` will display this help message::
+Running ``archmap --help`` will display this help message:
 
-  archmap [-h] [-v] [--config FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
+.. code-block:: none
+
+  archmap [-h] [-v] [--config FILE] [--url URL] [--file FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
 
   optional arguments:
   -h, --help      show this help message and exit
   -v, --verbose   Show info messages
   --config FILE   Use an alternative configuration file instead of /etc/archmap.conf
+  --url URL       Use an alternative URL to parse the wiki list from
+  --file FILE     Use a file to parse the wiki list from
   --users FILE    Output the list of users to FILE, use 'no' to disable output
   --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output
   --kml FILE      Output the KML to FILE, use 'no' to disable output

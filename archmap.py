@@ -29,6 +29,11 @@ default_verbosity = 0
 # they will override the settings in the config file.
 default_config = '/etc/archmap.conf'
 
+# Define where to get the wiki list from.
+# If a file path is supplied to 'default_file', it will be used instead of the URL
+default_url = 'https://wiki.archlinux.org/index.php/ArchMap/List'
+default_file = ''
+
 # Set the output locations for users, GeoJSON, KML and CSV.
 # Setting any of the following to 'no' will disable the output.
 # These settings are overridden by the config file, if it exists.
@@ -231,6 +236,10 @@ if __name__ == '__main__':
     parser.add_argument('--config', metavar='FILE', default=default_config,
                         help='Use an alternative configuration file \
                              instead of /etc/archmap.conf')
+    parser.add_argument('--url', metavar='URL',
+                        help='Use an alternative URL to parse the wiki list from')
+    parser.add_argument('--file', metavar='FILE',
+                        help='Use a file to parse the wiki list from')
     parser.add_argument('--users', metavar='FILE',
                         help="Output the user list to FILE, use 'no' to disable output")
     parser.add_argument('--geojson', metavar='FILE',
@@ -246,6 +255,8 @@ if __name__ == '__main__':
         config = ConfigParser()
         config.read(args.config)
         verbosity = int(config['extras']['verbosity'])
+        input_url = config['files']['url']
+        input_file = config['files']['file']
         output_file_users = config['files']['users']
         output_file_geojson = config['files']['geojson']
         output_file_kml = config['files']['kml']
@@ -253,6 +264,8 @@ if __name__ == '__main__':
     except Exception as e:
         log.warning('Warning: Configuation file error: {}. Using defaults'.format(e))
         verbosity = default_verbosity
+        input_url = default_url
+        input_file = default_file
         output_file_users = default_users
         output_file_geojson = default_geojson
         output_file_kml = default_kml
@@ -265,6 +278,12 @@ if __name__ == '__main__':
 
     if verbosity >= 1:
         log.setLevel(logging.INFO)
+
+    if args.url is not None:
+        input_url = args.url
+
+    if args.file is not None:
+        input_file = args.file
 
     if args.users is not None:
         output_file_users = args.users
@@ -285,7 +304,7 @@ if __name__ == '__main__':
        output_file_csv == 'no':
         log.warning('There is nothing to do')
     else:
-        users = get_users()
+        users = get_users(url=input_url, local=input_file)
         parsed_users = parse_users(users)
 
         if output_file_users != 'no':
