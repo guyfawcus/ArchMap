@@ -43,4 +43,4 @@ Support
 Release Notes
 -------------
 
-See also: `Releases <https://github.com/maelstrom59/ArchMap/releases>`_ on GitHub
+See also: `Releases <https://github.com/guyfawcus/ArchMap/releases>`_ on GitHub

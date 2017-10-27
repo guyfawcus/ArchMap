@@ -12,7 +12,7 @@ setup(
     name='archmap',
     version='0.2',
     description='ArchMap GeoJSON/KML generator',
-    url='https://github.com/maelstrom59/ArchMap',
+    url='https://github.com/guyfawcus/ArchMap',
     license='Unlicense',
     py_modules=['archmap'],
     install_requires=['geojson', 'simplekml'],

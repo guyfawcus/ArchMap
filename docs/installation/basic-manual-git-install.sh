@@ -2,7 +2,7 @@ echo -e "==> Make and cd to ./ArchMap\n"
 mkdir ArchMap && cd ArchMap
 
 echo -e "\n\n==> Download the ArchMap repo from GitHub\n"
-git clone https://github.com/maelstrom59/ArchMap.git ArchMap-git
+git clone https://github.com/guyfawcus/ArchMap.git ArchMap-git
 
 echo -e "\n\n==> Install the required packages\n"
 pip3 install -r ArchMap-git/requirements.txt

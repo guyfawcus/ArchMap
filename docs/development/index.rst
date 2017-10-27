@@ -121,8 +121,8 @@ To build package using the `PKGBUILD <https://wiki.archlinux.org/index.php/PKGBU
 
 Related issues:
 
-* `#3 <https://github.com/maelstrom59/ArchMap/pull/3>`_ PKGBUILD - **Closed**
-* `#9 <https://github.com/maelstrom59/ArchMap/pull/9>`_ PKGBUILD: Update pkgbuild with new deps and manpage - **Closed**
+* `#3 <https://github.com/guyfawcus/ArchMap/pull/3>`_ PKGBUILD - **Closed**
+* `#9 <https://github.com/guyfawcus/ArchMap/pull/9>`_ PKGBUILD: Update pkgbuild with new deps and manpage - **Closed**
 
 See also:
 
@@ -145,7 +145,7 @@ To build a `wheel <http://packaging.python.org/en/latest/glossary.html#term-whee
 
 Related issues:
 
-* `#8 <https://github.com/maelstrom59/ArchMap/issues/8>`_ Build a python package - **Open**
+* `#8 <https://github.com/guyfawcus/ArchMap/issues/8>`_ Build a python package - **Open**
 
 See also:
 

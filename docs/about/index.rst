@@ -39,8 +39,8 @@ Data
 Code
 ^^^^
 
-* Repository on GitHub - https://github.com/maelstrom59/ArchMap
+* Repository on GitHub - https://github.com/guyfawcus/ArchMap
 
 * Stats on Ohloh - https://www.ohloh.net/p/ArchMap
 
-* Code search on sourcegraph.com https://sourcegraph.com/github.com/maelstrom59/ArchMap
+* Code search on sourcegraph.com https://sourcegraph.com/github.com/guyfawcus/ArchMap

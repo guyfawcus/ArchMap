@@ -6,14 +6,14 @@ pkgrel=1
 
 pkgdesc="Generates a map of Arch Linux users"
 arch=('any')
-url="https://github.com/maelstrom59/ArchMap"
+url="https://github.com/guyfawcus/ArchMap"
 license=('custom:UNLICENSE')
 
 depends=('python' 'python-geojson' 'python-simplekml' 'python-beautifulsoup4')
 makedepends=('git' 'python-sphinx')
 
 install=archmap.install
-source=('archmap::git+https://github.com/maelstrom59/ArchMap.git')
+source=('archmap::git+https://github.com/guyfawcus/ArchMap.git')
 md5sums=('SKIP')
 
 pkgver() {

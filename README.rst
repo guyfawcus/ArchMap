@@ -1,13 +1,13 @@
 ArchMap
 -------
 
-.. image:: http://img.shields.io/travis/maelstrom59/ArchMap.svg
+.. image:: http://img.shields.io/travis/guyfawcus/ArchMap.svg
     :alt: build-status
-    :target: https://travis-ci.org/maelstrom59/ArchMap
+    :target: https://travis-ci.org/guyfawcus/ArchMap
 
-.. image:: http://img.shields.io/coveralls/maelstrom59/ArchMap.svg
+.. image:: http://img.shields.io/coveralls/guyfawcus/ArchMap.svg
     :alt: coverage
-    :target: https://coveralls.io/r/maelstrom59/ArchMap
+    :target: https://coveralls.io/r/guyfawcus/ArchMap
 
 .. image:: https://readthedocs.org/projects/archmap/badge/?version=latest&style=round
     :alt: docs-status
@@ -59,7 +59,7 @@ Running ``archmap --help`` will display this help message::
 License
 -------
 
-Everything in the `ArchMap repo <https://github.com/maelstrom59/ArchMap>`_ is `unlicensed <http://unlicense.org/>`_.
+Everything in the `ArchMap repo <https://github.com/guyfawcus/ArchMap>`_ is `unlicensed <http://unlicense.org/>`_.
 
 All of the files that this script can generate (``archmap_users.txt``, ``archmap.geojson``, ``archmap.kml``, and ``archmap.csv``)
 will contain text from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_
