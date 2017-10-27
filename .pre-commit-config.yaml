@@ -1,0 +1,16 @@
+-   repo: git://github.com/pre-commit/pre-commit-hooks
+    sha: e718847ccbc65cd72a89fefb4db61c55ec4d430d
+    hooks:
+    -   id: check-ast
+    -   id: trailing-whitespace
+    -   id: debug-statements
+    -   id: double-quote-string-fixer
+    -   id: end-of-file-fixer
+    -   id: flake8
+        exclude: docs/conf.py
+        args:
+        - --max-line-length=125
+-   repo: https://github.com/asottile/reorder_python_imports
+    sha: ae5254834a919977b8540d169ee18aa84123d245
+    hooks:
+    -   id: reorder-python-imports

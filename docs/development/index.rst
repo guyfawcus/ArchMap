@@ -79,6 +79,26 @@ Testing
 
 This will search the ``tests`` directory for tests.
 
+To check your commits before submitting, it is advisable to set up `pre-commit <http://pre-commit.com/>`_ first.
+Install it with::
+
+    pip3 install pre-commit
+
+Then install the hooks so that they automatically run before each commit::
+
+    pre-commit install
+
+Make sure the hooks are up to date::
+
+    pre-commit autoupdate
+
+To run the hooks before a commit use::
+
+    pre-commit run --all-files
+
+For further information, have a look at the pre-commit `advanced features <http://pre-commit.com/#advanced>`_ page
+or the :download:`.pre-commit-config.yaml <.pre-commit-config.yaml>` config file to see what is run.
+
 See also:
 
 * `unittest - Python docs <https://docs.python.org/3.4/library/unittest.html>`_
