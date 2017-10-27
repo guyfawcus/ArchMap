@@ -9,7 +9,7 @@ ArchMap
     :alt: coverage
     :target: https://coveralls.io/r/guyfawcus/ArchMap
 
-.. image:: https://readthedocs.org/projects/archmap/badge/?version=latest&style=round
+.. image:: https://img.shields.io/readthedocs/archmap.svg
     :alt: docs-status
     :target: https://readthedocs.org/builds/archmap/
 
