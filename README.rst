@@ -3,22 +3,18 @@ ArchMap
 
 .. image:: http://img.shields.io/travis/maelstrom59/ArchMap.svg
     :alt: build-status
-    :scale: 100%
     :target: https://travis-ci.org/maelstrom59/ArchMap
 
 .. image:: http://img.shields.io/coveralls/maelstrom59/ArchMap.svg
     :alt: coverage
-    :scale: 100%
     :target: https://coveralls.io/r/maelstrom59/ArchMap
 
 .. image:: https://readthedocs.org/projects/archmap/badge/?version=latest&style=round
     :alt: docs-status
-    :scale: 100%
     :target: https://readthedocs.org/builds/archmap/
 
 .. image:: http://img.shields.io/badge/license-Unlicense-brightgreen.svg
     :alt: license
-    :scale: 100%
     :target: http://unlicense.org/
 
 **archmap** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
