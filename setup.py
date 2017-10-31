@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from setuptools import setup
 
 
@@ -17,5 +18,6 @@ setup(
     py_modules=['archmap'],
     entry_points={'console_scripts': ['archmap=archmap:main']},
     install_requires=['bs4', 'geojson', 'simplekml'],
-    test_suite='setup.test_suite'
+    test_suite='setup.test_suite',
+    python_requires='>=3'
 )
