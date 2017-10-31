@@ -30,6 +30,13 @@ page on the ArchWiki for more information about this project.
 The documentation is hosted by `readthedocs.org <http://archmap.readthedocs.org>`_.
 
 
+Installation
+------------
+You can install ``archmap`` from `PyPi <https://pypi.python.org/pypi?:action=display&name=archmap>`_
+by running ``pip3 install archmap`` or from the AUR by installing the
+`archmap-git <https://aur.archlinux.org/packages/archmap-git/>`_ package.
+
+
 Synopsis
 --------
 
