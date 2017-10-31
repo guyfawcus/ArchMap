@@ -15,6 +15,6 @@ setup(
     url='https://github.com/guyfawcus/ArchMap',
     license='Unlicense',
     py_modules=['archmap'],
-    install_requires=['geojson', 'simplekml'],
+    install_requires=['bs4', 'geojson', 'simplekml'],
     test_suite='setup.test_suite'
 )
