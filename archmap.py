@@ -222,8 +222,7 @@ def make_csv(parsed_users, output_file):
     csvfile.close()
 
 
-# If the script is being run and not imported...
-if __name__ == '__main__':
+def main():
     from argparse import ArgumentParser
     from configparser import ConfigParser
 
@@ -315,3 +314,8 @@ if __name__ == '__main__':
             make_kml(parsed_users, output_file_kml)
         if output_file_csv != 'no':
             make_csv(parsed_users, output_file_csv)
+
+
+# If the script is being run and not imported...
+if __name__ == '__main__':
+    main()
