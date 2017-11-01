@@ -119,11 +119,6 @@ To build package using the `PKGBUILD <https://wiki.archlinux.org/index.php/PKGBU
     cd pkgbuild
     makepkg PKGBUILD
 
-Related issues:
-
-* `#3 <https://github.com/guyfawcus/ArchMap/pull/3>`_ PKGBUILD - **Closed**
-* `#9 <https://github.com/guyfawcus/ArchMap/pull/9>`_ PKGBUILD: Update pkgbuild with new deps and manpage - **Closed**
-
 See also:
 
 * `Creating packages <https://wiki.archlinux.org/index.php/Creating_packages>`_
@@ -142,10 +137,6 @@ To build a `source distribution <http://packaging.python.org/en/latest/glossary.
 To build a `wheel <http://packaging.python.org/en/latest/glossary.html#term-wheel>`_::
 
    python3 setup.py bdist_wheel
-
-Related issues:
-
-* `#8 <https://github.com/guyfawcus/ArchMap/issues/8>`_ Build a python package - **Open**
 
 See also:
 
