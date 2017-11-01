@@ -101,7 +101,7 @@ or the :download:`.pre-commit-config.yaml <.pre-commit-config.yaml>` config file
 
 See also:
 
-* `unittest - Python docs <https://docs.python.org/3.4/library/unittest.html>`_
+* `unittest - Python docs <https://docs.python.org/3/library/unittest.html>`_
 
 .. _packaging:
 
@@ -135,13 +135,13 @@ Packages are built using ``setup.py`` and ``setup.cfg`` for settings.
 
 To build a `source distribution <http://packaging.python.org/en/latest/glossary.html#term-source-distribution-or-sdist>`_::
 
-   python setup.py sdist
+   python3 setup.py sdist
 
 .. _build-wheel:
 
 To build a `wheel <http://packaging.python.org/en/latest/glossary.html#term-wheel>`_::
 
-   python setup.py bdist_wheel
+   python3 setup.py bdist_wheel
 
 Related issues:
 
