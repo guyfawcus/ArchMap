@@ -4,3 +4,7 @@ Description=ArchMap GeoJSON/KML generator
 [Service]
 Type=simple
 ExecStart=/usr/bin/archmap
+
+# Don't duplicate logs, messages are already passed directly to systemd
+StandardOutput=null
+StandardError=null

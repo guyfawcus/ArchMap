@@ -22,7 +22,7 @@ except ImportError:
 # Define the verbosity level:
 # '0' will disable the message printing,
 # '1' will enable it.
-default_verbosity = 0
+default_verbosity = 1
 
 # Set the default config file location, this is overridden if the --config switch is used.
 # If the --geojson, --kml or --csv switches are used,
