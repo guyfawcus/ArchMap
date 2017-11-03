@@ -181,9 +181,8 @@ def make_geojson(parsed_users, output_file):
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + '\n'
 
-    output = open(output_file, 'w')
-    output.write(geojson_str)
-    output.close()
+    with open(output_file, 'w') as output:
+        output.write(geojson_str)
 
 
 def make_kml(parsed_users, output_file):
@@ -212,15 +211,13 @@ def make_csv(parsed_users, output_file):
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the CSV output
     """
-    csvfile = open(output_file, 'w', newline='')
-    csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
+    with open(output_file, 'w', newline='') as output:
+        csvwriter = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
 
-    log.info('Making and writing CSV to ' + output_file)
-    csvwriter.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
-    for user in parsed_users:
-        csvwriter.writerow(user)
-
-    csvfile.close()
+        log.info('Making and writing CSV to ' + output_file)
+        csvwriter.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
+        for user in parsed_users:
+            csvwriter.writerow(user)
 
 
 def main():
