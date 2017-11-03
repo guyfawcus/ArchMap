@@ -40,7 +40,7 @@ default_file = ''
 default_users = '/tmp/archmap_users.txt'
 default_geojson = '/tmp/archmap.geojson'
 default_kml = '/tmp/archmap.kml'
-default_csv = 'no'
+default_csv = '/tmp/archmap.csv'
 
 
 logging.basicConfig(format='==> %(message)s')
