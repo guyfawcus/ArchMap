@@ -216,6 +216,7 @@ def make_csv(parsed_users, output_file):
     csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
 
     log.info('Making and writing CSV to ' + output_file)
+    csvwriter.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
     for user in parsed_users:
         csvwriter.writerow(user)
 
