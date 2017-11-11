@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+import logging
 import unittest
 
 import archmap
+
+
+archmap.log.setLevel(logging.CRITICAL)
 
 
 class OutputTestCase(unittest.TestCase):
