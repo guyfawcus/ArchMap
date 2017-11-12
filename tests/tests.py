@@ -75,6 +75,8 @@ class OutputTestCase(unittest.TestCase):
     def setUp(self):
         self.sample_users = 'tests/sample-archmap_users.txt'
         self.output_users = 'tests/output-archmap_users.txt'
+        self.sample_pretty_users = 'tests/sample-archmap_pretty_users.txt'
+        self.output_pretty_users = 'tests/output-archmap_pretty_users.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
         self.output_geojson = 'tests/output-archmap.geojson'
         self.sample_kml = 'tests/sample-archmap.kml'
@@ -94,6 +96,16 @@ class OutputTestCase(unittest.TestCase):
             output_users = file.read()
 
         self.assertEqual(sample_users, output_users)
+
+    def test_pretty_users(self):
+        archmap.make_users(self.parsed_users, self.output_pretty_users, pretty=True)
+
+        with open(self.sample_pretty_users, 'r') as file:
+            sample_pretty_users = file.read()
+        with open(self.output_pretty_users, 'r') as file:
+            output_pretty_users = file.read()
+
+        self.assertEqual(sample_pretty_users, output_pretty_users)
 
     def test_geojson(self):
         archmap.make_geojson(self.parsed_users, self.output_geojson)

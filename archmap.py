@@ -131,7 +131,7 @@ def parse_users(users):
     return parsed
 
 
-def make_users(parsed_users, output_file):
+def make_users(parsed_users, output_file, pretty=False):
     """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
 
     Args:
@@ -141,6 +141,28 @@ def make_users(parsed_users, output_file):
 
     users = ''
 
+    longest_latitude = 1
+    longest_longitude = 1
+    longest_name = 1
+    longest_comment = 1
+
+    if pretty:
+        # Go through all of the elements in each list and track the length of the longest string
+        for user in parsed_users:
+            latitude = user[0]
+            longitude = user[1]
+            name = user[2]
+            comment = user[3]
+
+            if longest_latitude < len(str(latitude)):
+                longest_latitude = len(str(latitude))
+            if longest_longitude < len(str(longitude)):
+                longest_longitude = len(str(longitude))
+            if longest_name < len(str(name)):
+                longest_name = len(str(name))
+            if longest_comment < len(str(comment)):
+                longest_comment = len(str(comment))
+
     for user in parsed_users:
         latitude = user[0]
         longitude = user[1]
@@ -149,7 +171,13 @@ def make_users(parsed_users, output_file):
 
         # This follows the formatting defined here:
         #     https://wiki.archlinux.org/index.php/ArchMap/List#Adding_yourself_to_the_list
-        users += '{},{} "{}" # {}\n'.format(latitude, longitude, name, comment)
+        #
+        # If pretty printing is enabled, the 'longest_' lengths are used to align the elements in the string
+        # Change the '<', '^' or '>' to change the justification (< = left, > = right, ^ = center)
+        users += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(latitude, longest_latitude,
+                                                            longitude, longest_longitude,
+                                                            name, longest_name,
+                                                            comment, longest_comment)
 
     # If the last user didnt have a comment, go back to that line
     # and strip the trailing whitespace then replace the newline (prevents editor errors)
