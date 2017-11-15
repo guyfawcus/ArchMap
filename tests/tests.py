@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import os
 import pickle
 import unittest
 
@@ -86,6 +87,16 @@ class OutputTestCase(unittest.TestCase):
 
         # Set 'maxDiff' to 'None' to be able to see long diffs when something goes wrong.
         self.maxDiff = None
+
+    def tearDown(self):
+        try:
+            os.remove(self.output_users)
+            os.remove(self.output_pretty_users)
+            os.remove(self.output_geojson)
+            os.remove(self.output_kml)
+            os.remove(self.output_csv)
+        except FileNotFoundError:
+            pass
 
     def test_users(self):
         archmap.make_users(self.parsed_users, self.output_users)
