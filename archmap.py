@@ -46,6 +46,7 @@ default_csv = '/tmp/archmap.csv'
 
 logging.basicConfig(format='==> %(message)s')
 log = logging.getLogger('archmap')
+log.setLevel(logging.WARNING)
 
 if systemd is not False:
     log.addHandler(journal.JournalHandler(SYSLOG_IDENTIFIER='archmap'))
@@ -257,12 +258,12 @@ def main():
     from argparse import ArgumentParser
     from configparser import ConfigParser
 
-    log.setLevel(logging.WARNING)
-
     # Define and parse arguments.
     parser = ArgumentParser(description='ArchMap GeoJSON/KML generator')
     parser.add_argument('-v', '--verbose', action='count',
                         help='Show info messages')
+    parser.add_argument('-q', '--quiet', action='store_true',
+                        help='Disable info messages')
     parser.add_argument('--config', metavar='FILE', default=default_config,
                         help='Use an alternative configuration file \
                              instead of /etc/archmap.conf')
@@ -306,8 +307,14 @@ def main():
     if args.verbose is not None:
         verbosity = args.verbose
 
-    if verbosity >= 1:
+    if verbosity == 1:
         log.setLevel(logging.INFO)
+
+    if verbosity > 1:
+        log.setLevel(logging.DEBUG)
+
+    if args.quiet or verbosity == -1:
+        log.setLevel(logging.CRITICAL)
 
     if args.url is not None:
         input_url = args.url
