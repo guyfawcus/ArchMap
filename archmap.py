@@ -139,6 +139,7 @@ def make_users(parsed_users, output_file, pretty=False):
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the text output
+        pretty (bool): If set to True, the output "columns" will be aligned and expanded to match the longest element
     """
 
     users = ''
