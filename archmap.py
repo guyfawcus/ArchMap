@@ -10,6 +10,7 @@ from geojson import dumps
 from geojson import Feature
 from geojson import FeatureCollection
 from geojson import Point
+from simplekml import featgeom
 from simplekml import Kml
 
 try:
@@ -229,6 +230,10 @@ def make_kml(parsed_users, output_file):
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
 
     kml.save(output_file)
+
+    # Reset the ID counters
+    featgeom.Feature._id = 0
+    featgeom.Geometry._id = 0
 
 
 def make_csv(parsed_users, output_file):
