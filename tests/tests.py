@@ -2,6 +2,7 @@
 import logging
 import os
 import pickle
+import sys
 import unittest
 
 import archmap
@@ -141,6 +142,76 @@ class OutputTestCase(unittest.TestCase):
     def test_csv(self):
         archmap.make_csv(self.parsed_users, self.output_csv)
 
+        with open(self.sample_csv, 'r') as file:
+            sample_csv = file.read()
+        with open(self.output_csv, 'r') as file:
+            output_csv = file.read()
+
+        self.assertEqual(sample_csv, output_csv)
+
+
+class InteractiveTestCase(unittest.TestCase):
+    """These tests test the interactive part of the script - the "main()" function
+    """
+
+    def setUp(self):
+        self.sample_users = 'tests/sample-archmap_users.txt'
+        self.output_users = 'tests/interactive_output-archmap_users.txt'
+        self.sample_geojson = 'tests/sample-archmap.geojson'
+        self.output_geojson = 'tests/interactive_output-archmap.geojson'
+        self.sample_kml = 'tests/sample-archmap.kml'
+        self.output_kml = 'tests/interactive_output-archmap.kml'
+        self.sample_csv = 'tests/sample-archmap.csv'
+        self.output_csv = 'tests/interactive_output-archmap.csv'
+
+        # Set 'maxDiff' to 'None' to be able to see long diffs when something goes wrong.
+        self.maxDiff = None
+
+        sys.argv = ['test',
+                    '--quiet',
+                    '--file', 'tests/ArchMap_List-stripped.html',
+                    '--users', self.output_users,
+                    '--geojson', self.output_geojson,
+                    '--kml', self.output_kml,
+                    '--csv', self.output_csv]
+
+        archmap.main()
+        archmap.log.setLevel(logging.CRITICAL)
+
+    def tearDown(self):
+        try:
+            os.remove(self.output_users)
+            os.remove(self.output_geojson)
+            os.remove(self.output_kml)
+            os.remove(self.output_csv)
+        except FileNotFoundError:
+            pass
+
+    def test_users(self):
+        with open(self.sample_users, 'r') as file:
+            sample_users = file.read()
+        with open(self.output_users, 'r') as file:
+            output_users = file.read()
+
+        self.assertEqual(sample_users, output_users)
+
+    def test_geojson(self):
+        with open(self.sample_geojson, 'r') as file:
+            sample_geojson = file.read()
+        with open(self.output_geojson, 'r') as file:
+            output_geojson = file.read()
+
+        self.assertEqual(sample_geojson, output_geojson)
+
+    def test_kml(self):
+        with open(self.sample_kml, 'r') as file:
+            sample_kml = file.read()
+        with open(self.output_kml, 'r') as file:
+            output_kml = file.read()
+
+        self.assertEqual(sample_kml, output_kml)
+
+    def test_csv(self):
         with open(self.sample_csv, 'r') as file:
             sample_csv = file.read()
         with open(self.output_csv, 'r') as file:
