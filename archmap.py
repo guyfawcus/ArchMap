@@ -3,6 +3,7 @@ import csv
 import logging
 import re
 from decimal import Decimal
+from urllib.error import URLError
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup
@@ -61,14 +62,19 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
         local (string): Path to a local copy of the ArchWiki ArchMap source
 
     Returns:
-        string: The raw text list of users
+        string or None: The extracted raw text list of users or None if not avaliable
     """
 
     if local == '':
         # Open and decode the page from the URL containing the list of users.
         log.info('Getting users from the ArchWiki: {}'.format(url))
-        wiki = urlopen(url)
-        wiki_source = wiki.read().decode()
+        try:
+            wiki = urlopen(url)
+            wiki_source = wiki.read().decode()
+        except URLError:
+            log.critical("Can't connect to the ArchWiki")
+            return None
+
     else:
         # Open and decode the local page containing the list of users.
         with open(local, 'r') as wiki:
@@ -343,6 +349,8 @@ def main():
         log.warning('There is nothing to do')
     else:
         users = get_users(url=input_url, local=input_file)
+        if users is None:
+            return
         parsed_users = parse_users(users)
 
         if output_file_users != 'no':

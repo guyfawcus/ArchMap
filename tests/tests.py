@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+import io
 import logging
 import os
 import pickle
 import sys
 import unittest
+import urllib
 
 import archmap
 
@@ -31,6 +33,36 @@ class WikiParserTestCase(unittest.TestCase):
     def test_wiki_parser(self):
         output_get_users = archmap.get_users(local=self.wiki_html)
         self.assertEqual(self.raw_users, output_get_users)
+
+    def test_internet(self):
+        # Mock out the internet connection using an offline copy
+        def mock_urlopen(url):
+            with open('tests/ArchMap_List-stripped.html', 'rb') as test_page:
+                test_string = io.BytesIO(test_page.read())
+            return test_string
+
+        # Reassign the 'urlopen' function to use the mock one
+        archmap.urlopen = mock_urlopen
+
+        # Check that the returned string equals the raw text
+        self.assertEqual(archmap.get_users(), self.raw_users)
+
+        # Restore the original call
+        archmap.urlopen = urllib.request.urlopen
+
+    def test_error(self):
+        # Fake an error when the function is called
+        def mock_error(url):
+            raise urllib.error.URLError('Simulated test error')
+
+        # Reassign the 'urlopen' function to use the mock one
+        archmap.urlopen = mock_error
+
+        # Check that the function returns 'None' when there is a connection error
+        self.assertIsNone(archmap.get_users())
+
+        # Restore the original call
+        archmap.urlopen = urllib.request.urlopen
 
 
 class ListParserTestCase(unittest.TestCase):
