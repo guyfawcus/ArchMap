@@ -3,6 +3,8 @@ import csv
 import logging
 import re
 from decimal import Decimal
+from typing import List
+from typing import Union
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -54,15 +56,15 @@ if systemd is not False:
     log.handlers[0].setFormatter(logging.Formatter('%(message)s.'))
 
 
-def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local=''):
+def get_users(url: str='https://wiki.archlinux.org/index.php/ArchMap/List', local: str='') -> Union[str, None]:
     """This funtion parses the list of users from the ArchWiki and returns it as a string.
 
     Args:
-        url (string): Link to a URL that points to a ArchWiki ArchMap list (default)
-        local (string): Path to a local copy of the ArchWiki ArchMap source
+        url: Link to a URL that points to a ArchWiki ArchMap list (default)
+        local: Path to a local copy of the ArchWiki ArchMap source
 
     Returns:
-        string or None: The extracted raw text list of users or None if not avaliable
+        The extracted raw text list of users or None if not avaliable
     """
 
     if local == '':
@@ -88,14 +90,14 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
     return wiki_text
 
 
-def parse_users(users):
+def parse_users(users: str) -> List[list]:
     """This function parses the wiki text from ``users`` into it's components.
 
     Args:
-        users (string): Raw user data from the ArchWiki
+        users: Raw user data from the ArchWiki
 
     Returns:
-        list: A list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
+        A list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
     """
     users = users.splitlines()
     parsed = []
@@ -139,13 +141,13 @@ def parse_users(users):
     return parsed
 
 
-def make_users(parsed_users, output_file, pretty=False):
+def make_users(parsed_users: List[list], output_file: str, pretty: bool=False):
     """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the text output
-        pretty (bool): If set to True, the output "columns" will be aligned and expanded to match the longest element
+        parsed_users: A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file: Location to save the text output
+        pretty: If set to True, the output "columns" will be aligned and expanded to match the longest element
     """
 
     users = ''
@@ -198,13 +200,13 @@ def make_users(parsed_users, output_file, pretty=False):
         output.write(users)
 
 
-def make_geojson(parsed_users, output_file):
+def make_geojson(parsed_users: List[list], output_file: str):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     GeoJSON output and writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the GeoJSON output
+        parsed_users: A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file: Location to save the GeoJSON output
     """
     geojson = []
 
@@ -222,13 +224,13 @@ def make_geojson(parsed_users, output_file):
         output.write(geojson_str)
 
 
-def make_kml(parsed_users, output_file):
+def make_kml(parsed_users: List[list], output_file: str):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     KML output and writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the KML output
+        parsed_users: A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file: Location to save the KML output
     """
     kml = Kml()
 
@@ -244,13 +246,13 @@ def make_kml(parsed_users, output_file):
     featgeom.Geometry._id = 0
 
 
-def make_csv(parsed_users, output_file):
+def make_csv(parsed_users: List[list], output_file: str):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     CSV output and writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the CSV output
+        parsed_users: A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file: Location to save the CSV output
     """
     with open(output_file, 'w', newline='') as output:
         csvwriter = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
