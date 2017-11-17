@@ -3,6 +3,7 @@ import csv
 import logging
 import re
 from decimal import Decimal
+from io import StringIO
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -146,6 +147,9 @@ def make_users(parsed_users, output_file, pretty=False):
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the text output
         pretty (bool): If set to True, the output "columns" will be aligned and expanded to match the longest element
+
+    Returns:
+        str: The text written to the output file
     """
 
     users = ''
@@ -197,6 +201,8 @@ def make_users(parsed_users, output_file, pretty=False):
     with open(output_file, 'w') as output:
         output.write(users)
 
+    return users
+
 
 def make_geojson(parsed_users, output_file):
     """This function reads the user data supplied by ``parsed_users``, it then generates
@@ -205,6 +211,9 @@ def make_geojson(parsed_users, output_file):
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the GeoJSON output
+
+    Returns:
+        str: The text written to the output file
     """
     geojson = []
 
@@ -221,6 +230,8 @@ def make_geojson(parsed_users, output_file):
     with open(output_file, 'w') as output:
         output.write(geojson_str)
 
+    return geojson_str
+
 
 def make_kml(parsed_users, output_file):
     """This function reads the user data supplied by ``parsed_users``, it then generates
@@ -229,6 +240,9 @@ def make_kml(parsed_users, output_file):
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the KML output
+
+    Returns:
+        str: The text written to the output file
     """
     kml = Kml()
 
@@ -243,6 +257,8 @@ def make_kml(parsed_users, output_file):
     featgeom.Feature._id = 0
     featgeom.Geometry._id = 0
 
+    return kml.kml()
+
 
 def make_csv(parsed_users, output_file):
     """This function reads the user data supplied by ``parsed_users``, it then generates
@@ -251,14 +267,25 @@ def make_csv(parsed_users, output_file):
     Args:
         parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
         output_file (open): Location to save the CSV output
+
+    Returns:
+        str: The text written to the output file
     """
     with open(output_file, 'w', newline='') as output:
-        csvwriter = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
+        csv_file_writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
 
         log.info('Making and writing CSV to ' + output_file)
-        csvwriter.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
+        csv_file_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
         for user in parsed_users:
-            csvwriter.writerow(user)
+            csv_file_writer.writerow(user)
+
+    csv_string = StringIO()
+    csv_string_writer = csv.writer(csv_string, quoting=csv.QUOTE_MINIMAL, dialect='unix')
+    csv_string_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
+    for user in parsed_users:
+        csv_string_writer.writerow(user)
+
+    return csv_string.getvalue()
 
 
 def main():
