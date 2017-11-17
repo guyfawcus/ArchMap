@@ -1,4 +1,3 @@
 bs4
 geojson
 simplekml
-sphinxcontrib-napoleon
