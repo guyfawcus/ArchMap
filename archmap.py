@@ -59,11 +59,11 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
     """This funtion parses the list of users from the ArchWiki and returns it as a string.
 
     Args:
-        url (string): Link to a URL that points to a ArchWiki ArchMap list (default)
-        local (string): Path to a local copy of the ArchWiki ArchMap source
+        url (str): Link to a URL that points to a ArchWiki ArchMap list (default)
+        local (str): Path to a local copy of the ArchWiki ArchMap source
 
     Returns:
-        string or None: The extracted raw text list of users or None if not avaliable
+        str or None: The extracted raw text list of users or None if not avaliable
     """
 
     if local == '':
@@ -93,10 +93,11 @@ def parse_users(users):
     """This function parses the wiki text from ``users`` into it's components.
 
     Args:
-        users (string): Raw user data from the ArchWiki
+        users (str): Raw user data from the ArchWiki
 
     Returns:
-        list: A list of lists, each sub_list has 4 elements: ``[latitude, longitude, name, comment]``
+        :obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`]\
+        : A list of lists, each sub-list has 4 elements: ``[latitude, longitude, name, comment]``
     """
     users = users.splitlines()
     parsed = []
@@ -144,8 +145,9 @@ def make_users(parsed_users, output_file, pretty=False):
     """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the text output
+        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
+        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (str): Location to save the text output
         pretty (bool): If set to True, the output "columns" will be aligned and expanded to match the longest element
 
     Returns:
@@ -209,8 +211,9 @@ def make_geojson(parsed_users, output_file):
     GeoJSON output and writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the GeoJSON output
+        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
+        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (str): Location to save the GeoJSON output
 
     Returns:
         str: The text written to the output file
@@ -238,8 +241,9 @@ def make_kml(parsed_users, output_file):
     KML output and writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the KML output
+        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
+        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (str): Location to save the KML output
 
     Returns:
         str: The text written to the output file
@@ -265,8 +269,9 @@ def make_csv(parsed_users, output_file):
     CSV output and writes it to ``output_file``.
 
     Args:
-        parsed_users (list): A list of lists, each sub_list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (open): Location to save the CSV output
+        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
+        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        output_file (str): Location to save the CSV output
 
     Returns:
         str: The text written to the output file
