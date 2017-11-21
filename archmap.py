@@ -65,7 +65,6 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
     Returns:
         str or None: The extracted raw text list of users or None if not avaliable
     """
-
     if local == '':
         # Open and decode the page from the URL containing the list of users.
         log.info('Getting users from the ArchWiki: {}'.format(url))
@@ -153,7 +152,6 @@ def make_users(parsed_users, output_file='', pretty=False):
     Returns:
         str: The text written to the output file
     """
-
     users = ''
 
     longest_latitude = 1
@@ -162,6 +160,7 @@ def make_users(parsed_users, output_file='', pretty=False):
     longest_comment = 1
 
     if pretty:
+        log.debug('Finding longest strings for prettying the raw user list')
         # Go through all of the elements in each list and track the length of the longest string
         for user in parsed_users:
             latitude = user[0]
@@ -178,6 +177,7 @@ def make_users(parsed_users, output_file='', pretty=False):
             if longest_comment < len(str(comment)):
                 longest_comment = len(str(comment))
 
+    log.debug('Making raw users')
     for user in parsed_users:
         latitude = user[0]
         longitude = user[1]
@@ -200,7 +200,6 @@ def make_users(parsed_users, output_file='', pretty=False):
 
     if output_file != '':
         log.info('Writing raw user list to ' + output_file)
-        # Write the text to 'output_file'.
         with open(output_file, 'w') as output:
             output.write(users)
 
@@ -258,13 +257,13 @@ def make_kml(parsed_users, output_file=''):
         # Generate a KML point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
 
-    if output_file != '':
-        log.info('Writing KML to ' + output_file)
-        kml.save(output_file)
-
     # Reset the ID counters
     featgeom.Feature._id = 0
     featgeom.Geometry._id = 0
+
+    if output_file != '':
+        log.info('Writing KML to ' + output_file)
+        kml.save(output_file)
 
     return kml.kml()
 
@@ -282,14 +281,15 @@ def make_csv(parsed_users, output_file=''):
         str: The text written to the output file
     """
     if output_file != '':
-        with open(output_file, 'w', newline='') as output:
-            csv_file_writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
+        with open(output_file, 'w') as output:
+            csv_file_writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL, dialect='unix')
 
             log.info('Making and writing CSV to ' + output_file)
             csv_file_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
             for user in parsed_users:
                 csv_file_writer.writerow(user)
 
+    log.debug('Making CSV')
     csv_string = StringIO()
     csv_string_writer = csv.writer(csv_string, quoting=csv.QUOTE_MINIMAL, dialect='unix')
     csv_string_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
@@ -389,7 +389,7 @@ def main():
     else:
         users = get_users(url=input_url, local=input_file)
         if users is None:
-            return
+            return None
         parsed_users = parse_users(users)
 
         if output_file_users not in dont_run:
