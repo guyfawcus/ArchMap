@@ -83,7 +83,7 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
 
     # Grab the user data between the second set of <pre> tags.
     soup = BeautifulSoup(wiki_source, 'html.parser')
-    wiki_text = soup.find_all('pre')[1].text.strip()
+    wiki_text = soup.find_all('pre')[-1].text.strip()
 
     return wiki_text
 
