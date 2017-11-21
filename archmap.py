@@ -141,13 +141,13 @@ def parse_users(users):
     return parsed
 
 
-def make_users(parsed_users, output_file, pretty=False):
+def make_users(parsed_users, output_file='', pretty=False):
     """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
 
     Args:
         parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
         : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (str): Location to save the text output
+        output_file (str): Location to save the text output. If left empty, nothing will be output
         pretty (bool): If set to True, the output "columns" will be aligned and expanded to match the longest element
 
     Returns:
@@ -198,29 +198,30 @@ def make_users(parsed_users, output_file, pretty=False):
     # and strip the trailing whitespace then replace the newline (prevents editor errors)
     users = users.strip('\n').strip() + '\n'
 
-    log.info('Writing raw user list to ' + output_file)
-    # Write the text to 'output_file'.
-    with open(output_file, 'w') as output:
-        output.write(users)
+    if output_file != '':
+        log.info('Writing raw user list to ' + output_file)
+        # Write the text to 'output_file'.
+        with open(output_file, 'w') as output:
+            output.write(users)
 
     return users
 
 
-def make_geojson(parsed_users, output_file):
+def make_geojson(parsed_users, output_file=''):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     GeoJSON output and writes it to ``output_file``.
 
     Args:
         parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
         : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (str): Location to save the GeoJSON output
+        output_file (str): Location to save the GeoJSON output. If left empty, nothing will be output
 
     Returns:
         str: The text written to the output file
     """
     geojson = []
 
-    log.info('Making and writing GeoJSON to ' + output_file)
+    log.debug('Making GeoJSON')
     for id, user in enumerate(parsed_users):
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((float(user[1]), float(user[0])))
@@ -230,32 +231,36 @@ def make_geojson(parsed_users, output_file):
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + '\n'
 
-    with open(output_file, 'w') as output:
-        output.write(geojson_str)
+    if output_file != '':
+        log.info('Writing GeoJSON to ' + output_file)
+        with open(output_file, 'w') as output:
+            output.write(geojson_str)
 
     return geojson_str
 
 
-def make_kml(parsed_users, output_file):
+def make_kml(parsed_users, output_file=''):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     KML output and writes it to ``output_file``.
 
     Args:
         parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
         : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (str): Location to save the KML output
+        output_file (str): Location to save the KML output. If left empty, nothing will be output
 
     Returns:
         str: The text written to the output file
     """
     kml = Kml()
 
-    log.info('Making and writing KML to ' + output_file)
+    log.debug('Making KML')
     for user in parsed_users:
         # Generate a KML point for the user.
         kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
 
-    kml.save(output_file)
+    if output_file != '':
+        log.info('Writing KML to ' + output_file)
+        kml.save(output_file)
 
     # Reset the ID counters
     featgeom.Feature._id = 0
@@ -264,25 +269,26 @@ def make_kml(parsed_users, output_file):
     return kml.kml()
 
 
-def make_csv(parsed_users, output_file):
+def make_csv(parsed_users, output_file=''):
     """This function reads the user data supplied by ``parsed_users``, it then generates
     CSV output and writes it to ``output_file``.
 
     Args:
         parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
         : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
-        output_file (str): Location to save the CSV output
+        output_file (str): Location to save the CSV output. If left empty, nothing will be output
 
     Returns:
         str: The text written to the output file
     """
-    with open(output_file, 'w', newline='') as output:
-        csv_file_writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
+    if output_file != '':
+        with open(output_file, 'w', newline='') as output:
+            csv_file_writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
 
-        log.info('Making and writing CSV to ' + output_file)
-        csv_file_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
-        for user in parsed_users:
-            csv_file_writer.writerow(user)
+            log.info('Making and writing CSV to ' + output_file)
+            csv_file_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
+            for user in parsed_users:
+                csv_file_writer.writerow(user)
 
     csv_string = StringIO()
     csv_string_writer = csv.writer(csv_string, quoting=csv.QUOTE_MINIMAL, dialect='unix')
@@ -374,10 +380,11 @@ def main():
         output_file_csv = args.csv
 
     # Do what's needed.
-    if output_file_users == 'no' and \
-       output_file_geojson == 'no' and \
-       output_file_kml == 'no' and \
-       output_file_csv == 'no':
+    dont_run = ['', 'no']
+    if output_file_users in dont_run and \
+       output_file_geojson in dont_run and \
+       output_file_kml in dont_run and \
+       output_file_csv in dont_run:
         log.warning('There is nothing to do')
     else:
         users = get_users(url=input_url, local=input_file)
@@ -385,13 +392,13 @@ def main():
             return
         parsed_users = parse_users(users)
 
-        if output_file_users != 'no':
+        if output_file_users not in dont_run:
             make_users(parsed_users, output_file_users)
-        if output_file_geojson != 'no':
+        if output_file_geojson not in dont_run:
             make_geojson(parsed_users, output_file_geojson)
-        if output_file_kml != 'no':
+        if output_file_kml not in dont_run:
             make_kml(parsed_users, output_file_kml)
-        if output_file_csv != 'no':
+        if output_file_csv not in dont_run:
             make_csv(parsed_users, output_file_csv)
 
 
