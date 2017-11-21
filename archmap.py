@@ -280,21 +280,17 @@ def make_csv(parsed_users, output_file=''):
     Returns:
         str: The text written to the output file
     """
-    if output_file != '':
-        with open(output_file, 'w') as output:
-            csv_file_writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL, dialect='unix')
-
-            log.info('Making and writing CSV to ' + output_file)
-            csv_file_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
-            for user in parsed_users:
-                csv_file_writer.writerow(user)
-
     log.debug('Making CSV')
     csv_string = StringIO()
     csv_string_writer = csv.writer(csv_string, quoting=csv.QUOTE_MINIMAL, dialect='unix')
     csv_string_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
     for user in parsed_users:
         csv_string_writer.writerow(user)
+
+    if output_file != '':
+        log.info('Writing CSV to ' + output_file)
+        with open(output_file, 'w') as output:
+            output.write(csv_string.getvalue())
 
     return csv_string.getvalue()
 
