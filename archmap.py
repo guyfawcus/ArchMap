@@ -261,11 +261,14 @@ def make_kml(parsed_users, output_file=''):
     featgeom.Feature._id = 0
     featgeom.Geometry._id = 0
 
+    kml_str = kml.kml()
+
     if output_file != '':
         log.info('Writing KML to ' + output_file)
-        kml.save(output_file)
+        with open(output_file, 'w') as output:
+            output.write(kml_str)
 
-    return kml.kml()
+    return kml_str
 
 
 def make_csv(parsed_users, output_file=''):
