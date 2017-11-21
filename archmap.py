@@ -287,12 +287,15 @@ def make_csv(parsed_users, output_file=''):
     for user in parsed_users:
         csv_string_writer.writerow(user)
 
+    csv_str = csv_string.getvalue()
+    csv_string.close()
+
     if output_file != '':
         log.info('Writing CSV to ' + output_file)
         with open(output_file, 'w') as output:
-            output.write(csv_string.getvalue())
+            output.write(csv_str)
 
-    return csv_string.getvalue()
+    return csv_str
 
 
 def main():
