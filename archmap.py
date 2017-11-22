@@ -201,7 +201,10 @@ def make_users(parsed_users, output_file='', pretty=False):
     # and strip the trailing whitespace then replace the newline (prevents editor errors)
     users = users.strip('\n').strip() + '\n'
 
-    if output_file != '':
+    if output_file == '-':
+        print(users)
+
+    elif output_file != '':
         log.info('Writing raw user list to ' + output_file)
         with open(output_file, 'w') as output:
             output.write(users)
@@ -233,7 +236,10 @@ def make_geojson(parsed_users, output_file=''):
     # Make 'geojson_str' for output.
     geojson_str = (dumps(FeatureCollection(geojson), sort_keys=True, indent=4)) + '\n'
 
-    if output_file != '':
+    if output_file == '-':
+        print(geojson_str)
+
+    elif output_file != '':
         log.info('Writing GeoJSON to ' + output_file)
         with open(output_file, 'w') as output:
             output.write(geojson_str)
@@ -266,7 +272,10 @@ def make_kml(parsed_users, output_file=''):
 
     kml_str = kml.kml()
 
-    if output_file != '':
+    if output_file == '-':
+        print(kml_str)
+
+    elif output_file != '':
         log.info('Writing KML to ' + output_file)
         with open(output_file, 'w') as output:
             output.write(kml_str)
@@ -296,7 +305,10 @@ def make_csv(parsed_users, output_file=''):
     csv_str = csv_string.getvalue()
     csv_string.close()
 
-    if output_file != '':
+    if output_file == '-':
+        print(csv_str)
+
+    elif output_file != '':
         log.info('Writing CSV to ' + output_file)
         with open(output_file, 'w') as output:
             output.write(csv_str)
@@ -324,13 +336,13 @@ def main():
     parser.add_argument('--pretty', action='store_true',
                         help='Prettify the text user list. Only works if user output is enabled')
     parser.add_argument('--users', metavar='FILE',
-                        help="Output the user list to FILE, use 'no' to disable output")
+                        help="Output the user list to FILE, use 'no' to disable output or '-' to print to stdout")
     parser.add_argument('--geojson', metavar='FILE',
-                        help="Output the GeoJSON to FILE, use 'no' to disable output")
+                        help="Output the GeoJSON to FILE, use 'no' to disable output or '-' to print to stdout")
     parser.add_argument('--kml', metavar='FILE',
-                        help="Output the KML to FILE, use 'no' to disable output")
+                        help="Output the KML to FILE, use 'no' to disable output or '-' to print to stdout")
     parser.add_argument('--csv', metavar='FILE',
-                        help="Output the CSV to FILE, use 'no' to disable output")
+                        help="Output the CSV to FILE, use 'no' to disable output or '-' to print to stdout")
     args = parser.parse_args()
 
     # Try to use the config file. If it doesn't exist, use the defaults.
@@ -399,6 +411,19 @@ def main():
        output_file_csv in dont_run:
         log.warning('There is nothing to do')
     else:
+        pipe_claims = []
+        if output_file_users == '-':
+            pipe_claims.append('Users')
+        if output_file_geojson == '-':
+            pipe_claims.append('GeoJSON')
+        if output_file_kml == '-':
+            pipe_claims.append('KML')
+        if output_file_csv == '-':
+            pipe_claims.append('CSV')
+        if len(pipe_claims) > 1:
+            log.warning('More than one format specified for printing. You probably want to disable one of the following: {}'
+                        .format(', '.join(pipe_claims)))
+
         users = get_users(url=input_url, local=input_file)
         if users is None:
             return None

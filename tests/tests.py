@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import contextlib
 import io
 import logging
 import os
@@ -331,6 +332,34 @@ class InteractiveTestCase(unittest.TestCase):
             output_csv = file.read()
 
         self.assertEqual(sample_csv, output_csv)
+
+    def test_piped_output(self):
+        # Make a string of all of the piped outputs
+        sys.argv = ['test',
+                    '--quiet',
+                    '--file', 'tests/ArchMap_List-stripped.html',
+                    '--users', '-',
+                    '--geojson', '-',
+                    '--kml', '-',
+                    '--csv', '-']
+
+        piped_output = io.StringIO()
+        with contextlib.redirect_stdout(piped_output):
+            archmap.main()
+        piped_output_str = piped_output.getvalue()
+
+        with open(self.sample_users, 'r') as file:
+            sample_users = file.read() + '\n'
+        with open(self.sample_geojson, 'r') as file:
+            sample_geojson = file.read() + '\n'
+        with open(self.sample_kml, 'r') as file:
+            sample_kml = file.read() + '\n'
+        with open(self.sample_csv, 'r') as file:
+            sample_csv = file.read() + '\n'
+
+        combined_string = sample_users + sample_geojson + sample_kml + sample_csv
+
+        self.assertEqual(combined_string, piped_output_str)
 
 
 if __name__ == '__main__':
