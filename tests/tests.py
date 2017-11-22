@@ -247,7 +247,7 @@ class InteractiveTestCase(unittest.TestCase):
         self.sample_users = 'tests/sample-archmap_users.txt'
         self.output_users = 'tests/interactive_output-archmap_users.txt'
         self.sample_pretty_users = 'tests/sample-archmap_pretty_users.txt'
-        self.output_pretty_users = 'tests/output-archmap_pretty_users.txt'
+        self.output_pretty_users = 'tests/interactive_output-archmap_pretty_users.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
         self.output_geojson = 'tests/interactive_output-archmap.geojson'
         self.sample_kml = 'tests/sample-archmap.kml'
