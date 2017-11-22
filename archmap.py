@@ -37,6 +37,9 @@ default_config = '/etc/archmap.conf'
 default_url = 'https://wiki.archlinux.org/index.php/ArchMap/List'
 default_file = ''
 
+# If set to True, the columns in the raw user list text will be aligned
+default_pretty = True
+
 # Set the output locations for users, GeoJSON, KML and CSV.
 # Setting any of the following to 'no' will disable the output.
 # These settings are overridden by the config file, if it exists.
@@ -318,6 +321,8 @@ def main():
                         help='Use an alternative URL to parse the wiki list from')
     parser.add_argument('--file', metavar='FILE',
                         help='Use a file to parse the wiki list from')
+    parser.add_argument('--pretty', action='store_true',
+                        help='Prettify the text user list. Only works if user output is enabled')
     parser.add_argument('--users', metavar='FILE',
                         help="Output the user list to FILE, use 'no' to disable output")
     parser.add_argument('--geojson', metavar='FILE',
@@ -333,6 +338,7 @@ def main():
         config = ConfigParser()
         config.read(args.config)
         verbosity = int(config['extras']['verbosity'])
+        pretty = config.getboolean('extras', 'pretty')
         input_url = config['files']['url']
         input_file = config['files']['file']
         output_file_users = config['files']['users']
@@ -342,6 +348,7 @@ def main():
     except Exception as e:
         log.warning('Warning: Configuation file error: {}. Using defaults'.format(e))
         verbosity = default_verbosity
+        pretty = default_pretty
         input_url = default_url
         input_file = default_file
         output_file_users = default_users
@@ -362,6 +369,9 @@ def main():
 
     if args.quiet or verbosity == -1:
         log.setLevel(logging.CRITICAL)
+
+    if args.pretty is not False:
+        pretty = True
 
     if args.url is not None:
         input_url = args.url
@@ -395,7 +405,7 @@ def main():
         parsed_users = parse_users(users)
 
         if output_file_users not in dont_run:
-            make_users(parsed_users, output_file_users)
+            make_users(parsed_users, output_file_users, pretty=pretty)
         if output_file_geojson not in dont_run:
             make_geojson(parsed_users, output_file_geojson)
         if output_file_kml not in dont_run:

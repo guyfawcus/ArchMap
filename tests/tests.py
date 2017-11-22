@@ -246,6 +246,8 @@ class InteractiveTestCase(unittest.TestCase):
     def setUp(self):
         self.sample_users = 'tests/sample-archmap_users.txt'
         self.output_users = 'tests/interactive_output-archmap_users.txt'
+        self.sample_pretty_users = 'tests/sample-archmap_pretty_users.txt'
+        self.output_pretty_users = 'tests/output-archmap_pretty_users.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
         self.output_geojson = 'tests/interactive_output-archmap.geojson'
         self.sample_kml = 'tests/sample-archmap.kml'
@@ -265,11 +267,25 @@ class InteractiveTestCase(unittest.TestCase):
                     '--csv', self.output_csv]
 
         archmap.main()
+
+        # Make a prettyfied user file
+        sys.argv = ['test',
+                    '--quiet',
+                    '--file', 'tests/ArchMap_List-stripped.html',
+                    '--pretty',
+                    '--users', self.output_pretty_users,
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        archmap.main()
+
         archmap.log.setLevel(logging.CRITICAL)
 
     def tearDown(self):
         try:
             os.remove(self.output_users)
+            os.remove(self.output_pretty_users)
             os.remove(self.output_geojson)
             os.remove(self.output_kml)
             os.remove(self.output_csv)
@@ -283,6 +299,14 @@ class InteractiveTestCase(unittest.TestCase):
             output_users = file.read()
 
         self.assertEqual(sample_users, output_users)
+
+    def test_pretty_users(self):
+        with open(self.sample_pretty_users, 'r') as file:
+            sample_pretty_users = file.read()
+        with open(self.output_pretty_users, 'r') as file:
+            output_pretty_users = file.read()
+
+        self.assertEqual(sample_pretty_users, output_pretty_users)
 
     def test_geojson(self):
         with open(self.sample_geojson, 'r') as file:
