@@ -38,7 +38,7 @@ default_url = 'https://wiki.archlinux.org/index.php/ArchMap/List'
 default_file = ''
 
 # If set to True, the columns in the raw user list text will be aligned
-default_pretty = True
+default_pretty = False
 
 # Set the output locations for users, GeoJSON, KML and CSV.
 # Setting any of the following to 'no' will disable the output.
