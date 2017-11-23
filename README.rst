@@ -20,10 +20,6 @@ ArchMap
 **archmap** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
 it does this by parsing data from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_.
 
-One rendering of the data is on a map over at
-`mapbox.com <https://a.tiles.mapbox.com/v3/alux.hclg4eg0/page.html?secure=1#4/39.63/-104.91>`_ -
-This is updated manually so it may be out of date.
-
 Have a look at the `ArchMap <https://wiki.archlinux.org/index.php/ArchMap>`_
 page on the ArchWiki for more information about this project.
 
