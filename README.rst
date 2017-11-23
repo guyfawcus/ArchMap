@@ -53,18 +53,21 @@ Running ``archmap --help`` will display this help message:
 
 .. code-block:: none
 
-  archmap [-h] [-v] [--config FILE] [--url URL] [--file FILE] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
+  usage:
+  archmap [-h] [-v] [-q] [--config FILE] [--url URL] [--file FILE] [--pretty] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
 
   optional arguments:
   -h, --help      show this help message and exit
   -v, --verbose   Show info messages
+  -q, --quiet     Disable info messages
   --config FILE   Use an alternative configuration file instead of /etc/archmap.conf
   --url URL       Use an alternative URL to parse the wiki list from
   --file FILE     Use a file to parse the wiki list from
-  --users FILE    Output the list of users to FILE, use 'no' to disable output
-  --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output
-  --kml FILE      Output the KML to FILE, use 'no' to disable output
-  --csv FILE      Output the CSV to FILE, use 'no' to disable output
+  --pretty        Prettify the text user list. Only works if user output is enabled
+  --users FILE    Output the user list to FILE, use 'no' to disable output or '-' to print to stdout
+  --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output or '-' to print to stdout
+  --kml FILE      Output the KML to FILE, use 'no' to disable output or '-' to print to stdout
+  --csv FILE      Output the CSV to FILE, use 'no' to disable output or '-' to print to stdout
 
 
 License
