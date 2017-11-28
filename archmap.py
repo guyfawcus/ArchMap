@@ -2,6 +2,7 @@
 import csv
 import logging
 import re
+from collections import namedtuple
 from decimal import Decimal
 from io import StringIO
 from urllib.error import URLError
@@ -57,6 +58,9 @@ if systemd is not False:
     log.addHandler(journal.JournalHandler(SYSLOG_IDENTIFIER='archmap'))
     log.handlers[0].setFormatter(logging.Formatter('%(message)s.'))
 
+# Define the namedtuple used to store each users details
+Entry = namedtuple(typename='Entry', field_names=['latitude', 'longitude', 'name', 'comment'])
+
 
 def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local=''):
     """This funtion parses the list of users from the ArchWiki and returns it as a string.
@@ -98,8 +102,9 @@ def parse_users(users):
         users (str): Raw user data from the ArchWiki
 
     Returns:
-        :obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`]\
-        : A list of lists, each sub-list has 4 elements: ``[latitude, longitude, name, comment]``
+        :obj:`list` of :obj:`collections.namedtuple` \
+        (:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`)\
+        : A list of namedtuples, each namedtuple has 4 elements: ``(latitude, longitude, name, comment)``
     """
     users = users.splitlines()
     parsed = []
@@ -135,7 +140,7 @@ def parse_users(users):
             name = re_whole_result.group(7).strip()
             comment = re_whole_result.group(8).strip()
 
-            parsed.append([latitude, longitude, name, comment])
+            parsed.append(Entry(latitude, longitude, name, comment))
 
         else:
             log.error('Bad line: {}'.format(line))
@@ -147,8 +152,9 @@ def make_users(parsed_users, output_file='', pretty=False):
     """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
 
     Args:
-        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
-        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        parsed_users (:obj:`list` of :obj:`collections.namedtuple` \
+        (:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`))\
+        : A list of namedtuples, each namedtuple should have 4 elements: ``(latitude, longitude, name, comment)``
         output_file (str): Location to save the text output. If left empty, nothing will be output
         pretty (bool): If set to True, the output "columns" will be aligned and expanded to match the longest element
 
@@ -166,36 +172,26 @@ def make_users(parsed_users, output_file='', pretty=False):
         log.debug('Finding longest strings for prettying the raw user list')
         # Go through all of the elements in each list and track the length of the longest string
         for user in parsed_users:
-            latitude = user[0]
-            longitude = user[1]
-            name = user[2]
-            comment = user[3]
-
-            if longest_latitude < len(str(latitude)):
-                longest_latitude = len(str(latitude))
-            if longest_longitude < len(str(longitude)):
-                longest_longitude = len(str(longitude))
-            if longest_name < len(str(name)):
-                longest_name = len(str(name))
-            if longest_comment < len(str(comment)):
-                longest_comment = len(str(comment))
+            if longest_latitude < len(str(user.latitude)):
+                longest_latitude = len(str(user.latitude))
+            if longest_longitude < len(str(user.longitude)):
+                longest_longitude = len(str(user.longitude))
+            if longest_name < len(str(user.name)):
+                longest_name = len(str(user.name))
+            if longest_comment < len(str(user.comment)):
+                longest_comment = len(str(user.comment))
 
     log.debug('Making raw users')
     for user in parsed_users:
-        latitude = user[0]
-        longitude = user[1]
-        name = user[2]
-        comment = user[3]
-
         # This follows the formatting defined here:
         #     https://wiki.archlinux.org/index.php/ArchMap/List#Adding_yourself_to_the_list
         #
         # If pretty printing is enabled, the 'longest_' lengths are used to align the elements in the string
         # Change the '<', '^' or '>' to change the justification (< = left, > = right, ^ = center)
-        users += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(latitude, longest_latitude,
-                                                            longitude, longest_longitude,
-                                                            name, longest_name,
-                                                            comment, longest_comment)
+        users += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(user.latitude, longest_latitude,
+                                                            user.longitude, longest_longitude,
+                                                            user.name, longest_name,
+                                                            user.comment, longest_comment)
 
     # If the last user didnt have a comment, go back to that line
     # and strip the trailing whitespace then replace the newline (prevents editor errors)
@@ -217,8 +213,9 @@ def make_geojson(parsed_users, output_file=''):
     GeoJSON output and writes it to ``output_file``.
 
     Args:
-        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
-        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        parsed_users (:obj:`list` of :obj:`collections.namedtuple` \
+        (:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`))\
+        : A list of namedtuples, each namedtuple should have 4 elements: ``(latitude, longitude, name, comment)``
         output_file (str): Location to save the GeoJSON output. If left empty, nothing will be output
 
     Returns:
@@ -229,8 +226,8 @@ def make_geojson(parsed_users, output_file=''):
     log.debug('Making GeoJSON')
     for id, user in enumerate(parsed_users):
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
-        point = Point((float(user[1]), float(user[0])))
-        feature = Feature(geometry=point, properties={'Comment': user[3], 'Name': user[2]}, id=id)
+        point = Point((float(user.longitude), float(user.latitude)))
+        feature = Feature(geometry=point, properties={'Comment': user.comment, 'Name': user.name}, id=id)
         geojson.append(feature)
 
     # Make 'geojson_str' for output.
@@ -252,8 +249,9 @@ def make_kml(parsed_users, output_file=''):
     KML output and writes it to ``output_file``.
 
     Args:
-        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
-        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        parsed_users (:obj:`list` of :obj:`collections.namedtuple` \
+        (:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`))\
+        : A list of namedtuples, each namedtuple should have 4 elements: ``(latitude, longitude, name, comment)``
         output_file (str): Location to save the KML output. If left empty, nothing will be output
 
     Returns:
@@ -264,7 +262,7 @@ def make_kml(parsed_users, output_file=''):
     log.debug('Making KML')
     for user in parsed_users:
         # Generate a KML point for the user.
-        kml.newpoint(name=user[2], coords=[(user[1], user[0])], description=user[3])
+        kml.newpoint(name=user.name, coords=[(user.longitude, user.latitude)], description=user.comment)
 
     # Reset the ID counters
     featgeom.Feature._id = 0
@@ -288,8 +286,9 @@ def make_csv(parsed_users, output_file=''):
     CSV output and writes it to ``output_file``.
 
     Args:
-        parsed_users (:obj:`list` of :obj:`list` [:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`])\
-        : A list of lists, each sub-list should have 4 elements: ``[latitude, longitude, name, comment]``
+        parsed_users (:obj:`list` of :obj:`collections.namedtuple` \
+        (:obj:`decimal.Decimal`, :obj:`decimal.Decimal`, :obj:`str`, :obj:`str`))\
+        : A list of namedtuples, each namedtuple should have 4 elements: ``(latitude, longitude, name, comment)``
         output_file (str): Location to save the CSV output. If left empty, nothing will be output
 
     Returns:
