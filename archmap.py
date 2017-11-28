@@ -140,7 +140,7 @@ def parse_users(users):
             name = re_whole_result.group(7).strip()
             comment = re_whole_result.group(8).strip()
 
-            parsed.append(Entry(latitude, longitude, name, comment))
+            parsed.append(Entry(latitude=latitude, longitude=longitude, name=name, comment=comment))
 
         else:
             log.error('Bad line: {}'.format(line))
@@ -227,7 +227,7 @@ def make_geojson(parsed_users, output_file=''):
     for id, user in enumerate(parsed_users):
         # Generate a GeoJSON point feature for the user and add it to 'geojson'.
         point = Point((float(user.longitude), float(user.latitude)))
-        feature = Feature(geometry=point, properties={'Comment': user.comment, 'Name': user.name}, id=id)
+        feature = Feature(geometry=point, properties={'Name': user.name, 'Comment': user.comment}, id=id)
         geojson.append(feature)
 
     # Make 'geojson_str' for output.
@@ -262,7 +262,7 @@ def make_kml(parsed_users, output_file=''):
     log.debug('Making KML')
     for user in parsed_users:
         # Generate a KML point for the user.
-        kml.newpoint(name=user.name, coords=[(user.longitude, user.latitude)], description=user.comment)
+        kml.newpoint(coords=[(user.longitude, user.latitude)], name=user.name, description=user.comment)
 
     # Reset the ID counters
     featgeom.Feature._id = 0
@@ -297,9 +297,9 @@ def make_csv(parsed_users, output_file=''):
     log.debug('Making CSV')
     csv_string = StringIO()
     csv_string_writer = csv.writer(csv_string, quoting=csv.QUOTE_MINIMAL, dialect='unix')
-    csv_string_writer.writerow(['Latitude', 'Longitude', 'Name', 'Comment'])
+    csv_string_writer.writerow(('Latitude', 'Longitude', 'Name', 'Comment'))
     for user in parsed_users:
-        csv_string_writer.writerow(user)
+        csv_string_writer.writerow((user.latitude, user.longitude, user.name, user.comment))
 
     csv_str = csv_string.getvalue()
     csv_string.close()
