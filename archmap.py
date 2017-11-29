@@ -130,7 +130,7 @@ def parse_users(users):
     re_whole = re.compile(str(re_coord + r'\s*,\s*' + re_coord + r'[^a-zA-Z]*' + re_name + r'\s*#*\s*' + re_comment))
 
     log.info('Parsing ArchWiki text')
-    for line in users:
+    for line_number, line in enumerate(users, start=1):
         # Retun None unless the line fully matches the RE
         re_whole_result = re_whole.fullmatch(line)
 
@@ -143,7 +143,7 @@ def parse_users(users):
             parsed.append(Entry(latitude=latitude, longitude=longitude, name=name, comment=comment))
 
         else:
-            log.error('Bad line: {}'.format(line))
+            log.error('Bad line ({}): {}'.format(line_number, line))
 
     return parsed
 
