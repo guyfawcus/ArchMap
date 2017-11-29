@@ -79,7 +79,7 @@ class ListParserTestCase(unittest.TestCase):
         sample_users = sample_users_file.read()
 
     # 'sample_parsed_users.pickle' is a pickled list that was generated with a known good list
-    # ('get_users' was run on 'sample_users.txt' and the output was pickled)
+    # ('parse_users()' was run on 'sample-archmap_users.txt' and the output was pickled)
     with open('tests/sample_parsed_users.pickle', 'rb') as pickled_input:
         sample_parsed_users = pickle.load(pickled_input)
 
@@ -103,7 +103,7 @@ class OutputTestCase(unittest.TestCase):
     """
 
     # 'sample_parsed_users.pickle' is a pickled list that was generated with a known good list
-    # ('get_users' was run on 'sample_users.txt' and the output was pickled)
+    # ('parse_users()' was run on 'sample-archmap_users.txt' and the output was pickled)
     with open('tests/sample_parsed_users.pickle', 'rb') as pickled_input:
         parsed_users = pickle.load(pickled_input)
 
@@ -190,7 +190,7 @@ class ReturnedTestCase(unittest.TestCase):
     """
 
     # 'sample_parsed_users.pickle' is a pickled list that was generated with a known good list
-    # ('get_users' was run on 'sample_users.txt' and the output was pickled)
+    # ('parse_users()' was run on 'sample-archmap_users.txt' and the output was pickled)
     with open('tests/sample_parsed_users.pickle', 'rb') as pickled_input:
         parsed_users = pickle.load(pickled_input)
 
