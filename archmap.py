@@ -42,7 +42,8 @@ default_file = ''
 default_pretty = False
 
 # Set the output locations for users, GeoJSON, KML and CSV.
-# Setting any of the following to 'no' will disable the output.
+# Setting any of the following to 'no' or leaving it blank will disable the output,
+# use '-' to print the generated text to stdout.
 # These settings are overridden by the config file, if it exists.
 default_users = '/tmp/archmap_users.txt'
 default_geojson = '/tmp/archmap.geojson'
