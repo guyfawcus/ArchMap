@@ -150,7 +150,8 @@ def parse_users(users):
 
 
 def make_users(parsed_users, output_file='', pretty=False):
-    """This function reads the raw text supplied by ``users``, it then writes it to ``output_file``.
+    """This function reads the user data supplied by ``parsed_users``, it then generates
+    a list according to the formatting specifications on the wiki and writes it to ``output_file``.
 
     Args:
         parsed_users (:obj:`list` of :obj:`collections.namedtuple` \
