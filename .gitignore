@@ -15,6 +15,7 @@ tests/output-archmap.geojson
 tests/output-archmap.kml
 
 tests/interactive_output-archmap_users.txt
+tests/interactive_output-archmap_pretty_users.txt
 tests/interactive_output-archmap.csv
 tests/interactive_output-archmap.geojson
 tests/interactive_output-archmap.kml
