@@ -320,6 +320,7 @@ def make_csv(parsed_users, output_file=''):
 def main():
     from argparse import ArgumentParser
     from configparser import ConfigParser
+    from pathlib import Path
 
     # Define and parse arguments.
     parser = ArgumentParser(description='ArchMap GeoJSON/KML generator')
@@ -346,28 +347,23 @@ def main():
                         help="Output the CSV to FILE, use 'no' to disable output or '-' to print to stdout")
     args = parser.parse_args()
 
+    config_location = Path(args.config)
+    config = ConfigParser()
+
     # Try to use the config file. If it doesn't exist, use the defaults.
-    try:
-        config = ConfigParser()
-        config.read(args.config)
-        verbosity = int(config['extras']['verbosity'])
-        pretty = config.getboolean('extras', 'pretty')
-        input_url = config['files']['url']
-        input_file = config['files']['file']
-        output_file_users = config['files']['users']
-        output_file_geojson = config['files']['geojson']
-        output_file_kml = config['files']['kml']
-        output_file_csv = config['files']['csv']
-    except Exception as e:
-        log.warning('Warning: Configuation file error: {}. Using defaults'.format(e))
-        verbosity = default_verbosity
-        pretty = default_pretty
-        input_url = default_url
-        input_file = default_file
-        output_file_users = default_users
-        output_file_geojson = default_geojson
-        output_file_kml = default_kml
-        output_file_csv = default_csv
+    if not config_location.is_file():
+        log.warning('Warning: Configuation file does not exist. Using defaults')
+    else:
+        config.read(str(config_location))
+
+    verbosity = config.getint('extras', 'verbosity', fallback=default_verbosity)
+    pretty = config.getboolean('extras', 'pretty', fallback=default_pretty)
+    input_url = config.get('files', 'url', fallback=default_url)
+    input_file = config.get('files', 'file', fallback=default_file)
+    output_file_users = config.get('files', 'users', fallback=default_users)
+    output_file_geojson = config.get('files', 'geojson', fallback=default_geojson)
+    output_file_kml = config.get('files', 'kml', fallback=default_kml)
+    output_file_csv = config.get('files', 'csv', fallback=default_csv)
 
     # Finally, parse the command line arguments, anything passed to them will
     # override both the defaults in this script and anything in the config file.
