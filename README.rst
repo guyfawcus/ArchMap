@@ -36,8 +36,9 @@ by running ``pip3 install archmap`` or from the AUR by installing the
 Synopsis
 --------
 
-By default, running ``archmap`` will output three files to /tmp, ``archmap_users.txt``, ``archmap.geojson`` and ``archmap.kml``,
-this can be overridden by either using the config file or by the command line switches.
+By default, running ``archmap`` will output four files to /tmp;
+``archmap_users.txt``, ``archmap.geojson``, ``archmap.kml`` and ``archmap.csv``.
+This can be overridden by either using the config file or by the command line switches.
 
 The config file should be placed in ``/etc/archmap.conf``, this can be overridden by using ``--config <path-to-config-file>``
 
