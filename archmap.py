@@ -150,7 +150,7 @@ def parse_users(users):
     return parsed
 
 
-def make_users(parsed_users, output_file='', pretty=False):
+def make_text(parsed_users, output_file='', pretty=False):
     """This function reads the user data supplied by ``parsed_users``, it then generates a raw-text list
     according to the formatting specifications on the wiki and writes it to ``output_file``.
 
@@ -428,7 +428,7 @@ def main():
         parsed_users = parse_users(users)
 
         if output_file_text not in dont_run:
-            make_users(parsed_users, output_file_text, pretty=pretty)
+            make_text(parsed_users, output_file_text, pretty=pretty)
         if output_file_geojson not in dont_run:
             make_geojson(parsed_users, output_file_geojson)
         if output_file_kml not in dont_run:
