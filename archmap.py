@@ -361,7 +361,7 @@ def main():
     pretty = config.getboolean('extras', 'pretty', fallback=default_pretty)
     input_url = config.get('files', 'url', fallback=default_url)
     input_file = config.get('files', 'file', fallback=default_file)
-    output_file_text = config.get('files', 'users', fallback=default_text)
+    output_file_text = config.get('files', 'text', fallback=default_text)
     output_file_geojson = config.get('files', 'geojson', fallback=default_geojson)
     output_file_kml = config.get('files', 'kml', fallback=default_kml)
     output_file_csv = config.get('files', 'csv', fallback=default_csv)
