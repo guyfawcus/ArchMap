@@ -262,7 +262,7 @@ class InteractiveTestCase(unittest.TestCase):
         sys.argv = ['test',
                     '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
-                    '--users', self.output_users,
+                    '--text', self.output_users,
                     '--geojson', self.output_geojson,
                     '--kml', self.output_kml,
                     '--csv', self.output_csv]
@@ -274,7 +274,7 @@ class InteractiveTestCase(unittest.TestCase):
                     '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
                     '--pretty',
-                    '--users', self.output_pretty_users,
+                    '--text', self.output_pretty_users,
                     '--geojson', 'no',
                     '--kml', 'no',
                     '--csv', 'no']
@@ -293,7 +293,7 @@ class InteractiveTestCase(unittest.TestCase):
         except FileNotFoundError:
             pass
 
-    def test_users(self):
+    def test_text(self):
         with open(self.sample_users, 'r') as file:
             sample_users = file.read()
         with open(self.output_users, 'r') as file:
@@ -301,7 +301,7 @@ class InteractiveTestCase(unittest.TestCase):
 
         self.assertEqual(sample_users, output_users)
 
-    def test_pretty_users(self):
+    def test_pretty_text(self):
         with open(self.sample_pretty_users, 'r') as file:
             sample_pretty_users = file.read()
         with open(self.output_pretty_users, 'r') as file:
@@ -338,7 +338,7 @@ class InteractiveTestCase(unittest.TestCase):
         sys.argv = ['test',
                     '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
-                    '--users', '-',
+                    '--text', '-',
                     '--geojson', '-',
                     '--kml', '-',
                     '--csv', '-']

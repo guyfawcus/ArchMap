@@ -338,7 +338,7 @@ def main():
                         help='Use a file to parse the wiki list from')
     parser.add_argument('--pretty', action='store_true',
                         help='Prettify the raw-text. Only works if user output is enabled')
-    parser.add_argument('--users', metavar='FILE',
+    parser.add_argument('--text', metavar='FILE',
                         help="Output the raw-text to FILE, use 'no' to disable output or '-' to print to stdout")
     parser.add_argument('--geojson', metavar='FILE',
                         help="Output the GeoJSON to FILE, use 'no' to disable output or '-' to print to stdout")
@@ -389,8 +389,8 @@ def main():
     if args.file is not None:
         input_file = args.file
 
-    if args.users is not None:
-        output_file_text = args.users
+    if args.text is not None:
+        output_file_text = args.text
 
     if args.geojson is not None:
         output_file_geojson = args.geojson
