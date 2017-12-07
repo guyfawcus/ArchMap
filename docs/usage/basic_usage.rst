@@ -29,7 +29,7 @@ You can specify the output location for the user list text, GeoJSON, KML and CSV
 
 .. code-block:: bash
 
-   archmap --users /tmp/archmap.txt --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
+   archmap --text /tmp/archmap.txt --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
 
 
 If you would like to parse an alternate copy of the wiki list, simply pass either the --url or --file flags::

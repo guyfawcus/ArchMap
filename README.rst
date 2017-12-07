@@ -51,7 +51,7 @@ Running ``archmap --help`` will display this help message:
 .. code-block:: none
 
   usage:
-  archmap [-h] [-v] [-q] [--config FILE] [--url URL] [--file FILE] [--pretty] [--users FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
+  archmap [-h] [-v] [-q] [--config FILE] [--url URL] [--file FILE] [--pretty] [--text FILE] [--geojson FILE] [--kml FILE] [--csv FILE]
 
   optional arguments:
   -h, --help      show this help message and exit
