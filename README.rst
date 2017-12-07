@@ -1,21 +1,21 @@
 ArchMap
 -------
 
-.. image:: http://img.shields.io/travis/guyfawcus/ArchMap.svg
+.. image:: https://travis-ci.org/guyfawcus/ArchMap.svg?branch=master
     :alt: build-status
-    :target: https://travis-ci.org/guyfawcus/ArchMap
+    :target: https://travis-ci.org/guyfawcus/ArchMap/branches
 
-.. image:: http://img.shields.io/coveralls/guyfawcus/ArchMap.svg
+.. image:: https://coveralls.io/repos/github/guyfawcus/ArchMap/badge.svg?branch=master
     :alt: coverage
-    :target: https://coveralls.io/r/guyfawcus/ArchMap
+    :target: https://coveralls.io/github/guyfawcus/ArchMap?branch=master
 
-.. image:: https://img.shields.io/readthedocs/archmap.svg
+.. image:: https://readthedocs.org/projects/archmap/badge/?version=latest
     :alt: docs-status
     :target: https://readthedocs.org/builds/archmap/
 
-.. image:: http://img.shields.io/badge/license-Unlicense-brightgreen.svg
+.. image:: https://img.shields.io/badge/license-Unlicense-brightgreen.svg
     :alt: license
-    :target: http://unlicense.org/
+    :target: https://unlicense.org/
 
 **archmap** generates *GeoJSON* and *KML* files which can be used to display a map of Arch Linux users,
 it does this by parsing data from the `ArchWiki <https://wiki.archlinux.org/index.php/ArchMap/List>`_.
