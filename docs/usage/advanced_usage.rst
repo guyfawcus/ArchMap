@@ -11,7 +11,7 @@ Getting and parsing user data
 Output generators
 -----------------
 
-.. autofunction:: archmap.make_users
+.. autofunction:: archmap.make_text
 .. autofunction:: archmap.make_geojson
 .. autofunction:: archmap.make_kml
 .. autofunction:: archmap.make_csv

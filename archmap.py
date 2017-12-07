@@ -38,14 +38,14 @@ default_config = '/etc/archmap.conf'
 default_url = 'https://wiki.archlinux.org/index.php/ArchMap/List'
 default_file = ''
 
-# If set to True, the columns in the raw user list text will be aligned
+# If set to True, the columns in the raw-text list will be aligned
 default_pretty = False
 
-# Set the output locations for users, GeoJSON, KML and CSV.
+# Set the output locations for the raw-text, GeoJSON, KML and CSV files.
 # Setting any of the following to 'no' or leaving it blank will disable the output,
 # use '-' to print the generated text to stdout.
 # These settings are overridden by the config file, if it exists.
-default_users = '/tmp/archmap_users.txt'
+default_text = '/tmp/archmap.txt'
 default_geojson = '/tmp/archmap.geojson'
 default_kml = '/tmp/archmap.kml'
 default_csv = '/tmp/archmap.csv'
@@ -71,7 +71,7 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
         local (str): Path to a local copy of the ArchWiki ArchMap source
 
     Returns:
-        str or None: The extracted raw text list of users or None if not avaliable
+        str or None: The extracted raw-text list of users or None if not avaliable
     """
     if local == '':
         # Open and decode the page from the URL containing the list of users.
@@ -97,10 +97,11 @@ def get_users(url='https://wiki.archlinux.org/index.php/ArchMap/List', local='')
 
 
 def parse_users(users):
-    """This function parses the wiki text from ``users`` into it's components.
+    """This function parses the raw-text list (``users``) that has been extracted from the wiki page
+    and splits it into a list of namedtuples containing the latitude, longitude, name and comment.
 
     Args:
-        users (str): Raw user data from the ArchWiki
+        users (str): raw-text list from the ArchWiki
 
     Returns:
         :obj:`list` of :obj:`collections.namedtuple` \
@@ -130,7 +131,7 @@ def parse_users(users):
     #     8. Comment
     re_whole = re.compile(str(re_coord + r'\s*,\s*' + re_coord + r'[^a-zA-Z]*' + re_name + r'\s*#*\s*' + re_comment))
 
-    log.info('Parsing ArchWiki text')
+    log.info('Parsing ArchWiki list')
     for line_number, line in enumerate(users, start=1):
         # Retun None unless the line fully matches the RE
         re_whole_result = re_whole.fullmatch(line)
@@ -149,9 +150,9 @@ def parse_users(users):
     return parsed
 
 
-def make_users(parsed_users, output_file='', pretty=False):
-    """This function reads the user data supplied by ``parsed_users``, it then generates
-    a list according to the formatting specifications on the wiki and writes it to ``output_file``.
+def make_text(parsed_users, output_file='', pretty=False):
+    """This function reads the user data supplied by ``parsed_users``, it then generates a raw-text list
+    according to the formatting specifications on the wiki and writes it to ``output_file``.
 
     Args:
         parsed_users (:obj:`list` of :obj:`collections.namedtuple` \
@@ -163,7 +164,7 @@ def make_users(parsed_users, output_file='', pretty=False):
     Returns:
         str: The text written to the output file
     """
-    users = ''
+    text_str = ''
 
     longest_latitude = 1
     longest_longitude = 1
@@ -171,7 +172,7 @@ def make_users(parsed_users, output_file='', pretty=False):
     longest_comment = 1
 
     if pretty:
-        log.debug('Finding longest strings for prettying the raw user list')
+        log.debug('Finding longest strings for prettifying the raw-text')
         # Go through all of the elements in each list and track the length of the longest string
         for user in parsed_users:
             if longest_latitude < len(str(user.latitude)):
@@ -183,31 +184,31 @@ def make_users(parsed_users, output_file='', pretty=False):
             if longest_comment < len(str(user.comment)):
                 longest_comment = len(str(user.comment))
 
-    log.debug('Making raw users')
+    log.debug('Making raw-text')
     for user in parsed_users:
         # This follows the formatting defined here:
         #     https://wiki.archlinux.org/index.php/ArchMap/List#Adding_yourself_to_the_list
         #
         # If pretty printing is enabled, the 'longest_' lengths are used to align the elements in the string
         # Change the '<', '^' or '>' to change the justification (< = left, > = right, ^ = center)
-        users += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(user.latitude, longest_latitude,
-                                                            user.longitude, longest_longitude,
-                                                            user.name, longest_name,
-                                                            user.comment, longest_comment)
+        text_str += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(user.latitude, longest_latitude,
+                                                               user.longitude, longest_longitude,
+                                                               user.name, longest_name,
+                                                               user.comment, longest_comment)
 
     # If the last user didnt have a comment, go back to that line
     # and strip the trailing whitespace then replace the newline (prevents editor errors)
-    users = users.strip('\n').strip() + '\n'
+    text_str = text_str.strip('\n').strip() + '\n'
 
     if output_file == '-':
-        print(users)
+        print(text_str)
 
     elif output_file != '':
-        log.info('Writing raw user list to ' + output_file)
+        log.info('Writing raw-text to ' + output_file)
         with open(output_file, 'w') as output:
-            output.write(users)
+            output.write(text_str)
 
-    return users
+    return text_str
 
 
 def make_geojson(parsed_users, output_file=''):
@@ -336,9 +337,9 @@ def main():
     parser.add_argument('--file', metavar='FILE',
                         help='Use a file to parse the wiki list from')
     parser.add_argument('--pretty', action='store_true',
-                        help='Prettify the text user list. Only works if user output is enabled')
-    parser.add_argument('--users', metavar='FILE',
-                        help="Output the user list to FILE, use 'no' to disable output or '-' to print to stdout")
+                        help='Prettify the raw-text. Only works if user output is enabled')
+    parser.add_argument('--text', metavar='FILE',
+                        help="Output the raw-text to FILE, use 'no' to disable output or '-' to print to stdout")
     parser.add_argument('--geojson', metavar='FILE',
                         help="Output the GeoJSON to FILE, use 'no' to disable output or '-' to print to stdout")
     parser.add_argument('--kml', metavar='FILE',
@@ -360,7 +361,7 @@ def main():
     pretty = config.getboolean('extras', 'pretty', fallback=default_pretty)
     input_url = config.get('files', 'url', fallback=default_url)
     input_file = config.get('files', 'file', fallback=default_file)
-    output_file_users = config.get('files', 'users', fallback=default_users)
+    output_file_text = config.get('files', 'text', fallback=default_text)
     output_file_geojson = config.get('files', 'geojson', fallback=default_geojson)
     output_file_kml = config.get('files', 'kml', fallback=default_kml)
     output_file_csv = config.get('files', 'csv', fallback=default_csv)
@@ -388,8 +389,8 @@ def main():
     if args.file is not None:
         input_file = args.file
 
-    if args.users is not None:
-        output_file_users = args.users
+    if args.text is not None:
+        output_file_text = args.text
 
     if args.geojson is not None:
         output_file_geojson = args.geojson
@@ -402,15 +403,15 @@ def main():
 
     # Do what's needed.
     dont_run = ['', 'no']
-    if output_file_users in dont_run and \
+    if output_file_text in dont_run and \
        output_file_geojson in dont_run and \
        output_file_kml in dont_run and \
        output_file_csv in dont_run:
         log.warning('There is nothing to do')
     else:
         pipe_claims = []
-        if output_file_users == '-':
-            pipe_claims.append('Users')
+        if output_file_text == '-':
+            pipe_claims.append('Text')
         if output_file_geojson == '-':
             pipe_claims.append('GeoJSON')
         if output_file_kml == '-':
@@ -426,8 +427,8 @@ def main():
             return None
         parsed_users = parse_users(users)
 
-        if output_file_users not in dont_run:
-            make_users(parsed_users, output_file_users, pretty=pretty)
+        if output_file_text not in dont_run:
+            make_text(parsed_users, output_file_text, pretty=pretty)
         if output_file_geojson not in dont_run:
             make_geojson(parsed_users, output_file_geojson)
         if output_file_kml not in dont_run:

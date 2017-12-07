@@ -16,7 +16,7 @@ The **--help** flag will output a help message with all of the available options
 
 Basic use
 ---------
-By default, running **archmap** will output three files to /tmp, **archmap_users.txt**, **archmap.geojson** and **archmap.kml**,
+By default, running **archmap** will output three files to /tmp, **archmap.txt**, **archmap.geojson** and **archmap.kml**,
 this can be overridden by either using the config file or by the following command line switches.
 
 Using the **--verbose** flag will print information on what the script is doing:
@@ -29,7 +29,7 @@ You can specify the output location for the user list text, GeoJSON, KML and CSV
 
 .. code-block:: bash
 
-   archmap --users /tmp/archmap_users.txt --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
+   archmap --text /tmp/archmap.txt --geojson /tmp/archmap.geojson --kml /tmp/archmap.kml --csv /tmp/archmap.csv
 
 
 If you would like to parse an alternate copy of the wiki list, simply pass either the --url or --file flags::
