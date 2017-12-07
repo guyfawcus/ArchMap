@@ -164,7 +164,7 @@ def make_text(parsed_users, output_file='', pretty=False):
     Returns:
         str: The text written to the output file
     """
-    users = ''
+    text_str = ''
 
     longest_latitude = 1
     longest_longitude = 1
@@ -191,24 +191,24 @@ def make_text(parsed_users, output_file='', pretty=False):
         #
         # If pretty printing is enabled, the 'longest_' lengths are used to align the elements in the string
         # Change the '<', '^' or '>' to change the justification (< = left, > = right, ^ = center)
-        users += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(user.latitude, longest_latitude,
-                                                            user.longitude, longest_longitude,
-                                                            user.name, longest_name,
-                                                            user.comment, longest_comment)
+        text_str += '{:<{}},{:<{}} "{:^{}}" # {:>{}}\n'.format(user.latitude, longest_latitude,
+                                                               user.longitude, longest_longitude,
+                                                               user.name, longest_name,
+                                                               user.comment, longest_comment)
 
     # If the last user didnt have a comment, go back to that line
     # and strip the trailing whitespace then replace the newline (prevents editor errors)
-    users = users.strip('\n').strip() + '\n'
+    text_str = text_str.strip('\n').strip() + '\n'
 
     if output_file == '-':
-        print(users)
+        print(text_str)
 
     elif output_file != '':
         log.info('Writing raw-text to ' + output_file)
         with open(output_file, 'w') as output:
-            output.write(users)
+            output.write(text_str)
 
-    return users
+    return text_str
 
 
 def make_geojson(parsed_users, output_file=''):

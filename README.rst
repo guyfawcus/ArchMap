@@ -61,7 +61,7 @@ Running ``archmap --help`` will display this help message:
   --url URL       Use an alternative URL to parse the wiki list from
   --file FILE     Use a file to parse the wiki list from
   --pretty        Prettify the text user list. Only works if user output is enabled
-  --users FILE    Output the user list to FILE, use 'no' to disable output or '-' to print to stdout
+  --text FILE     Output the raw-text to FILE, use 'no' to disable output or '-' to print to stdout
   --geojson FILE  Output the GeoJSON to FILE, use 'no' to disable output or '-' to print to stdout
   --kml FILE      Output the KML to FILE, use 'no' to disable output or '-' to print to stdout
   --csv FILE      Output the CSV to FILE, use 'no' to disable output or '-' to print to stdout

@@ -74,9 +74,9 @@ class ListParserTestCase(unittest.TestCase):
     with open('tests/sample-raw.txt', 'r') as raw_users_file:
         raw_users = raw_users_file.read()
 
-    # 'sample_users.txt' contains a formatted sample list equivilent to the raw version above
-    with open('tests/sample-archmap.txt', 'r') as sample_users_file:
-        sample_users = sample_users_file.read()
+    # 'sample_archmap.txt' contains a formatted sample list equivilent to the raw version above
+    with open('tests/sample-archmap.txt', 'r') as sample_text_file:
+        sample_text = sample_text_file.read()
 
     # 'sample_parsed_users.pickle' is a pickled list that was generated with a known good list
     # ('parse_users()' was run on 'sample-archmap.txt' and the output was pickled)
@@ -92,7 +92,7 @@ class ListParserTestCase(unittest.TestCase):
         self.assertEqual(self.sample_parsed_users, parsed_raw_users)
 
     def test_list_parser_cleaned(self):
-        parsed_cleaned_users = archmap.parse_users(self.sample_users)
+        parsed_cleaned_users = archmap.parse_users(self.sample_text)
         self.assertEqual(self.sample_parsed_users, parsed_cleaned_users)
 
 
@@ -108,10 +108,10 @@ class OutputTestCase(unittest.TestCase):
         parsed_users = pickle.load(pickled_input)
 
     def setUp(self):
-        self.sample_users = 'tests/sample-archmap.txt'
-        self.output_users = 'tests/output-archmap.txt'
-        self.sample_pretty_users = 'tests/sample-archmap_pretty.txt'
-        self.output_pretty_users = 'tests/output-archmap_pretty.txt'
+        self.sample_text = 'tests/sample-archmap.txt'
+        self.output_text = 'tests/output-archmap.txt'
+        self.sample_pretty_text = 'tests/sample-archmap_pretty.txt'
+        self.output_pretty_text = 'tests/output-archmap_pretty.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
         self.output_geojson = 'tests/output-archmap.geojson'
         self.sample_kml = 'tests/sample-archmap.kml'
@@ -124,8 +124,8 @@ class OutputTestCase(unittest.TestCase):
 
     def tearDown(self):
         try:
-            os.remove(self.output_users)
-            os.remove(self.output_pretty_users)
+            os.remove(self.output_text)
+            os.remove(self.output_pretty_text)
             os.remove(self.output_geojson)
             os.remove(self.output_kml)
             os.remove(self.output_csv)
@@ -133,24 +133,24 @@ class OutputTestCase(unittest.TestCase):
             pass
 
     def test_text(self):
-        archmap.make_text(self.parsed_users, self.output_users)
+        archmap.make_text(self.parsed_users, self.output_text)
 
-        with open(self.sample_users, 'r') as file:
-            sample_users = file.read()
-        with open(self.output_users, 'r') as file:
-            output_users = file.read()
+        with open(self.sample_text, 'r') as file:
+            sample_text = file.read()
+        with open(self.output_text, 'r') as file:
+            output_text = file.read()
 
-        self.assertEqual(sample_users, output_users)
+        self.assertEqual(sample_text, output_text)
 
     def test_pretty_text(self):
-        archmap.make_text(self.parsed_users, self.output_pretty_users, pretty=True)
+        archmap.make_text(self.parsed_users, self.output_pretty_text, pretty=True)
 
-        with open(self.sample_pretty_users, 'r') as file:
-            sample_pretty_users = file.read()
-        with open(self.output_pretty_users, 'r') as file:
-            output_pretty_users = file.read()
+        with open(self.sample_pretty_text, 'r') as file:
+            sample_pretty_text = file.read()
+        with open(self.output_pretty_text, 'r') as file:
+            output_pretty_text = file.read()
 
-        self.assertEqual(sample_pretty_users, output_pretty_users)
+        self.assertEqual(sample_pretty_text, output_pretty_text)
 
     def test_geojson(self):
         archmap.make_geojson(self.parsed_users, self.output_geojson)
@@ -195,8 +195,8 @@ class ReturnedTestCase(unittest.TestCase):
         parsed_users = pickle.load(pickled_input)
 
     def setUp(self):
-        self.sample_users = 'tests/sample-archmap.txt'
-        self.sample_pretty_users = 'tests/sample-archmap_pretty.txt'
+        self.sample_text = 'tests/sample-archmap.txt'
+        self.sample_pretty_text = 'tests/sample-archmap_pretty.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
         self.sample_kml = 'tests/sample-archmap.kml'
         self.sample_csv = 'tests/sample-archmap.csv'
@@ -207,16 +207,16 @@ class ReturnedTestCase(unittest.TestCase):
     def test_text(self):
         returned_text = archmap.make_text(self.parsed_users)
 
-        with open(self.sample_users, 'r') as file:
-            sample_users = file.read()
-        self.assertEqual(sample_users, returned_text)
+        with open(self.sample_text, 'r') as file:
+            sample_text = file.read()
+        self.assertEqual(sample_text, returned_text)
 
     def test_pretty_text(self):
         returned_pretty_text = archmap.make_text(self.parsed_users, pretty=True)
 
-        with open(self.sample_pretty_users, 'r') as file:
-            sample_pretty_users = file.read()
-        self.assertEqual(sample_pretty_users, returned_pretty_text)
+        with open(self.sample_pretty_text, 'r') as file:
+            sample_pretty_text = file.read()
+        self.assertEqual(sample_pretty_text, returned_pretty_text)
 
     def test_geojson(self):
         returned_geojson = archmap.make_geojson(self.parsed_users)
@@ -245,10 +245,10 @@ class InteractiveTestCase(unittest.TestCase):
     """
 
     def setUp(self):
-        self.sample_users = 'tests/sample-archmap.txt'
-        self.output_users = 'tests/interactive_output-archmap.txt'
-        self.sample_pretty_users = 'tests/sample-archmap_pretty.txt'
-        self.output_pretty_users = 'tests/interactive_output-archmap_pretty.txt'
+        self.sample_text = 'tests/sample-archmap.txt'
+        self.output_text = 'tests/interactive_output-archmap.txt'
+        self.sample_pretty_text = 'tests/sample-archmap_pretty.txt'
+        self.output_pretty_text = 'tests/interactive_output-archmap_pretty.txt'
         self.sample_geojson = 'tests/sample-archmap.geojson'
         self.output_geojson = 'tests/interactive_output-archmap.geojson'
         self.sample_kml = 'tests/sample-archmap.kml'
@@ -262,7 +262,7 @@ class InteractiveTestCase(unittest.TestCase):
         sys.argv = ['test',
                     '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
-                    '--text', self.output_users,
+                    '--text', self.output_text,
                     '--geojson', self.output_geojson,
                     '--kml', self.output_kml,
                     '--csv', self.output_csv]
@@ -274,7 +274,7 @@ class InteractiveTestCase(unittest.TestCase):
                     '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
                     '--pretty',
-                    '--text', self.output_pretty_users,
+                    '--text', self.output_pretty_text,
                     '--geojson', 'no',
                     '--kml', 'no',
                     '--csv', 'no']
@@ -285,8 +285,8 @@ class InteractiveTestCase(unittest.TestCase):
 
     def tearDown(self):
         try:
-            os.remove(self.output_users)
-            os.remove(self.output_pretty_users)
+            os.remove(self.output_text)
+            os.remove(self.output_pretty_text)
             os.remove(self.output_geojson)
             os.remove(self.output_kml)
             os.remove(self.output_csv)
@@ -294,20 +294,20 @@ class InteractiveTestCase(unittest.TestCase):
             pass
 
     def test_text(self):
-        with open(self.sample_users, 'r') as file:
-            sample_users = file.read()
-        with open(self.output_users, 'r') as file:
-            output_users = file.read()
+        with open(self.sample_text, 'r') as file:
+            sample_text = file.read()
+        with open(self.output_text, 'r') as file:
+            output_text = file.read()
 
-        self.assertEqual(sample_users, output_users)
+        self.assertEqual(sample_text, output_text)
 
     def test_pretty_text(self):
-        with open(self.sample_pretty_users, 'r') as file:
-            sample_pretty_users = file.read()
-        with open(self.output_pretty_users, 'r') as file:
-            output_pretty_users = file.read()
+        with open(self.sample_pretty_text, 'r') as file:
+            sample_pretty_text = file.read()
+        with open(self.output_pretty_text, 'r') as file:
+            output_pretty_text = file.read()
 
-        self.assertEqual(sample_pretty_users, output_pretty_users)
+        self.assertEqual(sample_pretty_text, output_pretty_text)
 
     def test_geojson(self):
         with open(self.sample_geojson, 'r') as file:
@@ -348,8 +348,8 @@ class InteractiveTestCase(unittest.TestCase):
             archmap.main()
         piped_output_str = piped_output.getvalue()
 
-        with open(self.sample_users, 'r') as file:
-            sample_users = file.read() + '\n'
+        with open(self.sample_text, 'r') as file:
+            sample_text = file.read() + '\n'
         with open(self.sample_geojson, 'r') as file:
             sample_geojson = file.read() + '\n'
         with open(self.sample_kml, 'r') as file:
@@ -357,7 +357,7 @@ class InteractiveTestCase(unittest.TestCase):
         with open(self.sample_csv, 'r') as file:
             sample_csv = file.read() + '\n'
 
-        combined_string = sample_users + sample_geojson + sample_kml + sample_csv
+        combined_string = sample_text + sample_geojson + sample_kml + sample_csv
 
         self.assertEqual(combined_string, piped_output_str)
 
