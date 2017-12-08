@@ -1,5 +1,6 @@
-apt:
-  packages:
+addons:
+  apt:
+    packages:
     - python-systemd
 
 language:
