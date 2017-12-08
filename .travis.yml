@@ -1,7 +1,7 @@
 addons:
   apt:
     packages:
-    - python-systemd
+    - libsystemd-journal-dev
 
 language:
   python
