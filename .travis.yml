@@ -1,3 +1,7 @@
+apt:
+  packages:
+    - python-systemd
+
 language:
   python
 
@@ -7,10 +11,9 @@ python:
 install:
   - "pip3 install coveralls"
   - "pip3 install -r requirements.txt"
-  - "pip3 install -r dev-requirements.txt"
 
 script:
-   coverage run --source=archmap setup.py test
+  coverage run --source=archmap setup.py test
 
 after_success:
-   coveralls
+  coveralls
