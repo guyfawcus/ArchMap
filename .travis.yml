@@ -1,7 +1,10 @@
 addons:
   apt:
     packages:
-    - libsystemd-journal-dev
+      - libsystemd-daemon-dev
+      - libsystemd-id128-dev
+      - libsystemd-journal-dev
+      - libsystemd-login-dev
 
 language:
   python
