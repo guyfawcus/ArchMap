@@ -1,0 +1,8 @@
+[report]
+# Regexes for lines to exclude coverage calculation
+exclude_lines =
+    from systemd import journal
+    systemd = True
+    if systemd is not False:
+    if users is None:
+    if __name__ == .__main__.:

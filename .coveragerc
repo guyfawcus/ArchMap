@@ -1,0 +1,6 @@
+[report]
+# Regexes for lines to exclude coverage calculation
+exclude_lines =
+    except ImportError
+    if users is None:
+    if __name__ == .__main__.:
