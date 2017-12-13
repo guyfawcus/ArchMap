@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import configparser
 import contextlib
 import io
 import logging
@@ -457,6 +458,27 @@ class LogLevelTestCase(unittest.TestCase):
 
         archmap.main()
         self.assertEqual(archmap.log.level, 50)
+
+
+class ConfigFileTestCase(unittest.TestCase):
+    """These tests check that the config file is correct
+    """
+
+    def test_options(self):
+        default_config = configparser.ConfigParser()
+        default_config.read('./archmap.conf')
+
+        test_config = configparser.ConfigParser()
+        test_config['files'] = {'url': 'https://wiki.archlinux.org/index.php/ArchMap/List',
+                                'file': '',
+                                'text': '/tmp/archmap.txt',
+                                'geojson': '/tmp/archmap.geojson',
+                                'kml': '/tmp/archmap.kml',
+                                'csv': '/tmp/archmap.csv'}
+        test_config['extras'] = {'verbosity': '1',
+                                 'pretty': 'False'}
+
+        self.assertEqual(default_config, test_config)
 
 
 if __name__ == '__main__':
