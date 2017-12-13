@@ -418,5 +418,46 @@ class LoggingTestCase(unittest.TestCase):
         self.assertNotIn('WARNING:archmap:{}'.format(self.no_config_msg), logcatcher.output)
 
 
+class LogLevelTestCase(unittest.TestCase):
+    """These tests check that the logging levels are set correctly
+    """
+
+    def tearDown(self):
+        archmap.log.setLevel(logging.CRITICAL)
+
+    def test_10(self):
+        sys.argv = ['test',
+                    '-vv',
+                    '--text', 'no',
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        archmap.main()
+        self.assertEqual(archmap.log.level, 10)
+
+    def test_20(self):
+        sys.argv = ['test',
+                    '-v',
+                    '--text', 'no',
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        archmap.main()
+        self.assertEqual(archmap.log.level, 20)
+
+    def test_50(self):
+        sys.argv = ['test',
+                    '--quiet',
+                    '--text', 'no',
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        archmap.main()
+        self.assertEqual(archmap.log.level, 50)
+
+
 if __name__ == '__main__':
     unittest.main()
