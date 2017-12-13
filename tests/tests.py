@@ -362,5 +362,61 @@ class InteractiveTestCase(unittest.TestCase):
         self.assertEqual(combined_string, piped_output_str)
 
 
+class LoggingTestCase(unittest.TestCase):
+    """These tests check that the logging messages are output correctly
+    """
+
+    nothing_to_do_msg = 'There is nothing to do'
+    cannot_connect_msg = "Can't connect to the ArchWiki"
+    no_config_msg = 'Warning: Configuation file does not exist. Using defaults'
+
+    def test_nothing_to_do(self):
+        sys.argv = ['test',
+                    '--text', 'no',
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        with self.assertLogs(logger=archmap.log, level='WARNING') as logcatcher:
+            archmap.main()
+        self.assertIn('WARNING:archmap:{}'.format(self.nothing_to_do_msg), logcatcher.output)
+
+    def test_bad_url(self):
+        sys.argv = ['test',
+                    '--url', 'http://127.0.0.1/archmap-test',
+                    '--text', '-',
+                    '--geojson', '-',
+                    '--kml', '-',
+                    '--csv', '-']
+
+        with self.assertLogs(logger=archmap.log, level='CRITICAL') as logcatcher:
+            archmap.main()
+        self.assertIn('CRITICAL:archmap:{}'.format(self.cannot_connect_msg), logcatcher.output)
+
+    def test_no_config_file(self):
+        sys.argv = ['test',
+                    '--config', '/dev/null',
+                    '--text', 'no',
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        with self.assertLogs(logger=archmap.log, level='WARNING') as logcatcher:
+            archmap.main()
+        self.assertIn('WARNING:archmap:{}'.format(self.no_config_msg), logcatcher.output)
+
+    def test_default_config_file(self):
+        sys.argv = ['test',
+                    '--config', './archmap.conf',
+                    '--text', 'no',
+                    '--geojson', 'no',
+                    '--kml', 'no',
+                    '--csv', 'no']
+
+        with self.assertLogs(logger=archmap.log, level='WARNING') as logcatcher:
+            archmap.main()
+        self.assertNotIn('WARNING:archmap:{}'.format(self.no_config_msg), logcatcher.output)
+
+
 if __name__ == '__main__':
     unittest.main()
