@@ -12,7 +12,7 @@ import urllib
 import archmap
 
 
-archmap.log.setLevel(logging.CRITICAL)
+logging.disable(60)
 
 
 class WikiParserTestCase(unittest.TestCase):
@@ -261,7 +261,6 @@ class InteractiveTestCase(unittest.TestCase):
         self.maxDiff = None
 
         sys.argv = ['test',
-                    '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
                     '--text', self.output_text,
                     '--geojson', self.output_geojson,
@@ -272,7 +271,6 @@ class InteractiveTestCase(unittest.TestCase):
 
         # Make a prettyfied user file
         sys.argv = ['test',
-                    '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
                     '--pretty',
                     '--text', self.output_pretty_text,
@@ -281,8 +279,6 @@ class InteractiveTestCase(unittest.TestCase):
                     '--csv', 'no']
 
         archmap.main()
-
-        archmap.log.setLevel(logging.CRITICAL)
 
     def tearDown(self):
         try:
@@ -337,7 +333,6 @@ class InteractiveTestCase(unittest.TestCase):
     def test_piped_output(self):
         # Make a string of all of the piped outputs
         sys.argv = ['test',
-                    '--quiet',
                     '--file', 'tests/ArchMap_List-stripped.html',
                     '--text', '-',
                     '--geojson', '-',
@@ -370,6 +365,12 @@ class LoggingTestCase(unittest.TestCase):
     nothing_to_do_msg = 'There is nothing to do'
     cannot_connect_msg = "Can't connect to the ArchWiki"
     no_config_msg = 'Warning: Configuation file does not exist. Using defaults'
+
+    def setUp(self):
+        logging.disable(logging.NOTSET)
+
+    def tearDown(self):
+        logging.disable(60)
 
     def test_nothing_to_do(self):
         sys.argv = ['test',
@@ -423,8 +424,11 @@ class LogLevelTestCase(unittest.TestCase):
     """These tests check that the logging levels are set correctly
     """
 
+    def setUp(self):
+        logging.disable(logging.NOTSET)
+
     def tearDown(self):
-        archmap.log.setLevel(logging.CRITICAL)
+        logging.disable(60)
 
     def test_10(self):
         sys.argv = ['test',
@@ -434,7 +438,9 @@ class LogLevelTestCase(unittest.TestCase):
                     '--kml', 'no',
                     '--csv', 'no']
 
-        archmap.main()
+        with self.assertLogs() as logcatcher:
+            archmap.main()
+            del(logcatcher)
         self.assertEqual(archmap.log.level, 10)
 
     def test_20(self):
@@ -445,7 +451,9 @@ class LogLevelTestCase(unittest.TestCase):
                     '--kml', 'no',
                     '--csv', 'no']
 
-        archmap.main()
+        with self.assertLogs() as logcatcher:
+            archmap.main()
+            del(logcatcher)
         self.assertEqual(archmap.log.level, 20)
 
     def test_50(self):
@@ -456,7 +464,9 @@ class LogLevelTestCase(unittest.TestCase):
                     '--kml', 'no',
                     '--csv', 'no']
 
-        archmap.main()
+        with self.assertLogs() as logcatcher:
+            archmap.main()
+            del(logcatcher)
         self.assertEqual(archmap.log.level, 50)
 
 
