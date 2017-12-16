@@ -23,14 +23,11 @@ except ImportError:
     systemd = False
 
 
-# Define the verbosity level:
-# '0' will disable the message printing,
-# '1' will enable it.
-default_verbosity = 1
+# ---------------------------------------------------------------------------------------- #
+#  All of the following default settings are overridden by the config file, if it exists.  #
+# ---------------------------------------------------------------------------------------- #
 
 # Set the default config file location, this is overridden if the --config switch is used.
-# If the --geojson, --kml or --csv switches are used,
-# they will override the settings in the config file.
 default_config = '/etc/archmap.conf'
 
 # Define where to get the wiki list from.
@@ -38,18 +35,25 @@ default_config = '/etc/archmap.conf'
 default_url = 'https://wiki.archlinux.org/index.php/ArchMap/List'
 default_file = ''
 
-# If set to True, the columns in the raw-text list will be aligned
-default_pretty = False
-
 # Set the output locations for the raw-text, GeoJSON, KML and CSV files.
-# Setting any of the following to 'no' or leaving it blank will disable the output,
+# Setting any of the following to 'no' or leaving them blank will disable the output,
 # use '-' to print the generated text to stdout.
-# These settings are overridden by the config file, if it exists.
 default_text = '/tmp/archmap.txt'
 default_geojson = '/tmp/archmap.geojson'
 default_kml = '/tmp/archmap.kml'
 default_csv = '/tmp/archmap.csv'
 
+# Define the verbosity level:
+# '-1' will disable all messages other than critical messages (same as '--quiet')
+# '0' will disable all messages other than error messages
+# '1' will enable info messages
+# '2' will enable debugging
+default_verbosity = 1
+
+# Setting the following to 'True' will align the columns in the raw-text list
+default_pretty = False
+
+# -------------------------------------------------------------------------------------- #
 
 logging.basicConfig(format='==> %(message)s')
 log = logging.getLogger('archmap')
