@@ -11,7 +11,7 @@ def test_suite():
 
 setup(
     name='archmap',
-    version='0.4',
+    version='0.5',
     description='ArchMap GeoJSON/KML generator',
     url='https://github.com/guyfawcus/ArchMap',
     license='Unlicense',
