@@ -1,0 +1,8 @@
+# Include the license file
+include UNLICENSE
+
+# Include the systemd related files
+include systemd/*
+
+# Include the configuration file
+include archmap.conf
