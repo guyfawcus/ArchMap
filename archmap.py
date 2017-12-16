@@ -357,7 +357,7 @@ def main():
 
     # Try to use the config file. If it doesn't exist, use the defaults.
     if not config_location.is_file():
-        log.warning('Warning: Configuation file does not exist. Using defaults')
+        log.warning('Configuation file does not exist. Using defaults')
     else:
         config.read(str(config_location))
 

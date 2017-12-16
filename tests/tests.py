@@ -364,7 +364,7 @@ class LoggingTestCase(unittest.TestCase):
 
     nothing_to_do_msg = 'There is nothing to do'
     cannot_connect_msg = "Can't connect to the ArchWiki"
-    no_config_msg = 'Warning: Configuation file does not exist. Using defaults'
+    no_config_msg = 'Configuation file does not exist. Using defaults'
 
     def setUp(self):
         logging.disable(logging.NOTSET)
